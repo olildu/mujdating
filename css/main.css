@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:wght@300&family=Roboto&display=swap');
+body{
+    margin: 0;
+    padding: 0;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: #888;   
+}
+.image{
+    width: 350px;
+    height: 90vh;
+    border-radius: 10px;
+    background-color: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: all 0.5s;
+    background-image: url(/images/me1.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column-reverse;
+}
+.name{
+    color: white;
+    position: relative;
+    top: 0px;
+    font-family: 'Inria Sans', sans-serif;
+    padding-left: 10px;
+}
+.image::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.312) 0%, rgba(0, 0, 0, 0) 20%, rgba(0, 0, 0, 0.285) 100%);
+    z-index: 1;
+    border-radius: 10px;
+}
+
+.actions{
+    padding-left: 15px;
+    padding-bottom: 20px;
+    z-index: 2;
+}
+.dislike{
+    border: none;
+    height: 30;
+    outline: none;
+    position: relative;
+    background-color: rgb(199, 58, 58);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    font-family: sans-serif;
+    font-family: 'Inria Sans', sans-serif;
+    width: 150px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+.like{
+    border: none;
+    height: 30;
+    font-family: 'Inria Sans', sans-serif;
+    outline: none;
+    position: relative;
+    background-color: rgb(91, 199, 58);
+    cursor: pointer;
+    color: white;
+    font-size: 18px;
+    font-family: sans-serif;
+    width: 150px;
+    border-radius: 5px;
+    margin-left: 5px;
+}
+.age{
+    position: relative;
+    color: rgb(235 235 235 / 96%);
+    padding-left: 10px;
+    font-family: 'Inria Sans', sans-serif;
+}
+.branch{
+    position: relative;
+    color: rgb(255, 255, 255);
+    padding-left: 10px;
+    font-size: 20px;
+    font-family: 'Inria Sans', sans-serif;
+}
+.details{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    z-index: 2;
+
+}
+.basic{
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+}
+.bar {
+    flex-grow: 1;
+    height: 3px;
+    border-radius: 30px;
+    background-color: rgb(207, 207, 207);
+    z-index: 10;
+}
+#bar1{
+    background-color: white;
+}
+.main-bar {
+    position: absolute;
+    top: 1px;
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    gap: 2px;
+    box-sizing: border-box; /* Include padding in the width and height calculations */
+}

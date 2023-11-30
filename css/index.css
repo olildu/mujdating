@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inria+Sans:wght@300&family=Roboto&display=swap');
+body{
+    margin: 0;
+    padding: 0;
+    /* display: flex; */
+    align-items: center;
+    justify-content: center;
+    background-image: url(/images/3.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* flex-direction: column; */
+}
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.445)0%, rgba(0, 0, 0, 0) 20%,rgb(0 0 0 / 0%) 80% ,rgb(0 0 0 / 0%) 100%);
+    z-index: 1;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-thumb {
+    background: #888;   
+}
+.main_text{
+    position: relative;
+    font-family: 'Inria Sans', sans-serif;
+    font-size: 100;
+    margin: 0 auto;
+    padding-bottom: 30px;
+    color: white;
+
+}
+.middle{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;    
+    position: relative;
+    top: 150px;
+}
+.create{
+    cursor: pointer;
+    width: 226px;
+    height: 46;
+    border-radius: 30px;
+    border: none;
+    outline: none;
+    font-family: 'Inria Sans', sans-serif;
+    color: rgb(255, 255, 255);
+    background-color: #FC6868;
+    font-weight: bold;
+    font-size: 24px;
+    z-index: 2;
+}
+.upper {
+    display: flex;
+    align-content: space-around;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    z-index: 3;
+    position: relative;
+}
+.title{
+    color: white;
+    font-family: 'Inria Sans', sans-serif;
+    padding-left: 30px;
+    font-size: 17px;
+}
+.sub_title{
+    display: flex;
+    color: white;
+    font-family: 'Inria Sans', sans-serif;
+    font-size: 14px;
+    padding-left: 20px;
+    padding-top: 10px;
+    gap: 20px;
+}
+.button_div{
+    position: absolute;
+    right: 10px;
+}
+.login{
+    width: 120px;
+    height: 36px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    font-family: 'Inria Sans', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.sub_products{
+    cursor: pointer;
+}
+.login_page{
+    width: 400px;
+    height: 500px;
+    background-color: black;
+    border-radius: 10px;
+    left: 50%;
+    right: 50%;
+    position: absolute;
+    transform: translate(-50%, -40%);
+}
+.loginbox{  
+    width: 220;
+    height: 350px;
+    background-color: black;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    padding: 40;
+    z-index: 3;
+    border-radius: 10px;
+    display: none;
+    animation: fadein 0.4s ease ;
+}
+
+.loginbox h1{
+    position: relative;
+    bottom: 10;
+    color: white;
+    font-size: 25;
+    font-weight: 100;
+    font-family: sans-serif;
+}
+.loginbox p{
+    color: white;
+    position: relative;
+    top: 12px;
+    font-family: 'Inria Sans', sans-serif;
+    font-weight: bold;
+    margin-bottom: 0;
+}
+.loginbox input[type="text"],input[type="password"]{
+    border: none;
+    outline: none;
+    height: 40px;
+    background: transparent;
+    font-family: 'Inria Sans', sans-serif;
+    color: white;
+    border-bottom: 1px solid white;
+    width: 190px;
+    margin-bottom: 30px;
+}
+#password{
+    margin-top: 18px;
+}
+.loginbox input[type="text"]{
+    position: relative;
+    top: 18px;
+    margin-bottom: 15px;
+}
+
+.loginbutton{
+    border: none;
+    height: 30;
+    outline: none;
+    position: relative;
+    background-color: rgb(199, 58, 58);
+    color: white;
+    font-size: 18px;
+    font-family: sans-serif;
+    width: 90%;
+    border-radius: 5px;
+    bottom: 15;
+}
+.loginbutton:hover{
+    transition: 0.3s;
+    background-color: rgb(161, 24, 24);
+}
+.links{
+    padding-top: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.linker{
+    position: relative;
+    font-size: 15;
+    text-decoration: none;
+    font-family: 'Inria Sans', sans-serif;
+    color: darkgray;
+    font-weight: bold;
+}
+#asd{
+    font-family: 'Inria Sans', sans-serif;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@keyframes fadeout{
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
