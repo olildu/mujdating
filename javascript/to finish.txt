@@ -1,0 +1,54 @@
+name
+date of birth   
+how do you identify
+images (min 2)
+branch (dropdownmenu)
+year (dropdownmenu)
+
+
+
+**Undergraduate Programs (UG):**
+
+B.Tech
+<p>BA</p>
+<p>B.Arch</p>
+<p>B.Sc</p>
+<p>BBA</p>
+<p>B.Com</p>
+<p>BCA</p>
+<p>BCA (Hons.)</p>
+<p>BHM</p>
+<p>BBA HT</p>
+<p>BA J&MC</p>
+<p>LLB</p>
+<p>BA-LLB (Hons.)</p>
+<p>BBA-LLB (Hons.)</p>
+<p>BDes (Fashion Design)</p>
+<p>BFA (Applied Arts)</p>
+<p>B.Des (Interior Design)</p>
+<p>B.Des (UX-ID)</p>
+
+**Postgraduate Programs (PG):**
+
+<p onclick="read(this)">M.Arch (Landscape)</p>
+<p onclick="read(this)">M.Des (Interior Design)</p>
+<p onclick="read(this)">M.FA (Applied Arts)</p>
+<p onclick="read(this)">M.Plan</p>
+<p onclick="read(this)">M.A (English)</p>
+<p onclick="read(this)">M.A (Economics)</p>
+<p onclick="read(this)">M.Sc (Clinical Psychology)</p>
+<p onclick="read(this)">M.Sc (Biotechnology)</p>
+<p onclick="read(this)">M.Sc (Chemistry)</p>
+<p onclick="read(this)">M.Sc (Mathematics)</p>
+<p onclick="read(this)">M.Sc (Physics)</p>
+<p onclick="read(this)">M.Com (Financial Analysis)</p>
+<p onclick="read(this)">M.Tech</p>
+<p onclick="read(this)">MA (J&MC)</p>
+<p onclick="read(this)">LLM (Corporate Law)</p>
+<p onclick="read(this)">LLM (IP Law)</p>
+<p onclick="read(this)">LLM (Criminal Law)</p>
+<p onclick="read(this)">MBA</p>
+<p onclick="read(this)">MBA (BA)</p>
+
+**Doctorate Program (PhD):**
+PhD

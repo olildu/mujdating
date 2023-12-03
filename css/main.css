@@ -3,6 +3,7 @@
 body{
     margin: 0;
     padding: 0;
+    user-select: none;
 }
 ::-webkit-scrollbar {
     width: 10px;
@@ -33,6 +34,7 @@ body{
     top: 0px;
     font-family: 'Inria Sans', sans-serif;
     padding-left: 10px;
+    user-select: none;
 }
 .image::after {
     content: "";
@@ -49,6 +51,7 @@ body{
 .actions{
     padding-left: 15px;
     padding-bottom: 20px;
+    user-select: none;
     z-index: 2;
 }
 .dislike{
@@ -61,6 +64,7 @@ body{
     font-size: 18px;
     cursor: pointer;
     font-family: sans-serif;
+    user-select: none;
     font-family: 'Inria Sans', sans-serif;
     width: 150px;
     border-radius: 5px;
@@ -70,6 +74,7 @@ body{
     border: none;
     height: 30;
     font-family: 'Inria Sans', sans-serif;
+    user-select: none;
     outline: none;
     position: relative;
     background-color: rgb(91, 199, 58);
@@ -84,12 +89,14 @@ body{
 .age{
     position: relative;
     color: rgb(235 235 235 / 96%);
+    user-select: none;
     padding-left: 10px;
     font-family: 'Inria Sans', sans-serif;
 }
 .branch{
     position: relative;
     color: rgb(255, 255, 255);
+    user-select: none;
     padding-left: 10px;
     font-size: 20px;
     font-family: 'Inria Sans', sans-serif;

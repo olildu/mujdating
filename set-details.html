@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/set-details.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <title>MUJ Dating | Dating, Make Friends & Meet New People</title>
+</head>
+<body>
+    <div class="upper" id="upper" onclick="removeupper();"></div>
+    <div class="container">
+        <div class="bubbles">
+            <span style="--i:15;"></span>
+            <span style="--i:20;"></span>
+            <span style="--i:22;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:25;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:21;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:23;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:26;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:24;"></span>
+            <span style="--i:11;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:25;"></span>
+            <span style="--i:20;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:26;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:21;"></span>
+            <span style="--i:22;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:24;"></span>
+            <span style="--i:11;"></span>
+            <span style="--i:13;"></span>
+            <span style="--i:25;"></span>
+            <span style="--i:20;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:15;"></span>
+            <span style="--i:26;"></span>
+            <span style="--i:12;"></span>
+            <span style="--i:16;"></span>
+            <span style="--i:21;"></span>
+            <span style="--i:22;"></span>
+            <span style="--i:19;"></span>
+            <span style="--i:17;"></span>
+            <span style="--i:18;"></span>
+            <span style="--i:14;"></span>
+            <span style="--i:12;"></span>
+        </div>
+    </div>
+    <div class="name_container" id="name_container">
+        <h1 class="label" id="label">Enter your name</h1>
+        <div class="major_items" id="major_items">
+            <h1 class="instruction_label" id="instruction_label">The name you enter will be displayed all over MUJ Dating</h1>
+        </div>
+        <input class="name_entry" id="name_entry" placeholder="Your Name :)" autocomplete="off">
+        <h1 id="warning">Please enter your name</h1>
+    </div>
+    <div class="next_container" id="next_container">
+        <span class="material-symbols-outlined test">
+            arrow_forward_ios
+        </span>
+    </div>
+    <form class="date_container" id="date_container">
+        <div class="select__arrow"><span class="icon icon--size-stretch" role="presentation" data-qa-role="icon" data-qa-icon-name="generic-chevron-down"><svg data-origin="pipeline" viewBox="0 0 32 32" fill="none"><path fill-rule="evenodd" clip-rule="evenodd" d="M15.97 18.257l7.093-7.067a2.016 2.016 0 013.367.89c.188.691-.009 1.43-.516 1.937l-8.512 8.493a2.012 2.012 0 01-2.85 0l-8.513-8.493a1.994 1.994 0 01.049-2.778 2.013 2.013 0 012.788-.049l7.094 7.067z" fill="white"></path></svg></span></div>
+
+        <select id="day" name="dd" >
+        </select>
+        <select id="month" name="mm" onchange="change_month(this)">
+        </select>
+        <select id="year" name="yyyy" onchange="change_year(this)">
+        </select>
+    </form>
+
+</body>
+</html>
+<script>
+    var date_new;
+    var month_new;
+    var year_new;
+
+    var Days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    document.addEventListener('DOMContentLoaded', function () {
+    populateDropdown('day', 30);
+    populateDropdown('month', 11);
+    populateDropdown('year', 15, 1990); // Adjust the range as needed
+    });
+
+    function populateDropdown(id, count, start = 1) {
+    var dropdown = document.getElementById(id);
+    dropdown.innerHTML = '';
+
+    for (var i = start; i <= start + count; i++) {
+        dropdown.innerHTML += '<option value="' + i + '">' + i + '</option>';
+    }
+    }
+
+    function isLeapYear(year) {
+    year = parseInt(year);
+    if (year % 4 != 0) {
+        return false;
+    } else if (year % 400 == 0) {
+        return true;
+    } else if (year % 100 == 0) {
+        return false;
+    } else {
+        return true;
+    }
+    }
+
+    function change_year(select) {
+        if (isLeapYear(select.value)) {
+            Days[1] = 29;
+        } else {
+            Days[1] = 28;
+        }
+
+        var monthDropdown = document.getElementById('month');
+        var dayDropdown = document.getElementById('day');
+        var val = dayDropdown.value;
+
+        if (monthDropdown.value == 2) {
+            dayDropdown.innerHTML = '<option value="day">day</option>';
+            for (var i = 1; i <= Days[1]; i++) {
+                dayDropdown.innerHTML += '<option value="' + i + '">' + i + '</option>';
+            }
+
+            if (val > Days[1]) {
+                val = 1;
+            }
+
+            dayDropdown.value = val;
+        }
+    }
+
+    function change_month(select) {
+    var dayDropdown = document.getElementById('day');
+    var val = dayDropdown.value;
+    dayDropdown.innerHTML = '<option value="day">day</option>';
+
+    var month = parseInt(select.value) - 1;
+    for (var i = 1; i <= Days[month]; i++) {
+        dayDropdown.innerHTML += '<option value="' + i + '">' + i + '</option>';
+    }
+
+    if (val > Days[month]) {
+        val = 1;
+    }
+
+    dayDropdown.value = val;
+
+    }
+
+  var runner = false;
+  function removeupper(){
+    document.getElementById("upper").style.display = "none"
+    document.getElementById("upper").style.zIndex = "-1"
+    document.getElementById("dropdown_streams").style.display = "none";
+    document.getElementById("dropdown_year").style.display = "none";
+  }
+  function dropmenu_stream(){
+    if (runner == false){
+      document.getElementById("dropdown_streams").style.display = "flex"
+      document.getElementById("major_items").style.zIndex = "5"
+      document.getElementById("upper").style.display = "block"
+      document.getElementById("upper").style.zIndex = "1"
+    }
+    else{
+      runner = false;
+
+    }
+  }
+  function dropmenu_year(){
+    if (runner == false){
+      document.getElementById("dropdown_year").style.display = "flex"
+      document.getElementById("option_year").style.zIndex = "2"
+      document.getElementById("upper").style.display = "block"
+      document.getElementById("upper").style.zIndex = "1"
+    }
+    else{
+      runner = false;
+
+    }
+  }
+  function read_stream(e){
+    runner = true;
+    var text = e.textContent || e.innerText;
+    console.log(text);
+    document.getElementById("dropdown_streams").style.display = "none";
+    document.getElementById("holder_text_stream").textContent = text;
+  }
+  function read_year(e){
+    runner = true;
+    var text = e.textContent || e.innerText;
+    console.log(text);
+    document.getElementById("dropdown_year").style.display = "none";
+    document.getElementById("holder_text_year").textContent = text;
+  }
+    
+</script>
+<script src="javascript/set-details.js" type="module"></script>

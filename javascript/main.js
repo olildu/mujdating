@@ -47,4 +47,3 @@ clickableImage.addEventListener("click", function() {
 
 
 });
-

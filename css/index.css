@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:wght@300&family=Roboto&display=swap');
+
 body{
     margin: 0;
     padding: 0;
@@ -10,6 +11,7 @@ body{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    user-select: none;
     /* flex-direction: column; */
 }
 body::after {
@@ -67,7 +69,7 @@ body::after {
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    z-index: 3;
+    z-index: 2;
     position: relative;
 }
 .title{
@@ -122,10 +124,11 @@ body::after {
     top: 50%;
     left: 50%;
     padding: 40;
-    z-index: 3;
+    z-index: 4;
     border-radius: 10px;
     display: none;
     animation: fadein 0.4s ease ;
+
 }
 
 .loginbox h1{
@@ -156,7 +159,7 @@ body::after {
     margin-bottom: 30px;
 }
 #password{
-    margin-top: 18px;
+    margin-top: 8px;
 }
 .loginbox input[type="text"]{
     position: relative;
@@ -175,7 +178,7 @@ body::after {
     font-family: sans-serif;
     width: 90%;
     border-radius: 5px;
-    bottom: 15;
+    bottom: 0px;
 }
 .loginbutton:hover{
     transition: 0.3s;
@@ -199,11 +202,159 @@ body::after {
     font-family: 'Inria Sans', sans-serif;
 }
 
+
+
+
+
+
+.register_box{  
+    width: 220;
+    height: 350px;
+    background-color: black;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    padding: 40;
+    z-index: 4;
+    border-radius: 10px;
+    display: none;
+    animation: fadein 0.4s ease ;
+
+}
+
+.register_box h1{
+    position: relative;
+    bottom: 10;
+    color: white;
+    font-size: 25;
+    font-weight: 100;
+    font-family: sans-serif;
+}
+.register_box p {
+    color: white;
+    position: relative;
+    top: 12px;
+    font-family: 'Inria Sans', sans-serif;
+    font-weight: bold;
+    margin-bottom: 0;
+    /* margin-top: 7; */
+}
+.register_box input[type="text"],input[type="password"]{
+    border: none;
+    outline: none;
+    height: 40px;
+    background: transparent;
+    font-family: 'Inria Sans', sans-serif;
+    color: white;
+    border-bottom: 1px solid white;
+    width: 190px;
+    margin-bottom: 30px;
+}
+#password_register{
+    margin-top: 8px;
+}
+.register_box input[type="text"]{
+    position: relative;
+    top: 18px;
+    margin-bottom: 15px;
+}
+
+.register_button{
+    border: none;
+    height: 30;
+    outline: none;
+    position: relative;
+    background-color: rgb(199, 58, 58);
+    color: white;
+    font-size: 18px;
+    font-family: sans-serif;
+    width: 90%;
+    border-radius: 5px;
+    bottom: 0px;
+}
+.register_button:hover{
+    transition: 0.3s;
+    background-color: rgb(161, 24, 24);
+}
+.links{
+    padding-top: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.linker{
+    position: relative;
+    font-size: 15;
+    text-decoration: none;
+    font-family: 'Inria Sans', sans-serif;
+    color: darkgray;
+    font-weight: bold;
+}
+#asd{
+    font-family: 'Inria Sans', sans-serif;
+}
+#wrongpassword_register{
+    display: none;
+    top: -20px;
+    font-size: small;
+    color: #FC6868;
+    margin: 0;
+}
+#wrongmail_register{
+    display: block;
+    top: 13px;
+    font-size: small;
+    color: #000000;
+    margin: 0;
+}
+#wrongmail{
+    display: block;
+    top: 13px;
+    font-size: small;
+    color: #000000;
+    margin: 0;
+}
+#wrongpassword{
+    display: none;
+    top: -20px;
+    font-size: small;
+    color: #FC6868;
+    margin: 0;
+}
+.passwordstuff{
+    position: relative;
+    top: 8px;
+    height: 114px;
+}
+
+.password_label{
+    margin-top: 0px;
+}
+
+#blur_shade{
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+    z-index: 3;
+    opacity: 0.4;
+    display: none;
+    position: absolute;
+    animation: fadein1 0.4s ease ;
+}
 @keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
 }
+@keyframes fadein1{
+    from { opacity: 0; }
+    to   { opacity: 0.4; }
+}
 @keyframes fadeout{
     from { opacity: 0; }
     to   { opacity: 1; }
+}
+@keyframes fadeout1{
+    from { opacity: 0.4; }
+    to   { opacity: 0; }
 }
