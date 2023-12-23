@@ -2,38 +2,102 @@
     <head>
         <link rel="stylesheet" href="css/main.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
         <title>MUJ Dating | Dating, make friends & meet new people</title>
     </head>
     <body>
-        <div class="image" id="image">
-            <div class="actions">
-                <button class="dislike">
-                    Dislike
-                </button>
-                <button class="like">
-                    Like
-                </button>
-            </div>
-            <div class="details">
-                <div class="basic">
-                    <h1 class="name">
-                        Ebin Santhosh   
-                    </h1>
-                    <h1 class="age">
-                        18
-                    </h1>
+        <div class="container">
+            <div class="half1">
+              <div class="profile" id="profile">
+                <span class="back-icon" id="back-icon">arrow_back_ios_new</span>
+                <div class="profile-picture-div" id="profile-picture-div">
+                  <div class="profile-picture" id="profile-picture"></div>
                 </div>
-                <div class="more-info">
-                    <h1 class="branch">
-                        B.Tech Information Technology
-                    </h1>
+                <h1 class="name1" id="name1">Ebiii</h1>
+              </div>
+              <div class="matches">
+                <div class="settings" id="settings">
+                  <div class="edit-profile settings-children"><h2>Edit Profile</h1></div>
+                  <div class="more-settings settings-children"><h2>Settings</h1></div>
+                  <div class="log-out settings-children"><h2>Log Out</h1></div>
                 </div>
+                <div class="empty-matches" id="empty-matches">     
+                  <div class="text1-container">
+                    <div class="link"></div>
+                  </div>
+                  <div class="text1-container">
+                    <h1 class="text1">Get your matches here</h1>
+                  </div>       
+                  <div class="text1-container">
+                    <h1 class="text">Start discovering people to get matches.</h1>
+                  </div>
+                </div>
+
+    
+              </div>
             </div>
-            <div class="main-bar">
-                <div class="bar" id="bar1"></div>
-                <div class="bar" id="bar2"></div>
-                <div class="bar" id="bar3"></div>
-                <div class="bar" id="bar4"></div>
+            <div class="half" id="half">
+                <div class="header" id="header"><h2>Date Profile</h2></div>
+                <div class="image-main-container">
+                  <div class="image-container-1" id="image-container">
+                      <div class="image1-profile-container">
+                        <div class="image1-profile" id="image1-profile"></div>
+                      </div>
+                      <div class="image2-profile-container">
+                        <div class="image2-profile" id="image2-profile"></div>
+                      </div>
+                  </div>
+                  <div class="image-container-2" id="image-container">
+                    <div class="image3-profile-container">
+                      <div class="image3-profile" id="image3-profile"></div>
+                    </div>
+                    <div class="image4-profile-container">
+                      <div class="image4-profile" id="image4-profile"></div>
+                    </div>
+                  </div>
+                </div>  
+                <div class="preview"><h2>Preview Profile</h2></div>
+                <div class="match-candidate-container" id="match-candidate-container">
+                    <div class="e" id="e">
+                        <div class="candidate_image image1"></div>
+                        <div class="candidate-details">
+                            <div class="scroll-container">
+                              <div class="scroll-border">
+                                <div class="scroll" id="scroll"></div>
+                              </div>
+                            </div>
+
+                            <div class="candidate-details-container">
+
+                                <h1 class="name-age candidate-text">Ebi, 18</h1>
+                                <h2 class="university candidate-text">Manipal University Jaipur 2027</h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="e">
+                      <div class="candidate-details">
+                        <div class="candidate-bio-container">
+                            <h1 class="text3 candidate-text">💬 About Ebi</h1>
+                            <h1 class="about candidate-text">bio.append("Something random")</h1>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="e">
+                      <div class="candidate_image image3"></div>
+                      <div class="candidate-question-container">
+                        <h1 class="text3 candidate-text">Write Code</h1>
+                        <h1 class="about candidate-text">Study Fucker</h1>
+                      </div>
+                    </div>
+                    <div class="e">
+                      <div class="candidate_image image4"></div>
+                      <div class="candidate-question-container">
+                        <h1 class="text3 candidate-text">📍 Ebi's location</h1>
+                        <h1 class="about candidate-text">Jaipur</h1>
+                      </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </body>

@@ -1,257 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-    <title>Image Upload</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #0c192c;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Style for the grid container */
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      border: 2px solid #333;
+      padding: 10px;
+    }
 
-        .upload-container {
-            text-align: center;
-            display: none;
-        }
-
-        #imageInput {
-            display: none;
-        }
-
-        label {
-            padding: 10px;
-            background-color: #3498db;
-            color: #fff;
-            cursor: pointer;
-        }
-
-        #imagePreview {
-            max-width: 100%;
-            max-height: 300px;
-            margin-top: 10px;
-        }
-
-        button {
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #2ecc71;
-            color: #fff;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #27ae60;
-        }
-        .drag_images_container{
-          width: 273px;
-          height: 376px;
-          border: 3px dotted #f6006d59;
-          background-color: rgb(142 55 55 / 42%);
-          border-radius: 5px;
-          background-image: url(/images/drop.png);
-          background-repeat: no-repeat;
-          background-position: 50%;
-          display: flex;
-          justify-content: center;
-        align-items: flex-end;
-        }   
-        .drag_images_container h1{
-          font-size: 17px;
-          max-width: 200px;
-          color: rgba(202, 202, 202, 0.508);
-          position: relative;
-          top: -27px;
-          text-align: center;
-        }
-        .show_images{
-          width: 330px;
-          height: 373px;
-          display: flex;
-          justify-content: center;
-          padding: 10px;
-          gap: 10px;
-          flex-direction: row;
-          flex-wrap: wrap;
-          align-items: center;
-          
-        }
-        .images{
-          width: 100px;
-          height: 230px;
-          border: 3px dotted #f6006d59;
-          background-color: rgb(142 55 55 / 42%);
-          border-radius: 5px;
-          background-position: center;
-          background-repeat: no-repeat;
-          background-image: url(images/image.png);
-          transition: background-image 0.3s ease-in;
-        }
-        .material-symbols-rounded{
-          color: white;
-          font-size: 18px;
-        }
-        .close_container{
-          padding: 5px;
-          background-color: #f6006f8f;
-          width: 10px;
-          height: 10px;
-          position: relative;
-          bottom: 11px;
-          left: 91px;
-          border-radius: 50%;
-          display: flex;
-          align-content: center;
-          justify-content: center;
-          align-items: center;
-          flex-wrap: wrap;
-          cursor: pointer;
-        }
-    </style>
+    /* Style for each box */
+    .box {
+      border: 1px solid #777;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
-    <div class="upload-container">
-        <form id="imageUploadForm">
-            <label for="imageInput">Choose an image:</label>
-            <input type="file" id="imageInput" name="imageInput" accept="image/*">
-            <img id="imagePreview" src="#" alt="Image Preview">
-            <button type="submit">Upload</button>
-        </form>
-    </div>
 
-    <div class="show_images">
-      <div class="images" id="image1" >
-        <div class="close_container" id="delete1">
-          <span class="material-symbols-rounded">
-            close
-            </span>
-        </div>
+  <!-- Grid container with four boxes -->
+  <div class="grid-container">
+    <div class="box">Box 1</div>
+    <div class="box">Box 2</div>
+    <div class="box">Box 3</div>
+    <div class="box">Box 4</div>
+  </div>
 
-      </div>
-      <div class="images" id="image2">
-        <div class="close_container" id="delete2">
-          <span class="material-symbols-rounded">
-            close
-            </span>
-        </div>
-      </div>
-      <div class="images" id="image3">
-        <div class="close_container" id="delete3">
-          <span class="material-symbols-rounded">
-            close
-            </span>
-        </div>
-      </div>
-      <div class="images" id="image4" >
-        <div class="close_container" id="delete4">
-          <span class="material-symbols-rounded">
-            close
-            </span>
-        </div>
-      </div>
-    </div>
-
-    <script>
-
-        document.getElementById('imageUploadForm').addEventListener('submit', function (event) {
-            event.preventDefault();
-        });
-        var dropZone = document.getElementById('image1');
-
-        dropZone.addEventListener('dragover', function (e) {
-          e.preventDefault();
-        });
-
-        dropZone.addEventListener('drop', function (e) {
-          e.preventDefault();
-
-          var files = e.dataTransfer.files;
-
-          handleDroppedFiles(files, 1);
-        });
-
-        var dropZone1 = document.getElementById('image2');
-
-        dropZone1.addEventListener('dragover', function (e) {
-          e.preventDefault();
-        });
-
-        dropZone1.addEventListener('drop', function (e) {
-          e.preventDefault();
-
-          var files = e.dataTransfer.files;
-
-          handleDroppedFiles(files, 2);
-        });
-
-        var dropZone2 = document.getElementById('image3');
-
-        dropZone2.addEventListener('dragover', function (e) {
-          e.preventDefault();
-        });
-
-        dropZone2.addEventListener('drop', function (e) {
-          e.preventDefault();
-
-          var files = e.dataTransfer.files;
-
-          handleDroppedFiles(files, 3);
-        });
-
-        var dropZone3 = document.getElementById('image4');
-
-        dropZone3.addEventListener('dragover', function (e) {
-          e.preventDefault();
-        });
-
-        dropZone3.addEventListener('drop', function (e) {
-          e.preventDefault();
-
-          var files = e.dataTransfer.files;
-
-          handleDroppedFiles(files, 4);
-        });
-
-        function handleDroppedFiles(files, counter) {
-          if (files.length > 0) {
-            var file = files[0];
-            var reader = new FileReader();
-            
-            reader.onload = function (e) {
-              document.getElementById("image"+counter).style.backgroundImage = 'url(' + e.target.result + ')';
-              document.getElementById("image"+counter).style.backgroundSize = 'cover';
-            };
-
-            reader.readAsDataURL(file);
-          }
-        }
-        document.getElementById('delete1').addEventListener('click', function (event) {
-          document.getElementById("image"+1).style.backgroundSize = '';
-          document.getElementById("image"+1).style.backgroundImage = 'url(images/image.png)';
-
-        })  
-        document.getElementById('delete2').addEventListener('click', function (event) {
-          document.getElementById("image"+2).style.backgroundSize = '';
-          document.getElementById("image"+2).style.backgroundImage = 'url(images/image.png)';
-
-        })  
-        document.getElementById('delete3').addEventListener('click', function (event) {
-          document.getElementById("image"+3).style.backgroundSize = '';
-          document.getElementById("image"+3).style.backgroundImage = 'url(images/image.png)';
-
-        })  
-        document.getElementById('delete4').addEventListener('click', function (event) {
-          document.getElementById("image"+4).style.backgroundSize = '';
-          document.getElementById("image"+4).style.backgroundImage = 'url(images/image.png)';
-
-        })  
-    </script>
 </body>
 </html>

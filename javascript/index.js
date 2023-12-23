@@ -2,17 +2,20 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebas
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC-9Qn2vcSYGZbLngJXB2ZFAapVQsj0LW0",
-  authDomain: "mujdating.firebaseapp.com",
-  projectId: "mujdating",
-  storageBucket: "mujdating.appspot.com",
-  messagingSenderId: "889381416201",
-  appId: "1:889381416201:web:f78fef222a119ac01cb7d8",
-  measurementId: "G-DNPCWREVLW"
+    apiKey: "AIzaSyC-9Qn2vcSYGZbLngJXB2ZFAapVQsj0LW0",
+    authDomain: "mujdating.firebaseapp.com",
+    databaseURL: "https://mujdating-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "mujdating",
+    storageBucket: "mujdating.appspot.com",
+    messagingSenderId: "889381416201",
+    appId: "1:889381416201:web:f78fef222a119ac01cb7d8",
+    measurementId: "G-DNPCWREVLW"
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+
+
 
 var login = document.getElementById("login");
 
@@ -59,42 +62,38 @@ document.getElementById("login-button").addEventListener("click", function() {
     // document.getElementById("wrongmail").style.visibility = "hidden";
     // document.getElementById("wrongpassword").style.visibility = "hidden";
 
-    emailverify(email);
-
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-      
-      if (auth.currentUser.emailVerified == false){
-        document.getElementById("wrongmail").textContent = "Email not verified";
-        document.getElementById("wrongmail").style.color = "#FC6868";
-        return (false)
-      }
-
-    //   onAuthStateChanged(auth, (user) => {
-        // if (user) {
-        //   var Name = String(user.displayName)
-        //   console.log(Name)
-        //   if(Name == 'null'){
-        //     window.location = '/set-username.html'
-        //   }
-        //   else{
-        //     window.location = '/home.html'
-        //     }
-        // }
-    //   });
-    })
-    .catch((error) => {
-        console.log(error.code)
-        if(error.code == "auth/invalid-credential"){
-            document.getElementById('wrongpassword').innerHTML = 'Wrong Email ID or Password.'
-            document.getElementById("wrongpassword").style.display = "block";
-    }
-        if(error.code == "auth/user-not-found"){
-            document.getElementById("wrongmail").textContent = "Email not registered";
+    if (emailverify(email)){
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          
+          if (auth.currentUser.emailVerified == false){
+            document.getElementById("wrongmail").textContent = "Email not verified";
             document.getElementById("wrongmail").style.color = "#FC6868";
+            return (false)
+          }
+          else{
+            console.log("Logged In")
+          }
+    
+        })
+        .catch((error) => {
+            console.log(error.code)
+            if(error.code == "auth/invalid-credential"){
+                document.getElementById('wrongpassword').innerHTML = 'Wrong Email ID or Password.'
+                document.getElementById("wrongpassword").style.display = "block";
         }
-    });
+            if(error.code == "auth/user-not-found"){
+                document.getElementById("wrongmail").textContent = "Email not registered";
+                document.getElementById("wrongmail").style.color = "#FC6868";
+            }
+        });
+    }
+    else{
+        
+    }
+
+
 
 
 })
@@ -118,35 +117,32 @@ document.getElementById("register_button").addEventListener("click", function() 
     }
 
     function passwordverify(password) {
-        if (password.length < 6 ) 
-        {
+        if (password.length < 6 ){
         document.getElementById("wrongpassword_register").style.display = "block";
         return(false)
         }
-    }
-    // document.getElementById('wrongpassword').innerHTML = 'This password is invalid.'
-    // document.getElementById("wrongmail").style.visibility = "hidden";
-    // document.getElementById("wrongpassword").style.visibility = "hidden";
-
-    emailverify(email);
-    passwordverify(password);
-    
-    createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(auth.currentUser)
-        
-        sendEmailVerification(auth.currentUser)
-
-        // document.getElementById('blur').classList.toggle("fader");
-        // document.getElementById('popup').classList.toggle("fade-in");
-    })
-    .catch((error) => {
-        console.log(error.code)
-        if (error.code === "auth/email-already-in-use") {
-            console.log("Balls")
-            document.getElementById("wrongmail_register").textContent = "This email is already in use";
-            document.getElementById("wrongmail_register").style.color = "#FC6868";
+        else{
+            return true
         }
-    });
+    }
+    console.log(emailverify(email), passwordverify(password))
+//ebin.23fe10ite00050@muj.manipal.edu
+    if ( passwordverify(password)){
+        console.log("Passed")
+        createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            console.log(auth.currentUser)
+            
+            sendEmailVerification(auth.currentUser)
+        })
+        .catch((error) => {
+            console.log(error.code)
+            if (error.code === "auth/email-already-in-use") {
+                console.log("Balls")
+                document.getElementById("wrongmail_register").textContent = "This email is already in use";
+                document.getElementById("wrongmail_register").style.color = "#FC6868";
+            }
+        });
+    }
 })

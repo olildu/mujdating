@@ -5,7 +5,12 @@ images (min 2)
 branch (dropdownmenu)
 year (dropdownmenu)
 
-
+onAuthStateChanged(auth, (user) => {
+  console.log(user)
+  if (user == null) {
+      window.location = '/index.html';
+  }
+});
 
 **Undergraduate Programs (UG):**
 
