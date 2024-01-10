@@ -80,8 +80,41 @@ clickableDiv.addEventListener('click', function() {
         }, 300);
         Is_Exapanded = false;
     }
-
-    
-
 });
+var about_me_container_clicked = false;
+
+document.getElementById('about-me-container').addEventListener('click', function(event) {
+    if (event.target.id === 'about-me-text') {
+        return;
+    }
+    if (about_me_container_clicked == false){
+        about_me_container_clicked = true;
+        document.getElementById('about-me-container').style.height = "176px"
+        document.getElementById('about-me-container').style.backgroundColor = "#FAFAFA"
+        document.getElementById("about-me-text").style.display = 'block'
+    }
+    else{
+        about_me_container_clicked = false;
+        document.getElementById('about-me-container').style.height = "72px"
+        document.getElementById('about-me-container').style.backgroundColor = "white"
+        document.getElementById("about-me-text").style.display = 'none'
+
+    }
+})
+
+document.getElementById('basics-container').addEventListener('click', function(event) {
+
+    if (about_me_container_clicked == false){
+        about_me_container_clicked = true;
+        document.getElementById('basics-container').style.height = "402px"
+        document.getElementById('basics-container').style.backgroundColor = "#FAFAFA"
+        document.getElementById("basics-2").style.display = 'flex'
+    }
+    else{
+        about_me_container_clicked = false;
+        document.getElementById('basics-container').style.height = "72px"
+        document.getElementById('basics-container').style.backgroundColor = "white"
+        document.getElementById("basics-2").style.display = 'none'
+    }
+})
 
