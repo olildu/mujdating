@@ -28,9 +28,6 @@ clickableDiv.addEventListener('click', function() {
             document.getElementById('header').style.display = "flex";
             document.getElementById('half').style.justifyContent = "flex-start";
             document.getElementById('header').style.opacity = "1";
-
-            
-
         }, 500)
         
         setTimeout(() => {
@@ -43,9 +40,11 @@ clickableDiv.addEventListener('click', function() {
             document.getElementById('profile-picture-div').style.animation = "center 0.3s ease-in"
             setTimeout(() => {
                 document.getElementById('profile-picture-div').style.left = "calc((50%) - 50px)";
+                document.getElementById("main-details-container").style.display = "flex"
             }, 300);
         setTimeout(() => {
             document.getElementById('settings').style.opacity = "1";
+            document.getElementById("main-details-container").style.opacity = "1"
             
         }, 500);
         }, 300);
@@ -55,16 +54,19 @@ clickableDiv.addEventListener('click', function() {
     else{
         document.getElementById('name1').style.display = "block";
         document.getElementById('header').style.opacity = "0";
-        document.getElementById('match-candidate-container').style.display = "flex";
+        document.getElementById("main-details-container").style.opacity = "0"
+
         setTimeout(() => {
             document.getElementById('profile-picture-div').style.animation = "back 0.3s ease-in"
             document.getElementById('back-icon').style.opacity = "0";
             document.getElementById('settings').style.opacity = "0";
             document.getElementById('header').style.display = "none";
             document.getElementById('half').style.justifyContent = "center";
+            document.getElementById('match-candidate-container').style.display = "flex";
 
 
             setTimeout(() => {
+                document.getElementById("main-details-container").style.display = "none"
                 document.getElementById('settings').style.display = "none";
                 document.getElementById('match-candidate-container').style.opacity = "1";
                 document.getElementById('empty-matches').style.opacity = 1;

@@ -52,13 +52,11 @@ function dataURItoFile(dataURI, fileName) {
   return file;
 }
 
-
-
-function handleEnterKey(event) {
+function handleEnterKey(event){
   if (event.key === 'Enter') {
     document.getElementById("next_container").click()
   }
-};
+}
 
 function isOnlySpaces(input) {
     return /^\s*$/.test(input);
@@ -73,7 +71,9 @@ function calculateAgeAndFormat(dateOfBirth) {
   }
   final_age = age;
 }
-document.getElementById('name_entry').addEventListener('keydown', handleEnterKey);
+
+
+document.getElementById('name_entry').addEventListener('keydown', handleEnterKey)
 
 document.getElementById("next_container").addEventListener("click", function () {
   if (move_next == 5){     
@@ -671,7 +671,7 @@ function move_next2(){
       document.getElementById("major_items").innerHTML += '<h1 class="instruction_label" id="instruction_label">Hey ' + name + ', enter your date of birth to continue</h1>'
       document.getElementById("next_container").style.opacity = "1";
     }, 500);
-  }
+}
 
 function move_next3(){
   document.getElementById("name_container").style.opacity = "0";
@@ -705,6 +705,7 @@ function move_next3(){
 
   }, 500);
 }
+
 function move_next4(){
   document.getElementById("name_container").style.opacity = "0";
   document.getElementById("date_container").style.opacity = "0";

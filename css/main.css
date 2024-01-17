@@ -407,7 +407,7 @@ body{
 
 }
 .settings-children:hover{
-    background-color: #edededd1;
+    background-color: #FCFCFC;
 }
 .header{
     display: flex;
@@ -421,9 +421,9 @@ body{
     transition: opacity 0.8s ease-in-out;
 }
 .header h2{
-    font-weight: 400;
-    margin: 10;
-    font-size: 30px;
+    font-weight: 500;
+    margin: 17px;
+    font-size: 20px;
 }
 .image-container{
     display: flex;
@@ -435,11 +435,14 @@ body{
 .image1-profile{
     width: 100%;
     height: 100%;
-    background-image: url("/images/me4.jpg");
+    background-image: url(/images/me4.jpg);
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 7px;
+    display: flex;
+    align-items: flex-end;
     background-size: cover;
+    flex-direction: column;
 }
 .image1-profile-container{
     cursor: pointer;
@@ -454,7 +457,6 @@ body{
 .image2-profile{
     width: 100%;
     height: 100%;
-    border: 1px solid #ccc;
     border-radius: 10px;
     display: flex;
     background-image: url("/images/me2.jpg");
@@ -462,6 +464,9 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     background-color: yellow;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
 }
 .image2-profile-container{
     flex: 0.5;
@@ -475,14 +480,15 @@ body{
 .image3-profile{
     width: 100%;
     height: 100%;
-    border: 1px solid #ccc;
     border-radius: 10px;
-    display: flex;
     background-image: url("/images/me3.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-color: orange;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
 }
 .image3-profile-container{
     flex: 0.5;
@@ -496,14 +502,15 @@ body{
 .image4-profile{
     width: 100%;
     height: 100%;
-    border: 1px solid #ccc;
     border-radius: 10px;
-    display: flex;
     background-image: url("/images/me1.jpg");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-color: black;
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
 }
 .image4-profile-container{
     cursor: pointer;
@@ -548,6 +555,16 @@ body{
     min-height: 10%;
     margin-bottom: 13px;
 }
+.delete-rectangle{
+    width: 38px;
+    height: 38px;
+    display: flex;
+    border-radius: 0px 0px 0px 10px;
+    background-color: white;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
 .details-container{
     margin: 0;
     gap: 20px;
@@ -562,6 +579,9 @@ body{
     display: flex;
     overflow-y: auto;
     flex-direction: column;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.2s ease-in;
 }
 .preview-container{
     display: flex;
@@ -777,6 +797,23 @@ body{
     white-space: nowrap;
     word-wrap: normal;
     direction: ltr;  
+}
+.close-icon{
+    font-family: 'Material Symbols Rounded';
+    font-weight: normal;
+    font-style: normal;
+    position: relative;
+    font-size: 23px;
+    left: 3px;
+    bottom: 1px;
+    color: #CACACA;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr; 
 }
 @keyframes center {
     from { left: 0; }
