@@ -2,6 +2,8 @@ var userName = ""
 var selectedGender = ""
 var drinkingStatus = ""
 var smokingStatus = ""
+var dateStatus = ""
+var religionStatus = ""
 
 var didIncrement = false
 var counter = 0
@@ -81,6 +83,10 @@ const religionHTML = `
         <div class="options-children">Other</div>
     </div>
 `;
+const aboutMeHTML = `
+    <textarea class="about-me-entry" spellcheck="false"></textarea>
+    <h3 id="stream-year-warning-text">You can always change this in your profile settings</h3>
+`;
 
 document.getElementById("next-button").addEventListener("click", function () {
     const userNameIcon = document.getElementById("user-name-icon");
@@ -92,6 +98,8 @@ document.getElementById("next-button").addEventListener("click", function () {
     const smokingIcon = document.getElementById("smoking-icon");
     const searchingForIcon = document.getElementById("searching-icon");
     const religionIcon = document.getElementById("religion-icon");
+    const aboutMeIcon = document.getElementById("about-me-icon");
+    
     const moveableItems = document.getElementById("moveable-items");
     const mainText = document.getElementById("main-text");
     const genderText = document.getElementById("gender-h2");
@@ -99,6 +107,7 @@ document.getElementById("next-button").addEventListener("click", function () {
     const progess2 = document.getElementById("progress-2");
     const dataEntryContainer = document.getElementById("data-entry-container");
     const nextButtonContainer = document.getElementById("next-button-container");
+    const progressBarContainer = document.getElementById("progress-bar-container");
 
     counter += 1;
     console.log(counter)
@@ -244,12 +253,15 @@ document.getElementById("next-button").addEventListener("click", function () {
             nextButtonContainer.style.display = "none"
             nextButtonContainer.style.marginTop = "22px"
             dataEntryContainer.style.bottom = "15px"
+            moveableItems.style.overflowY = "hidden"
             dataEntryContainer.innerHTML = ""
-            moveableItems.style.overflowY = "scroll"
             dataEntryContainer.innerHTML = drinkingHTML;
             mainText.textContent = "Do you drink?";
             moveableItems.style.transform = "translateX(0px)";
             mainText.style.transform = "translateX(0px)";
+            setTimeout(() => {
+                moveableItems.style.overflowY = "scroll"
+            }, 200);
             moveableItems.style.opacity = "1";
             mainText.style.opacity = "1";
             progess2.style.backgroundColor = "#F8C537"
@@ -265,6 +277,7 @@ document.getElementById("next-button").addEventListener("click", function () {
         
                 wineIcon.style.transform = "translateX(-180px)";
                 smokingIcon.style.transform = "translateX(0px)";
+                moveableItems.style.overflowY = "hidden"
                 moveableItems.style.transform = "translateX(70px)";
                 moveableItems.style.opacity = "0";
                 mainText.style.transform = "translateX(70px)";
@@ -277,11 +290,13 @@ document.getElementById("next-button").addEventListener("click", function () {
                     nextButtonContainer.style.marginTop = "22px"
                     dataEntryContainer.style.bottom = "15px"
                     dataEntryContainer.innerHTML = ""
-                    moveableItems.style.overflowY = "scroll"
                     dataEntryContainer.innerHTML = smokingHTML;
                     mainText.textContent = "Do you smoke?";
                     moveableItems.style.transform = "translateX(0px)";
                     mainText.style.transform = "translateX(0px)";
+                    setTimeout(() => {
+                        moveableItems.style.overflowY = "scroll"
+                    }, 200);
                     moveableItems.style.opacity = "1";
                     mainText.style.opacity = "1";
                     progess2.style.backgroundColor = "#F8C537"
@@ -292,10 +307,10 @@ document.getElementById("next-button").addEventListener("click", function () {
                 }
             if (mainText.textContent == "Do you smoke?"){
                 smokingStatus = event.target.textContent
-                drinkingStatus = event.target.textContent
 
                 smokingIcon.style.transform = "translateX(-180px)";
                 searchingForIcon.style.transform = "translateX(0px)";
+                moveableItems.style.overflowY = "hidden"
                 moveableItems.style.transform = "translateX(70px)";
                 moveableItems.style.opacity = "0";
                 mainText.style.transform = "translateX(70px)";
@@ -308,11 +323,13 @@ document.getElementById("next-button").addEventListener("click", function () {
                     nextButtonContainer.style.marginTop = "22px"
                     dataEntryContainer.style.bottom = "15px"
                     dataEntryContainer.innerHTML = ""
-                    moveableItems.style.overflowY = "scroll"
                     dataEntryContainer.innerHTML = searchingForHTML;
                     mainText.textContent = "What do you want from your dates?";
                     moveableItems.style.transform = "translateX(0px)";
                     mainText.style.transform = "translateX(0px)";
+                    setTimeout(() => {
+                        moveableItems.style.overflowY = "scroll"
+                    }, 200);
                     moveableItems.style.opacity = "1";
                     mainText.style.opacity = "1";
                     progess2.style.backgroundColor = "#F8C537"
@@ -322,11 +339,11 @@ document.getElementById("next-button").addEventListener("click", function () {
                 smokingIcon.style.opacity = "0";
             }
             if (mainText.textContent == "What do you want from your dates?"){
-                smokingStatus = event.target.textContent
-                drinkingStatus = event.target.textContent
+                dateStatus = event.target.textContent
 
                 searchingForIcon.style.transform = "translateX(-180px)";
                 religionIcon.style.transform = "translateX(0px)";
+                moveableItems.style.overflowY = "hidden"
                 moveableItems.style.transform = "translateX(70px)";
                 moveableItems.style.opacity = "0";
                 mainText.style.transform = "translateX(70px)";
@@ -339,11 +356,13 @@ document.getElementById("next-button").addEventListener("click", function () {
                     nextButtonContainer.style.marginTop = "22px"
                     dataEntryContainer.style.bottom = "15px"
                     dataEntryContainer.innerHTML = ""
-                    moveableItems.style.overflowY = "scroll"
                     dataEntryContainer.innerHTML = religionHTML;
                     mainText.textContent = "Do you identify with a religion?";
                     moveableItems.style.transform = "translateX(0px)";
                     mainText.style.transform = "translateX(0px)";
+                    setTimeout(() => {
+                        moveableItems.style.overflowY = "scroll"
+                    }, 200);
                     moveableItems.style.opacity = "1";
                     mainText.style.opacity = "1";
                     progess2.style.backgroundColor = "#F8C537"
@@ -351,6 +370,39 @@ document.getElementById("next-button").addEventListener("click", function () {
                 }, 300);
                 religionIcon.style.opacity = "1";
                 searchingForIcon.style.opacity = "0";
+            }
+            if (mainText.textContent == "Do you identify with a religion?"){
+                religionStatus = event.target.textContent
+
+
+                religionIcon.style.transform = "translateX(-180px)";
+                aboutMeIcon.style.transform = "translateX(0px)";
+                moveableItems.style.overflowY = "hidden"
+                moveableItems.style.transform = "translateX(70px)";
+                moveableItems.style.opacity = "0";
+                mainText.style.transform = "translateX(70px)";
+                mainText.style.opacity = "0";
+            
+                progess1.style.backgroundColor = "#d9d9d984"
+            
+                setTimeout(() => {
+                    nextButtonContainer.style.display = "none"
+                    nextButtonContainer.style.marginTop = "22px"
+                    dataEntryContainer.style.bottom = "15px"
+                    dataEntryContainer.innerHTML = ""
+                    moveableItems.style.overflowY = "unset"
+                    dataEntryContainer.innerHTML = aboutMeHTML;
+                    mainText.textContent = "About Me";
+                    moveableItems.style.transform = "translateX(0px)";
+                    mainText.style.transform = "translateX(0px)";
+                    moveableItems.style.opacity = "1";
+                    mainText.style.opacity = "1";
+                    progess2.style.backgroundColor = "#F8C537"
+            
+                }, 300);
+                aboutMeIcon.style.opacity = "1";
+                religionIcon.style.opacity = "0";
+                console.log("Name: ", userName, " Gender: ", selectedGender, " Drinking: ", drinkingStatus, " Smoking: ", smokingStatus," Looking For: ", dateStatus, " Religion: ", religionStatus)
             }
             }
         
@@ -365,6 +417,8 @@ const textArea = document.getElementById("userName")
 textArea.addEventListener('keydown', function(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
+      document.getElementById("next-button").click()
+      
     }
 })
 
