@@ -1,6 +1,11 @@
 var userName = ""
 var selectedGender = ""
+var drinkingStatus = ""
+var smokingStatus = ""
+
+var didIncrement = false
 var counter = 0
+var parentContainer = document.getElementById('data-entry-container');
 
 const dobEntryHTML = `
     <div class="dob-entry">
@@ -33,12 +38,60 @@ const HeightHTML = `
         </div>
     </div>
 `;
+const drinkingHTML = `
+    <div class="options">
+        <div class="options-children">Skip</div>
+        <div class="options-children">Frequently</div>
+        <div class="options-children">Socially</div>
+        <div class="options-children">Rarely</div>
+        <div class="options-children">Never</div>
+        <div class="options-children">Sober</div>
+    </div>
+`;
+const smokingHTML = `
+    <div class="options">
+        <div class="options-children">Skip</div>
+        <div class="options-children">Socially</div>
+        <div class="options-children">Regularly</div>
+        <div class="options-children">Never</div>
+    </div>
+`;
+const searchingForHTML = `
+    <div class="options">
+        <div class="options-children">Skip</div>
+        <div class="options-children">Relationship</div>
+        <div class="options-children">Something Casual</div>
+        <div class="options-children">Don't know yet</div>
+    </div>
+`;
+const religionHTML = `
+    <div class="options">
+        <div class="options-children">Skip</div>
+        <div class="options-children">Agnostic</div>
+        <div class="options-children">Atheist</div>
+        <div class="options-children">Buddhist</div>
+        <div class="options-children">Catholic</div>
+        <div class="options-children">Christian</div>
+        <div class="options-children">Hindu</div>
+        <div class="options-children">Jain</div>
+        <div class="options-children">Jewish</div>
+        <div class="options-children">Mormon</div>
+        <div class="options-children">Muslim</div>
+        <div class="options-children">Sikh</div>
+        <div class="options-children">Other</div>
+    </div>
+`;
 
 document.getElementById("next-button").addEventListener("click", function () {
     const userNameIcon = document.getElementById("user-name-icon");
     const cakeIcon = document.getElementById("cake-icon");
     const genderIcon = document.getElementById("gender-icon");
     const StreamYearIcon = document.getElementById("year-stream-icon");
+    const HeightIcon = document.getElementById("height-icon");
+    const wineIcon = document.getElementById("wine-icon");
+    const smokingIcon = document.getElementById("smoking-icon");
+    const searchingForIcon = document.getElementById("searching-icon");
+    const religionIcon = document.getElementById("religion-icon");
     const moveableItems = document.getElementById("moveable-items");
     const mainText = document.getElementById("main-text");
     const genderText = document.getElementById("gender-h2");
@@ -48,9 +101,10 @@ document.getElementById("next-button").addEventListener("click", function () {
     const nextButtonContainer = document.getElementById("next-button-container");
 
     counter += 1;
+    console.log(counter)
 
     if (counter == 1){
-    userNameIcon.style.transform = "translateX(-200px)";
+    userNameIcon.style.transform = "translateX(-180px)";
     cakeIcon.style.transform = "translateX(0px)";
     moveableItems.style.transform = "translateX(70px)";
     moveableItems.style.opacity = "0";
@@ -81,7 +135,7 @@ document.getElementById("next-button").addEventListener("click", function () {
     }
 
     if (counter == 2){
-        cakeIcon.style.transform = "translateX(-200px)";
+        cakeIcon.style.transform = "translateX(-180px)";
         genderIcon.style.transform = "translateX(0px)";
         moveableItems.style.transform = "translateX(70px)";
         moveableItems.style.opacity = "0";
@@ -121,7 +175,7 @@ document.getElementById("next-button").addEventListener("click", function () {
     }
     if (counter == 3){
         
-    genderIcon.style.transform = "translateX(-200px)";
+    genderIcon.style.transform = "translateX(-180px)";
     StreamYearIcon.style.transform = "translateX(0px)";
     moveableItems.style.transform = "translateX(70px)";
     moveableItems.style.opacity = "0";
@@ -148,7 +202,163 @@ document.getElementById("next-button").addEventListener("click", function () {
     StreamYearIcon.style.opacity = "1";
     genderIcon.style.opacity = "0";
     }
+
+    if (counter == 4){
+        StreamYearIcon.style.transform = "translateX(-180px)";
+        HeightIcon.style.transform = "translateX(0px)";
+        moveableItems.style.transform = "translateX(70px)";
+        moveableItems.style.opacity = "0";
+        mainText.style.transform = "translateX(70px)";
+        mainText.style.opacity = "0";
+    
+        progess1.style.backgroundColor = "#d9d9d984"
+    
+        setTimeout(() => {
+            moveableItems.style.marginTop = "20px"
+            nextButtonContainer.style.marginTop = "22px"
+            dataEntryContainer.style.bottom = "15px"
+            dataEntryContainer.innerHTML = ""
+            dataEntryContainer.innerHTML = HeightHTML;
+            mainText.textContent = "Enter your height";
+            moveableItems.style.transform = "translateX(0px)";
+            mainText.style.transform = "translateX(0px)";
+            moveableItems.style.opacity = "1";
+            mainText.style.opacity = "1";
+            progess2.style.backgroundColor = "#F8C537"
+    
+        }, 300);
+        HeightIcon.style.opacity = "1";
+        StreamYearIcon.style.opacity = "0";
+    }
+    if (counter == 5){
+        HeightIcon.style.transform = "translateX(-180px)";
+        wineIcon.style.transform = "translateX(0px)";
+        moveableItems.style.transform = "translateX(70px)";
+        moveableItems.style.opacity = "0";
+        mainText.style.transform = "translateX(70px)";
+        mainText.style.opacity = "0";
+    
+        progess1.style.backgroundColor = "#d9d9d984"
+    
+        setTimeout(() => {
+            nextButtonContainer.style.display = "none"
+            nextButtonContainer.style.marginTop = "22px"
+            dataEntryContainer.style.bottom = "15px"
+            dataEntryContainer.innerHTML = ""
+            moveableItems.style.overflowY = "scroll"
+            dataEntryContainer.innerHTML = drinkingHTML;
+            mainText.textContent = "Do you drink?";
+            moveableItems.style.transform = "translateX(0px)";
+            mainText.style.transform = "translateX(0px)";
+            moveableItems.style.opacity = "1";
+            mainText.style.opacity = "1";
+            progess2.style.backgroundColor = "#F8C537"
+    
+        }, 300);
+        wineIcon.style.opacity = "1";
+        HeightIcon.style.opacity = "0";
+    }
+    parentContainer.addEventListener('click', function(event) {
+        if (event.target.classList.contains('options-children')) {   
+            if (mainText.textContent == "Do you drink?"){
+                drinkingStatus = event.target.textContent
+        
+                wineIcon.style.transform = "translateX(-180px)";
+                smokingIcon.style.transform = "translateX(0px)";
+                moveableItems.style.transform = "translateX(70px)";
+                moveableItems.style.opacity = "0";
+                mainText.style.transform = "translateX(70px)";
+                mainText.style.opacity = "0";
+            
+                progess1.style.backgroundColor = "#d9d9d984"
+            
+                setTimeout(() => {
+                    nextButtonContainer.style.display = "none"
+                    nextButtonContainer.style.marginTop = "22px"
+                    dataEntryContainer.style.bottom = "15px"
+                    dataEntryContainer.innerHTML = ""
+                    moveableItems.style.overflowY = "scroll"
+                    dataEntryContainer.innerHTML = smokingHTML;
+                    mainText.textContent = "Do you smoke?";
+                    moveableItems.style.transform = "translateX(0px)";
+                    mainText.style.transform = "translateX(0px)";
+                    moveableItems.style.opacity = "1";
+                    mainText.style.opacity = "1";
+                    progess2.style.backgroundColor = "#F8C537"
+            
+                }, 300);
+                smokingIcon.style.opacity = "1";
+                wineIcon.style.opacity = "0";
+                }
+            if (mainText.textContent == "Do you smoke?"){
+                smokingStatus = event.target.textContent
+                drinkingStatus = event.target.textContent
+
+                smokingIcon.style.transform = "translateX(-180px)";
+                searchingForIcon.style.transform = "translateX(0px)";
+                moveableItems.style.transform = "translateX(70px)";
+                moveableItems.style.opacity = "0";
+                mainText.style.transform = "translateX(70px)";
+                mainText.style.opacity = "0";
+            
+                progess1.style.backgroundColor = "#d9d9d984"
+            
+                setTimeout(() => {
+                    nextButtonContainer.style.display = "none"
+                    nextButtonContainer.style.marginTop = "22px"
+                    dataEntryContainer.style.bottom = "15px"
+                    dataEntryContainer.innerHTML = ""
+                    moveableItems.style.overflowY = "scroll"
+                    dataEntryContainer.innerHTML = searchingForHTML;
+                    mainText.textContent = "What do you want from your dates?";
+                    moveableItems.style.transform = "translateX(0px)";
+                    mainText.style.transform = "translateX(0px)";
+                    moveableItems.style.opacity = "1";
+                    mainText.style.opacity = "1";
+                    progess2.style.backgroundColor = "#F8C537"
+            
+                }, 300);
+                searchingForIcon.style.opacity = "1";
+                smokingIcon.style.opacity = "0";
+            }
+            if (mainText.textContent == "What do you want from your dates?"){
+                smokingStatus = event.target.textContent
+                drinkingStatus = event.target.textContent
+
+                searchingForIcon.style.transform = "translateX(-180px)";
+                religionIcon.style.transform = "translateX(0px)";
+                moveableItems.style.transform = "translateX(70px)";
+                moveableItems.style.opacity = "0";
+                mainText.style.transform = "translateX(70px)";
+                mainText.style.opacity = "0";
+            
+                progess1.style.backgroundColor = "#d9d9d984"
+            
+                setTimeout(() => {
+                    nextButtonContainer.style.display = "none"
+                    nextButtonContainer.style.marginTop = "22px"
+                    dataEntryContainer.style.bottom = "15px"
+                    dataEntryContainer.innerHTML = ""
+                    moveableItems.style.overflowY = "scroll"
+                    dataEntryContainer.innerHTML = religionHTML;
+                    mainText.textContent = "Do you identify with a religion?";
+                    moveableItems.style.transform = "translateX(0px)";
+                    mainText.style.transform = "translateX(0px)";
+                    moveableItems.style.opacity = "1";
+                    mainText.style.opacity = "1";
+                    progess2.style.backgroundColor = "#F8C537"
+            
+                }, 300);
+                religionIcon.style.opacity = "1";
+                searchingForIcon.style.opacity = "0";
+            }
+            }
+        
+    });
+    
 });
+
+
 
 const textArea = document.getElementById("userName")
 
@@ -157,4 +367,5 @@ textArea.addEventListener('keydown', function(event) {
       event.preventDefault();
     }
 })
+
 

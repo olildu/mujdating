@@ -19,17 +19,30 @@ body{
 .moveable-items{
     display: flex;
     width: 100%;
+    /* overflow-y: auto; */
     align-items: center;
     flex-direction: column;
     justify-content: flex-start;
     transition: transform  0.2s ease-in-out, opacity 0.4s ease-in-out;
+}
+.moveable-items::-webkit-scrollbar {
+    width: 5px;
+}
+
+.moveable-items::-webkit-scrollbar-thumb {
+    background-color: #DCDCDC;
+    border-radius: 6px;
+}
+
+.moveable-items::-webkit-scrollbar-track {
+    background-color: transparent;
 }
 .name-container {
     width: 460px;
     height: 366px;
     background-color: white;
     border-radius: 10px;
-    padding: 20px;
+    padding: 20px 0px 20px 0px;
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
@@ -64,7 +77,7 @@ body{
     word-wrap: normal;
     direction: ltr;
     -webkit-font-smoothing: antialiased;
-    transition: transform  0.2s ease-in-out, opacity 0.4s ease-in-out;
+    transition: transform  0.2s ease-in-out, opacity 0.2s ease-in-out;
     position: absolute;
 }
 .cake-icon{
@@ -81,7 +94,26 @@ body{
     word-wrap: normal;
     direction: ltr;
     -webkit-font-smoothing: antialiased;
-    transition: transform  0.2s ease-in-out, opacity 0.4s ease-in-out, margin-right 0.2s ease-in-out;
+    transition: transform  0.2s ease-in-out, opacity 0.2s ease-in-out, margin-right 0.2s ease-in-out;
+    transform : translateX(-200px);
+    opacity: 0;
+    position: absolute;
+}
+.height-icon{
+    font-family: 'Material Symbols Rounded';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 80px;
+    color: #F8C537;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    transition: transform  0.2s ease-in-out, opacity 0.2s ease-in-out, margin-right 0.2s ease-in-out;
     transform : translateX(-200px);
     opacity: 0;
     position: absolute;
@@ -122,9 +154,10 @@ body{
     background-color: #D9D9D9;
     border: none;
     overflow: hidden;
+    margin-top: 29px;
 }
 .next-button-container{
-    margin-top: 48px;
+    margin-top: 82px;
 }
 .next-button{
     width: 155px;
@@ -271,6 +304,7 @@ body{
     word-wrap: normal;
     direction: ltr;
 }
+
 .wine-icon {
     font-family: 'Material Symbols Rounded';
     font-weight: normal;
@@ -384,16 +418,18 @@ body{
 }
 .options {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column;
     gap: 15px;
-    width: 100%;
+    width: 90%;
     overflow-y: auto;
     position: relative;
-    left: 14px;
     overflow-x: hidden;
     justify-content: flex-start;
     align-items: center;
 }
+.options:first-child {
+    margin-top: 16px;
+  }
 .options::-webkit-scrollbar {
     width: 5px; 
 }
