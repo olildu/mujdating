@@ -80,6 +80,26 @@ body{
     transition: transform  0.2s ease-in-out, opacity 0.2s ease-in-out;
     position: absolute;
 }
+.flatpickr-input.form-control.input{
+    opacity: 0;
+    position: absolute;
+    bottom: 60px;
+    right: 166px;
+    z-index: -2;
+}
+.flatpickr-months{
+    font-family: 'Poppins', sans-serif;
+}
+.flatpickr-day.selected{
+    background: #F8C537;
+    border-color: #F8C537;
+
+}
+#dobInput {
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+}
 .cake-icon{
     font-family: 'Material Symbols Rounded';
     font-weight: normal;
@@ -172,9 +192,18 @@ body{
 }
 .progress-bar-container{
     display: flex;
-    flex-direction: row;
-    gap: 4px;
-    margin-top: 15px;
+    margin-bottom: 15px;
+    width: 33.33%;
+    height: 5px;
+    border-radius: 20px;
+    background-color: rgb(189, 189, 189);
+}
+.main-progress{
+    height: 5px;
+    width: 15%;
+    background-color: #F8C537;
+    border-radius: 20px;
+    transition: width 0.3s ease-in-out;
 }
 .progress{
     width: 9px;

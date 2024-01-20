@@ -10,12 +10,13 @@ var counter = 0
 var parentContainer = document.getElementById('data-entry-container');
 
 const dobEntryHTML = `
-    <div class="dob-entry">
-        <div contenteditable="true" class="date-entry dob" placeholder="DD"></div>
-        <div contenteditable="true" class="month-entry dob" placeholder="MM"></div>
-        <div contenteditable="true" class="year-entry dob" placeholder="YYYY"></div>
+    <div class="dob-entry" id="dob-entry">
+        <div class="date-entry dob" id="date">DD</div>
+        <div class="month-entry dob" id="month">MM</div>
+        <div class="year-entry dob" id="year">YYYY</div>
     </div>
-    <h3>Enter your DOB in the format of DD/MM/YYYY</h3>
+    <input type="hidden" id="dobInput" placeholder="Select Date of Birth" class="flatpickr-input">
+    <h3>Type your DOB in the format of DD/MM/YYYY</h3>
 `;
 const genderEntryHTML = `
     <div class="gender-selection">
@@ -36,7 +37,7 @@ const HeightHTML = `
     <div class="slidecontainer">
         <input type="range" min="96" max="217" value="155" class="slider" id="myRange" oninput="updateSliderValue(this.value)">
         <div class="height-container">
-            <h4 id="height-value">181 cm</h4>
+            <h4 id="height-value">157 cm</h4>
         </div>
     </div>
 `;
@@ -88,6 +89,9 @@ const aboutMeHTML = `
     <h3 id="stream-year-warning-text">You can always change this in your profile settings</h3>
 `;
 
+
+
+
 document.getElementById("next-button").addEventListener("click", function () {
     const userNameIcon = document.getElementById("user-name-icon");
     const cakeIcon = document.getElementById("cake-icon");
@@ -102,15 +106,34 @@ document.getElementById("next-button").addEventListener("click", function () {
     
     const moveableItems = document.getElementById("moveable-items");
     const mainText = document.getElementById("main-text");
-    const genderText = document.getElementById("gender-h2");
-    const progess1 = document.getElementById("progress-1");
-    const progess2 = document.getElementById("progress-2");
     const dataEntryContainer = document.getElementById("data-entry-container");
     const nextButtonContainer = document.getElementById("next-button-container");
-    const progressBarContainer = document.getElementById("progress-bar-container");
+    const progressBar = document.getElementById("progress-3");
 
-    counter += 1;
+
+    userName = textArea.value
+    
+    // if (counter == 0){
+    //     if (userName.trim() == ""){
+    //         return false
+    //     }
+    // }
+
+    // if (counter == 2){
+    //     if (selectedGender.trim() == ""){
+    //         return false
+    //     }
+    // }
+    // if (counter == 4){
+    //     if (.trim() == ""){
+    //         return false
+    //     }
+    // }
+    counter += 1
     console.log(counter)
+
+
+
 
     if (counter == 1){
     userNameIcon.style.transform = "translateX(-180px)";
@@ -119,28 +142,70 @@ document.getElementById("next-button").addEventListener("click", function () {
     moveableItems.style.opacity = "0";
     mainText.style.transform = "translateX(70px)";
     mainText.style.opacity = "0";
-
-    progess1.style.backgroundColor = "#d9d9d984"
-
+    progressBar.style.width = "25%"
     setTimeout(() => {
         moveableItems.style.marginTop = "60px"
         nextButtonContainer.style.marginTop = "3px"
         dataEntryContainer.style.bottom = "15px"
         dataEntryContainer.innerHTML = ""
         dataEntryContainer.innerHTML = dobEntryHTML;
+        progressBar.style.width = "20%"
+
+        document.getElementById("dob-entry").addEventListener('click', function (event) {
+            
+            const flatpickrInput = document.querySelector('.flatpickr-input.form-control.input');
+            
+            flatpickrInput.click();
+
+            const selectedDayElement = document.querySelector('.flatpickr-day.selected');
+            const selectedDayElement1 = document.querySelector('.flatpickr-day.today');
+
+            selectedDayElement.style.background = '#F8C537';  
+            selectedDayElement.style.borderColor = '#F8C537';
+
+            selectedDayElement1.style.background = '#F8C537'; 
+            selectedDayElement1.style.borderColor = '#F8C537';
+        });
+        
+        
+        flatpickr('#dobInput', {
+            dateFormat: 'd/m/Y',
+            altInput: true,
+            altFormat: 'F j, Y',
+            onClose: function(selectedDates, dateStr, instance) {
+                if (selectedDates.length > 0) {
+                    const selectedDate = selectedDates[0];
+        
+                    const day = String(selectedDate.getDate()).padStart(2, '0');
+                    const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
+                    const year = selectedDate.getFullYear();
+        
+                    document.getElementById('date').textContent = day;
+                    document.getElementById('month').textContent = month;
+                    document.getElementById('year').textContent = year;
+
+                    const currentDate = new Date();
+                    const age = currentDate.getFullYear() - selectedDate.getFullYear();
+        
+                    if (age < 18) {
+                        console.log('You must be at least 18 years old.');
+                    }
+                }
+                
+            }
+        });
+        
+        
+
         mainText.textContent = "When were you born?";
         moveableItems.style.transform = "translateX(0px)";
         mainText.style.transform = "translateX(0px)";
         moveableItems.style.opacity = "1";
         mainText.style.opacity = "1";
-        progess2.style.backgroundColor = "#F8C537"
-
     }, 300);
 
     cakeIcon.style.opacity = "1";
     userNameIcon.style.opacity = "0";
-
-    userName = textArea.value
     }
 
     if (counter == 2){
@@ -150,8 +215,8 @@ document.getElementById("next-button").addEventListener("click", function () {
         moveableItems.style.opacity = "0";
         mainText.style.transform = "translateX(70px)";
         mainText.style.opacity = "0";
+        progressBar.style.width = "35%"
         
-        progess1.style.backgroundColor = "#d9d9d984";
         
         setTimeout(() => {
             nextButtonContainer.style.marginTop = "25px";
@@ -163,7 +228,7 @@ document.getElementById("next-button").addEventListener("click", function () {
             mainText.style.transform = "translateX(0px)";
             moveableItems.style.opacity = "1";
             mainText.style.opacity = "1";
-            progess2.style.backgroundColor = "#F8C537";
+            progressBar.style.width = "30%"
         
             var genderChildren = document.querySelectorAll('.gender-children');
             genderChildren.forEach(function (element) {
@@ -183,15 +248,13 @@ document.getElementById("next-button").addEventListener("click", function () {
         
     }
     if (counter == 3){
-        
     genderIcon.style.transform = "translateX(-180px)";
     StreamYearIcon.style.transform = "translateX(0px)";
     moveableItems.style.transform = "translateX(70px)";
     moveableItems.style.opacity = "0";
     mainText.style.transform = "translateX(70px)";
     mainText.style.opacity = "0";
-
-    progess1.style.backgroundColor = "#d9d9d984"
+    progressBar.style.width = "45%"
 
     setTimeout(() => {
         nextButtonContainer.style.marginTop = "3px"
@@ -205,7 +268,7 @@ document.getElementById("next-button").addEventListener("click", function () {
         StreamYearWarningText.style.width = "80%"
         moveableItems.style.opacity = "1";
         mainText.style.opacity = "1";
-        progess2.style.backgroundColor = "#F8C537"
+        progressBar.style.width = "40%"
 
     }, 300);
     StreamYearIcon.style.opacity = "1";
@@ -219,8 +282,7 @@ document.getElementById("next-button").addEventListener("click", function () {
         moveableItems.style.opacity = "0";
         mainText.style.transform = "translateX(70px)";
         mainText.style.opacity = "0";
-    
-        progess1.style.backgroundColor = "#d9d9d984"
+        progressBar.style.width = "55%"
     
         setTimeout(() => {
             moveableItems.style.marginTop = "20px"
@@ -233,7 +295,8 @@ document.getElementById("next-button").addEventListener("click", function () {
             mainText.style.transform = "translateX(0px)";
             moveableItems.style.opacity = "1";
             mainText.style.opacity = "1";
-            progess2.style.backgroundColor = "#F8C537"
+            progressBar.style.width = "50%"
+            
     
         }, 300);
         HeightIcon.style.opacity = "1";
@@ -246,8 +309,7 @@ document.getElementById("next-button").addEventListener("click", function () {
         moveableItems.style.opacity = "0";
         mainText.style.transform = "translateX(70px)";
         mainText.style.opacity = "0";
-    
-        progess1.style.backgroundColor = "#d9d9d984"
+        progressBar.style.width = "65%"
     
         setTimeout(() => {
             nextButtonContainer.style.display = "none"
@@ -259,12 +321,14 @@ document.getElementById("next-button").addEventListener("click", function () {
             mainText.textContent = "Do you drink?";
             moveableItems.style.transform = "translateX(0px)";
             mainText.style.transform = "translateX(0px)";
+            progressBar.style.width = "60%"
+
             setTimeout(() => {
                 moveableItems.style.overflowY = "scroll"
             }, 200);
             moveableItems.style.opacity = "1";
             mainText.style.opacity = "1";
-            progess2.style.backgroundColor = "#F8C537"
+            
     
         }, 300);
         wineIcon.style.opacity = "1";
@@ -282,8 +346,7 @@ document.getElementById("next-button").addEventListener("click", function () {
                 moveableItems.style.opacity = "0";
                 mainText.style.transform = "translateX(70px)";
                 mainText.style.opacity = "0";
-            
-                progess1.style.backgroundColor = "#d9d9d984"
+                progressBar.style.width = "75%"
             
                 setTimeout(() => {
                     nextButtonContainer.style.display = "none"
@@ -294,12 +357,14 @@ document.getElementById("next-button").addEventListener("click", function () {
                     mainText.textContent = "Do you smoke?";
                     moveableItems.style.transform = "translateX(0px)";
                     mainText.style.transform = "translateX(0px)";
+                    progressBar.style.width = "70%"
+
                     setTimeout(() => {
                         moveableItems.style.overflowY = "scroll"
                     }, 200);
                     moveableItems.style.opacity = "1";
                     mainText.style.opacity = "1";
-                    progess2.style.backgroundColor = "#F8C537"
+                    
             
                 }, 300);
                 smokingIcon.style.opacity = "1";
@@ -315,8 +380,9 @@ document.getElementById("next-button").addEventListener("click", function () {
                 moveableItems.style.opacity = "0";
                 mainText.style.transform = "translateX(70px)";
                 mainText.style.opacity = "0";
+                progressBar.style.width = "85%"
             
-                progess1.style.backgroundColor = "#d9d9d984"
+                
             
                 setTimeout(() => {
                     nextButtonContainer.style.display = "none"
@@ -332,7 +398,8 @@ document.getElementById("next-button").addEventListener("click", function () {
                     }, 200);
                     moveableItems.style.opacity = "1";
                     mainText.style.opacity = "1";
-                    progess2.style.backgroundColor = "#F8C537"
+                    progressBar.style.width = "80%"
+                    
             
                 }, 300);
                 searchingForIcon.style.opacity = "1";
@@ -348,8 +415,9 @@ document.getElementById("next-button").addEventListener("click", function () {
                 moveableItems.style.opacity = "0";
                 mainText.style.transform = "translateX(70px)";
                 mainText.style.opacity = "0";
+                progressBar.style.width = "95%"
             
-                progess1.style.backgroundColor = "#d9d9d984"
+                
             
                 setTimeout(() => {
                     nextButtonContainer.style.display = "none"
@@ -360,12 +428,14 @@ document.getElementById("next-button").addEventListener("click", function () {
                     mainText.textContent = "Do you identify with a religion?";
                     moveableItems.style.transform = "translateX(0px)";
                     mainText.style.transform = "translateX(0px)";
+                    progressBar.style.width = "90%"
+
                     setTimeout(() => {
                         moveableItems.style.overflowY = "scroll"
                     }, 200);
                     moveableItems.style.opacity = "1";
                     mainText.style.opacity = "1";
-                    progess2.style.backgroundColor = "#F8C537"
+                    
             
                 }, 300);
                 religionIcon.style.opacity = "1";
@@ -382,8 +452,9 @@ document.getElementById("next-button").addEventListener("click", function () {
                 moveableItems.style.opacity = "0";
                 mainText.style.transform = "translateX(70px)";
                 mainText.style.opacity = "0";
+                progressBar.style.width = "100%"
             
-                progess1.style.backgroundColor = "#d9d9d984"
+                
             
                 setTimeout(() => {
                     nextButtonContainer.style.display = "none"
@@ -397,7 +468,7 @@ document.getElementById("next-button").addEventListener("click", function () {
                     mainText.style.transform = "translateX(0px)";
                     moveableItems.style.opacity = "1";
                     mainText.style.opacity = "1";
-                    progess2.style.backgroundColor = "#F8C537"
+                    
             
                 }, 300);
                 aboutMeIcon.style.opacity = "1";
@@ -422,4 +493,15 @@ textArea.addEventListener('keydown', function(event) {
     }
 })
 
+
+
+
+flatpickr('#dobInput', {
+    dateFormat: 'dd/mm/YYYY', // Set your desired date format
+    altInput: true,
+    altFormat: 'F j, Y',
+    // onClose: function(selectedDates, dateStr, instance) {
+    //     // Perform any additional logic on date selection
+    // }
+});
 

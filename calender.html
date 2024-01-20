@@ -1,22 +1,46 @@
-<link rel="stylesheet" href="css/calender.css">
-<div class="calendar-container">
-    <div class="calendar-month-arrow-container">
-      <div class="calendar-month-year-container">
-        <select class="calendar-years"></select>
-        <select class="calendar-months">
-        </select>
-      </div>
-      <div class="calendar-month-year">
-      </div>
-      <div class="calendar-arrow-container">
-        <button class="calendar-left-arrow">
-          ← </button>
-        <button class="calendar-right-arrow"> →</button>
-      </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dot Slider</title>
+  <style>
+    body {
+      margin: 32px;
+      display: flex;
+      justify-content: center;
+    }
+    .progress-bar-container{
+        display: flex;
+        margin-top: 15px;
+        width: 600px;
+        height: 20px;
+        border-radius: 20px;
+        background-color: rgb(189, 189, 189);
+    }
+    .main-progress{
+        height: 20px;
+        width: 100px;
+        background-color: black;
+        border-radius: 20px;
+        transition: width 0.3s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+    <div class="progress-bar-container" id="progress-bar-container">
+        <div class="main-progress" id="progress-3"></div>
     </div>
-    <ul class="calendar-week">
-    </ul>
-    <ul class="calendar-days">
-    </ul>
-</div>
-<script src="javascript/calender.js" type="module"></script>
+</body>
+<script>
+    var progressCheck = document.getElementById("progress-3")
+    var neWidth = progressCheck.offsetWidth + 100 + 10 + "px"
+    setTimeout(() => {
+        progressCheck.style.width = neWidth
+        setTimeout(() => {
+            var neWidth1 = progressCheck.offsetWidth - 10 + "px"
+            progressCheck.style.width = neWidth1
+        }, 300);
+    }, 1000);
+</script>
+</html>
