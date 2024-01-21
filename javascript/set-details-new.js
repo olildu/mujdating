@@ -88,7 +88,29 @@ const aboutMeHTML = `
     <textarea class="about-me-entry" spellcheck="false"></textarea>
     <h3 id="stream-year-warning-text">You can always change this in your profile settings</h3>
 `;
+const imageUploadHTML = `
+    <div id="image-upload-container" class="image-upload-container">Drag and upload photos here</div>
+    <div class="image-new-uploaded" id="image-new-uploaded">
+        <div class="image1 imageupload" id="image1">
+            <span id="add-image-icon1" class="add-image-icon">add</span>
+        </div>
+        <div class="image2 imageupload" id="image2">
+            <span id="add-image-icon2" class="add-image-icon">add</span>
 
+        </div>
+        <div class="image3 imageupload" id="image3">
+            <span id="add-image-icon3" class="add-image-icon">add</span>
+
+        </div>
+        <div class="image4 imageupload" id="image4">
+            <span id="add-image-icon4" class="add-image-icon">add</span>
+        </div>
+    </div>
+    <input type="file" class="imageUploadListener" id="imageInput" name="imageInput" accept="image/*">
+    <input type="file" class="imageUploadListener" id="imageInput2" name="imageInput" accept="image/*">
+    <input type="file" class="imageUploadListener" id="imageInput3" name="imageInput" accept="image/*">
+    <input type="file" class="imageUploadListener" id="imageInput4" name="imageInput" accept="image/*">
+`;
 
 
 
@@ -102,12 +124,13 @@ document.getElementById("next-button").addEventListener("click", function () {
     const smokingIcon = document.getElementById("smoking-icon");
     const searchingForIcon = document.getElementById("searching-icon");
     const religionIcon = document.getElementById("religion-icon");
-    const aboutMeIcon = document.getElementById("about-me-icon");
+    const imageIcon = document.getElementById("image-icon");
     
     const moveableItems = document.getElementById("moveable-items");
     const mainText = document.getElementById("main-text");
     const dataEntryContainer = document.getElementById("data-entry-container");
     const nextButtonContainer = document.getElementById("next-button-container");
+    const mainContainer = document.getElementById("name-container");
     const progressBar = document.getElementById("progress-3");
 
 
@@ -446,7 +469,7 @@ document.getElementById("next-button").addEventListener("click", function () {
 
 
                 religionIcon.style.transform = "translateX(-180px)";
-                aboutMeIcon.style.transform = "translateX(0px)";
+                imageIcon.style.transform = "translateX(0px)";
                 moveableItems.style.overflowY = "hidden"
                 moveableItems.style.transform = "translateX(70px)";
                 moveableItems.style.opacity = "0";
@@ -462,16 +485,101 @@ document.getElementById("next-button").addEventListener("click", function () {
                     dataEntryContainer.style.bottom = "15px"
                     dataEntryContainer.innerHTML = ""
                     moveableItems.style.overflowY = "unset"
-                    dataEntryContainer.innerHTML = aboutMeHTML;
-                    mainText.textContent = "About Me";
+                    dataEntryContainer.innerHTML = imageUploadHTML;
+                    mainText.textContent = "Upload your photos";
                     moveableItems.style.transform = "translateX(0px)";
                     mainText.style.transform = "translateX(0px)";
                     moveableItems.style.opacity = "1";
                     mainText.style.opacity = "1";
                     
+                    const dropZone = document.getElementById("image-upload-container");
+                    const imagesHolder = document.getElementById("image-new-uploaded");
+                    const image1Holder = document.getElementById("image1");
+                    const image2Holder = document.getElementById("image2");
+                    const image3Holder = document.getElementById("image3");
+                    const image4Holder = document.getElementById("image4");
+                    const fileInput = document.getElementById("imageInput");
+                    const fileInput2 = document.getElementById("imageInput2");
+                    const fileInput3 = document.getElementById("imageInput3");
+                    const fileInput4 = document.getElementById("imageInput4");
+
+                    var imageUploadCounter;
+
+                    const addImageIcon1 = document.getElementById("add-image-icon1");
+                    const addImageIcon2 = document.getElementById("add-image-icon2");
+                    const addImageIcon3 = document.getElementById("add-image-icon3");
+                    const addImageIcon4 = document.getElementById("add-image-icon4");
+                    
+                    dropZone.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        imageUploadCounter = 1;
+                        fileInput.click();
+                    });
+                    image2Holder.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        imageUploadCounter = 2;
+                        fileInput.click();
+                    });
+                    image3Holder.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        imageUploadCounter = 3;
+                        fileInput.click();
+                    });
+                    image4Holder.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        imageUploadCounter = 4;
+                        fileInput.click();
+                    });
+                    
+                    fileInput.addEventListener('change', function() {
+                        handleDroppedFiles1(this.files);
+                    });
+                    fileInput2.addEventListener('change', function() {
+                        handleDroppedFiles1(this.files);
+                    });
+                    fileInput3.addEventListener('change', function() {
+                        handleDroppedFiles1(this.files);
+                    });
+                    fileInput4.addEventListener('change', function() {
+                        handleDroppedFiles1(this.files);
+                    });
+                    
+                    function handleDroppedFiles1(files) {
+                        if (files.length > 0) {
+                            const reader = new FileReader();
+                    
+                            reader.onload = function(e) {
+                                const selectedImage = `url('${e.target.result}')`;
+                                
+                                if (imageUploadCounter == 1) {
+                                    dropZone.style.display = "none"
+                                    addImageIcon1.style.display = "none"
+                                    mainContainer.style.width = "520px"
+                                    nextButtonContainer.style.display = "flex"
+                                    imagesHolder.style.display = "flex"
+                                    image1Holder.style.backgroundImage = selectedImage;
+                                }
+                                if (imageUploadCounter == 2) {
+                                    addImageIcon2.style.display = "none"
+                                    image2Holder.style.backgroundImage = selectedImage;
+                                }
+                                if (imageUploadCounter == 3) {
+                                    addImageIcon3.style.display = "none"
+                                    image3Holder.style.backgroundImage = selectedImage;
+                                }
+                                if (imageUploadCounter == 4) {
+                                    addImageIcon4.style.display = "none"
+                                    image4Holder.style.backgroundImage = selectedImage;
+                                }
+                            };
+                    
+                            reader.readAsDataURL(files[0]);
+                        }
+                    }
+                    
             
                 }, 300);
-                aboutMeIcon.style.opacity = "1";
+                imageIcon.style.opacity = "1";
                 religionIcon.style.opacity = "0";
                 console.log("Name: ", userName, " Gender: ", selectedGender, " Drinking: ", drinkingStatus, " Smoking: ", smokingStatus," Looking For: ", dateStatus, " Religion: ", religionStatus)
             }
@@ -492,7 +600,6 @@ textArea.addEventListener('keydown', function(event) {
       
     }
 })
-
 
 
 
