@@ -136,22 +136,18 @@ document.getElementById("next-button").addEventListener("click", function () {
 
     userName = textArea.value
     
-    // if (counter == 0){
-    //     if (userName.trim() == ""){
-    //         return false
-    //     }
-    // }
+    if (counter == 0){
+        if (userName.trim() == ""){
+            return false
+        }
+    }
 
-    // if (counter == 2){
-    //     if (selectedGender.trim() == ""){
-    //         return false
-    //     }
-    // }
-    // if (counter == 4){
-    //     if (.trim() == ""){
-    //         return false
-    //     }
-    // }
+    if (counter == 2){
+        if (selectedGender.trim() == ""){
+            return false
+        }
+    }
+
     counter += 1
     console.log(counter)
 
