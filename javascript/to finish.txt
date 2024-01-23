@@ -14,7 +14,7 @@ onAuthStateChanged(auth, (user) => {
 
 **Undergraduate Programs (UG):**
 
-B.Tech
+<p>B.Tech</p>
 <p>BA</p>
 <p>B.Arch</p>
 <p>B.Sc</p>

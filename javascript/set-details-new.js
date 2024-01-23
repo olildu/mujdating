@@ -4,6 +4,8 @@ var drinkingStatus = ""
 var smokingStatus = ""
 var dateStatus = ""
 var religionStatus = ""
+var age;
+var selectedDate;
 
 var didIncrement = false
 var counter = 0
@@ -16,7 +18,7 @@ const dobEntryHTML = `
         <div class="year-entry dob" id="year">YYYY</div>
     </div>
     <input type="hidden" id="dobInput" placeholder="Select Date of Birth" class="flatpickr-input">
-    <h3>Type your DOB in the format of DD/MM/YYYY</h3>
+    <h3 id="warning-text-dob">Type your DOB in the format of DD/MM/YYYY</h3>
 `;
 const genderEntryHTML = `
     <div class="gender-selection">
@@ -27,9 +29,37 @@ const genderEntryHTML = `
     <h3 id="gender-h2">Confirm your gender</h3>
 `;
 const streamYearEntryHTML = `
-    <div class="stream-year-selection">
-        <div class="male-class stream-year-selection-children">Stream</div>
-        <div class="others-class stream-year-selection-children" >Year</div>
+    <div class="stream-year-selection" id="stream-year-selection">
+        <div class="male-class stream-year-selection-children" id="stream">Stream
+        </div>
+        <div class="others-class stream-year-selection-children" id="year">Year</div>
+    </div>
+    <div class="dropdown" id="dropdown">
+        <div class="stream-selection" id="stream-selection">
+            <div class="dropdown_sub" onclick="readStream(this)"><p class="first">B.Tech</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>BBA</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>LLB</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>BA</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>B.Arch</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>B.Sc</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>BBA</p></div>  
+            <div class="dropdown_sub" onclick="readStream(this)"><p>B.Com</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>BCA</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>BHM</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>LLB</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>B.Des</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>BFA</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>M.Arch</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>M.Des</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>M.FA</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>M.Plan</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>M.A</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>M.Sc</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>M.Tech</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>LLM</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>MBA</p></div>
+            <div class="dropdown_sub" onclick="readStream(this)"><p>PhD</p></div>
+        </div>
     </div>
     <h3 id="stream-year-warning-text">Make sure you enter the correct stream and year for better matches</h3>
 `;
@@ -132,27 +162,41 @@ document.getElementById("next-button").addEventListener("click", function () {
     const nextButtonContainer = document.getElementById("next-button-container");
     const mainContainer = document.getElementById("name-container");
     const progressBar = document.getElementById("progress-3");
-
+    const warningName = document.getElementById("warning-text-name");
+    
 
     userName = textArea.value
     
-    if (counter == 0){
-        if (userName.trim() == ""){
-            return false
-        }
-    }
-
-    if (counter == 2){
-        if (selectedGender.trim() == ""){
+    // if (counter == 0){
+    //     if (userName.trim() == ""){
+    //         warningName.style.opacity = "1"
+    //         return false
+    //     }
+    // }
+    // if (counter == 1){
+    //     console.log(selectedDate)
+    //     if (age == undefined || age < 18 ){
+    //         const warningDOB = document.getElementById("warning-text-dob");
+    //         warningDOB.textContent = "Enter a valid DOB. You must be over 18 for compliance."
+    //         return false
+    //     }
+    // }
+    // if (counter == 2){
+    //     if (selectedGender.trim() == ""){
+    //         const warningGender = document.getElementById("gender-h2");
+    //         warningGender.textContent = "Select a gender"            
+    //         return false
+    //     }
+    // }
+    if (counter == 3){
+        if (stream.innerText == "Stream" || year.innerText == "Year"){
+            const warningStreamYear = document.getElementById("stream-year-warning-text");
+            warningStreamYear.textContent = "Please enter both year and stream for better matches"            
             return false
         }
     }
 
     counter += 1
-    console.log(counter)
-
-
-
 
     if (counter == 1){
     userNameIcon.style.transform = "translateX(-180px)";
@@ -189,11 +233,17 @@ document.getElementById("next-button").addEventListener("click", function () {
         
         flatpickr('#dobInput', {
             dateFormat: 'd/m/Y',
+            disable: [
+                function(date) {
+                  // Disable dates before January 1, 1990
+                  return date < new Date("1990-01-01");
+                },
+            ],
             altInput: true,
             altFormat: 'F j, Y',
             onClose: function(selectedDates, dateStr, instance) {
                 if (selectedDates.length > 0) {
-                    const selectedDate = selectedDates[0];
+                    selectedDate = selectedDates[0];
         
                     const day = String(selectedDate.getDate()).padStart(2, '0');
                     const month = String(selectedDate.getMonth() + 1).padStart(2, '0');
@@ -204,7 +254,7 @@ document.getElementById("next-button").addEventListener("click", function () {
                     document.getElementById('year').textContent = year;
 
                     const currentDate = new Date();
-                    const age = currentDate.getFullYear() - selectedDate.getFullYear();
+                    age = currentDate.getFullYear() - selectedDate.getFullYear();
         
                     if (age < 18) {
                         console.log('You must be at least 18 years old.');
@@ -284,11 +334,24 @@ document.getElementById("next-button").addEventListener("click", function () {
         mainText.textContent = "Enter your stream and course";
         moveableItems.style.transform = "translateX(0px)";
         mainText.style.transform = "translateX(0px)";
-        StreamYearWarningText.style.width = "80%"
+        StreamYearWarningText.style.width = "60%"
+        StreamYearWarningText.style.bottom = "12px"
         moveableItems.style.opacity = "1";
         mainText.style.opacity = "1";
         progressBar.style.width = "40%"
+        document.getElementById("stream-year-selection").addEventListener('click', function(event) {
+            document.getElementById("dropdown").style.display = "flex"
+        })
 
+        document.addEventListener('click', function (event) {
+            console.log("Test")
+            var dropdown = document.getElementById('dropdown');
+            var streamYearSelection = document.getElementById('stream-year-selection');
+    
+            if (!dropdown.contains(event.target) && !streamYearSelection.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
     }, 300);
     StreamYearIcon.style.opacity = "1";
     genderIcon.style.opacity = "0";

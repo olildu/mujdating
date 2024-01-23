@@ -15,25 +15,24 @@
                 <div class="main-subject-container">
                     <div class="icon-container">
                         <span class="user-name-icon" id="user-name-icon">person</span>
-                        <span class="cake-icon" id="cake-icon">cake</span>
-                        <span class="cake-icon" id="gender-icon">transgender</span>
-                        <span class="cake-icon" id="year-stream-icon">school</span>
+                        <span class="cake-icon"   id="cake-icon">cake</span>
+                        <span class="cake-icon"   id="gender-icon">transgender</span>
+                        <span class="cake-icon"   id="year-stream-icon">school</span>
                         <span class="height-icon" id="height-icon">straighten</span>
                         <span class="height-icon" id="wine-icon">wine_bar</span>
                         <span class="height-icon" id="smoking-icon">smoking_rooms</span>
                         <span class="height-icon" id="searching-icon">search</span>
                         <span class="height-icon" id="religion-icon">folded_hands</span>
                         <span class="height-icon" id="about-me-icon">tooltip</span>
-                        <span class="height-icon" id="image-icon">imagesmode</span>
-
+                        <span class="height-icon" id="image-icon">imagesmode</span> 
                     </div>
                     <h2 id="main-text">What do you want people to call you?</h2>
                 </div>
                 <div class="moveable-items" id="moveable-items">
                     <div class="data-entry-container" id="data-entry-container">
-                        <textarea class="name-container-entry" spellcheck="false" id="userName"></textarea>
+                        <textarea class="name-container-entry" spellcheck="false" id="userName" placeholder="Enter your name"></textarea>
                         <!-- <textarea class="about-me-entry" spellcheck="false" id="userName"></textarea> -->
-
+                        <h2 class="warning-text-name" id="warning-text-name">Please enter your name</h3>
                     </div>
                     <div class="next-button-container" id="next-button-container">
                         <div class="next-button" id="next-button">
@@ -47,6 +46,34 @@
 <script src="javascript/set-details-new.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
+    var valuesUpdated = false;
+
+    const streamYearEntryHTML = `
+        <div class="dropdown_sub" onclick="readStream(this)"><p class="first">B.Tech</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>BBA</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>LLB</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>BA</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>B.Arch</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>B.Sc</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>BBA</p></div>  
+        <div class="dropdown_sub" onclick="readStream(this)"><p>B.Com</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>BCA</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>BHM</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>LLB</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>B.Des</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>BFA</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>M.Arch</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>M.Des</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>M.FA</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>M.Plan</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>M.A</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>M.Sc</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>M.Tech</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>LLM</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>MBA</p></div>
+        <div class="dropdown_sub" onclick="readStream(this)"><p>PhD</p></div>
+`;
+
     function updateSliderValue(value) {
         const heightValueElement = document.getElementById('height-value');
         heightValueElement.textContent = `${value} cm`;
@@ -66,14 +93,67 @@
 
     container.addEventListener('scroll', handleScroll);
 
-    flatpickr('#dobInput', {
-        dateFormat: 'd/m/Y', // Set your desired date format
-        altInput: true,
-        altFormat: 'F j, Y',
-        onClose: function(selectedDates, dateStr, instance) {
-            // Perform any additional logic on date selection
-        }
-    });
+    function decideYear(element, course) {
+        document.getElementById("stream-selection").innerHTML = "";
 
-    
+        const courseYearsMap = {
+            'B.Tech': 4,
+            'BBA': 3,
+            'LLB': 5,
+            'BA': 3,
+            'B.Arch': 5,
+            'B.Sc': 3,
+            'BBA': 4,
+            'B.Com': 4,
+            'BCA': 4,
+            'BHM': 4,
+            'B.Des': 4,
+            'BFA': 4,
+            'M.Arch': 2,
+            'M.Des': 2,
+            'M.FA': 2,
+            'M.Plan': 2,
+            'M.A': 2,
+            'M.Sc': 2,
+            'M.Tech': 2,
+            'MBA': 2,
+            'PhD': 5
+        };
+
+        const selectedCourseYears = courseYearsMap[course];
+
+        for (let i = 1; i <= selectedCourseYears; i++) {
+            console.log(i);
+            document.getElementById("stream-selection").innerHTML += `<p class="dropdown_sub" onclick="readYear(this)">${ordinalSuffix(i)} year</p>`;
+        }
+}
+
+    function ordinalSuffix(number) {
+        const suffixes = ['th', 'st', 'nd', 'rd'];
+        const v = number % 100;
+        return number + (suffixes[(v - 20) % 10] || suffixes[v] || suffixes[0]);
+    }
+
+    function readYear(element) {
+        var year = element.innerText.trim();
+        document.getElementById("year").textContent = year
+        document.getElementById("dropdown").style.display = "none"
+        valuesUpdated = true;
+        if(valuesUpdated){
+            document.getElementById("stream-selection").innerHTML = ''
+            document.getElementById("stream-selection").innerHTML = streamYearEntryHTML;
+            valuesUpdated = false;
+        }
+    }    
+
+    function readStream(element) {
+        console.log()
+        if (!valuesUpdated){
+            var course = element.innerText.trim();
+            document.getElementById("stream").textContent = course
+            decideYear(element, course)
+        }
+    }    
+
+
 </script>

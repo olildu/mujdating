@@ -16,6 +16,12 @@ body{
     align-items: center;
     justify-content: center;
 }
+.outer{
+    height: 100vh;
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+}
 .moveable-items{
     display: flex;
     width: 100%;
@@ -91,6 +97,9 @@ body{
 .flatpickr-months{
     font-family: 'Poppins', sans-serif;
 }
+.flatpickr-innerContainer{
+    font-family: 'Poppins', sans-serif;
+}
 .flatpickr-day.selected{
     background: #F8C537;
     border-color: #F8C537;
@@ -161,6 +170,18 @@ body{
     width: 50%;
     text-align: center;
     margin: 0;
+    position: relative;
+}
+.warning-text-name{
+    color: #D9D9D9;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    width: 50%;
+    text-align: center;
+    margin: 20px 10px 10px 10px;
+    opacity: 0;
+    transition: opacity 0.1s ease-in;
 }
 .name-container-entry{
     resize: none;
@@ -177,7 +198,7 @@ body{
     margin-top: 29px;
 }
 .next-button-container{
-    margin-top: 82px;
+    margin-top: 23px;
 }
 .next-button{
     width: 155px;
@@ -279,11 +300,11 @@ body{
     flex-direction: row;
     gap: 3px;
     position: relative;
-    bottom: 20px;
+    bottom: 30px;
 }
 .stream-year-selection-children{
-    width: 70px;
-    height: 40px;
+    width: 81px;
+    height: 46px;
     background-color: #D9D9D9;
     font-family: 'Poppins', sans-serif;
     color: white;
@@ -291,19 +312,69 @@ body{
     justify-content: center;
     align-items: center;
     outline: none;
-    font-size: 15px;
+    font-size: 16px;
     transition: background-color 0.2s ease-in-out;
+    cursor: pointer;
+}
+.dropdown{
+    width: max-content;
+    height: max-content;
+    display: none;
+    flex-direction: row;
+    position: absolute;
+    top: 18px;
+    gap: 5px;
+    font-family: 'Poppins', sans-serif;
+    gap: 10px;
+    z-index: 3;
+    justify-content: center;
+}
+.dropdown_sub{
+    height: 25px;
+    cursor: pointer;
+    text-overflow: ellipsis;
 
 }
-
-
-
-
-
-
-
-
-
+.dropdown_sub:hover{
+    background-color: #D9D9D9;
+}
+.stream-selection{
+    min-width: 100px;
+    height: max-content;
+    max-height: 200px;
+    background-color: white;
+    border-radius: 10px;
+    overflow-y: scroll;
+    color: black;
+    border: 1px solid #D9D9D9;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+.stream-selection p{
+    margin: 0px;
+    padding-left: 10px;
+}
+.stream-selection::-webkit-scrollbar {
+    width: 5px; 
+}
+.stream-selection::-webkit-scrollbar-thumb {
+    background-color: grey; 
+    border-radius: 10px;
+}
+.year-selection{
+    width: 180px;
+    height: 180px;
+    background-color: #bf275a;
+    border-radius: 10px;
+    padding: 10px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    display: none;
+}
+.dropdown_sub p{
+    height: 25px;
+}
 
 
 
