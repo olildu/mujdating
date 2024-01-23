@@ -167,27 +167,27 @@ document.getElementById("next-button").addEventListener("click", function () {
 
     userName = textArea.value
     
-    // if (counter == 0){
-    //     if (userName.trim() == ""){
-    //         warningName.style.opacity = "1"
-    //         return false
-    //     }
-    // }
-    // if (counter == 1){
-    //     console.log(selectedDate)
-    //     if (age == undefined || age < 18 ){
-    //         const warningDOB = document.getElementById("warning-text-dob");
-    //         warningDOB.textContent = "Enter a valid DOB. You must be over 18 for compliance."
-    //         return false
-    //     }
-    // }
-    // if (counter == 2){
-    //     if (selectedGender.trim() == ""){
-    //         const warningGender = document.getElementById("gender-h2");
-    //         warningGender.textContent = "Select a gender"            
-    //         return false
-    //     }
-    // }
+    if (counter == 0){
+        if (userName.trim() == ""){
+            warningName.style.opacity = "1"
+            return false
+        }
+    }
+    if (counter == 1){
+        console.log(selectedDate)
+        if (age == undefined || age < 18 ){
+            const warningDOB = document.getElementById("warning-text-dob");
+            warningDOB.textContent = "Enter a valid DOB. You must be over 18 for compliance."
+            return false
+        }
+    }
+    if (counter == 2){
+        if (selectedGender.trim() == ""){
+            const warningGender = document.getElementById("gender-h2");
+            warningGender.textContent = "Select a gender"            
+            return false
+        }
+    }
     if (counter == 3){
         if (stream.innerText == "Stream" || year.innerText == "Year"){
             const warningStreamYear = document.getElementById("stream-year-warning-text");
