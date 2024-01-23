@@ -167,12 +167,15 @@ document.getElementById("next-button").addEventListener("click", function () {
 
     userName = textArea.value
     
-    if (counter == 0){
-        if (userName.trim() == ""){
-            warningName.style.opacity = "1"
-            return false
+    if (counter === 0) {
+        var trimmedName = userName.trim();
+    
+        if (trimmedName === "" || !/^[a-zA-Z\s]+$/.test(trimmedName)) {
+            warningName.style.opacity = "1";
+            return false;
         }
     }
+    
     if (counter == 1){
         console.log(selectedDate)
         if (age == undefined || age < 18 ){
