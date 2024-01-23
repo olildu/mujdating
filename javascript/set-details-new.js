@@ -175,7 +175,6 @@ document.getElementById("next-button").addEventListener("click", function () {
             return false;
         }
     }
-    
     if (counter == 1){
         console.log(selectedDate)
         if (age == undefined || age < 18 ){
