@@ -123,7 +123,6 @@
         const selectedCourseYears = courseYearsMap[course];
 
         for (let i = 1; i <= selectedCourseYears; i++) {
-            console.log(i);
             document.getElementById("stream-selection").innerHTML += `<p class="dropdown_sub" onclick="readYear(this)">${ordinalSuffix(i)} year</p>`;
         }
 }
@@ -147,7 +146,6 @@
     }    
 
     function readStream(element) {
-        console.log()
         if (!valuesUpdated){
             var course = element.innerText.trim();
             document.getElementById("stream").textContent = course

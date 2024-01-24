@@ -1,13 +1,61 @@
-var userName = ""
-var selectedGender = ""
-var drinkingStatus = ""
-var smokingStatus = ""
-var dateStatus = ""
-var religionStatus = ""
-var age;
-var selectedDate;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { getDatabase, ref, get, child, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js";
 
-var didIncrement = false
+const firebaseConfig = {
+    apiKey: "AIzaSyC-9Qn2vcSYGZbLngJXB2ZFAapVQsj0LW0",
+    authDomain: "mujdating.firebaseapp.com",
+    databaseURL: "https://mujdating-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "mujdating",
+    storageBucket: "mujdating.appspot.com",
+    messagingSenderId: "889381416201",
+    appId: "1:889381416201:web:f78fef222a119ac01cb7d8",
+    measurementId: "G-DNPCWREVLW"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const database = getDatabase(app);
+const storage = getStorage();
+
+var uid;
+var userName;
+var selectedDate;
+var age;
+var selectedGender ;
+var selectedStream;
+var selectedYear;
+var height;
+var drinkingStatus;
+var smokingStatus;
+var dateStatus;
+var religionStatus;
+
+var data_to_update;
+
+function verifyUserMetaData(uid){
+    const usersRef = ref(database, '/UsersMetaData/' + uid);
+
+    onValue(usersRef, (snapshot) => {
+      const data = snapshot.val();
+      
+      if (data) {
+        window.location = '/select.html';
+      }
+    });
+}
+
+onAuthStateChanged(auth, (user) => {
+    if (user == null) {
+        window.location = '/index.html';
+    }
+    else{
+        uid = auth.currentUser.uid
+        verifyUserMetaData(uid)
+    }
+  });
+
 var counter = 0
 var parentContainer = document.getElementById('data-entry-container');
 
@@ -114,10 +162,6 @@ const religionHTML = `
         <div class="options-children">Other</div>
     </div>
 `;
-const aboutMeHTML = `
-    <textarea class="about-me-entry" spellcheck="false"></textarea>
-    <h3 id="stream-year-warning-text">You can always change this in your profile settings</h3>
-`;
 const imageUploadHTML = `
     <div id="image-upload-container" class="image-upload-container">Drag and upload photos here</div>
     <div class="image-new-uploaded" id="image-new-uploaded">
@@ -176,7 +220,6 @@ document.getElementById("next-button").addEventListener("click", function () {
         }
     }
     if (counter == 1){
-        console.log(selectedDate)
         if (age == undefined || age < 18 ){
             const warningDOB = document.getElementById("warning-text-dob");
             warningDOB.textContent = "Enter a valid DOB. You must be over 18 for compliance."
@@ -195,6 +238,10 @@ document.getElementById("next-button").addEventListener("click", function () {
             const warningStreamYear = document.getElementById("stream-year-warning-text");
             warningStreamYear.textContent = "Please enter both year and stream for better matches"            
             return false
+        }
+        else{
+            selectedStream = stream.innerText
+            selectedYear = year.innerText
         }
     }
 
@@ -258,9 +305,6 @@ document.getElementById("next-button").addEventListener("click", function () {
                     const currentDate = new Date();
                     age = currentDate.getFullYear() - selectedDate.getFullYear();
         
-                    if (age < 18) {
-                        console.log('You must be at least 18 years old.');
-                    }
                 }
                 
             }
@@ -309,7 +353,6 @@ document.getElementById("next-button").addEventListener("click", function () {
                     });
                     element.style.backgroundColor = "#F8C537";
                     selectedGender = element.innerText;
-                    console.log(selectedGender);
                 });
             });
         }, 300);
@@ -346,12 +389,16 @@ document.getElementById("next-button").addEventListener("click", function () {
         })
 
         document.addEventListener('click', function (event) {
-            console.log("Test")
             var dropdown = document.getElementById('dropdown');
             var streamYearSelection = document.getElementById('stream-year-selection');
     
-            if (!dropdown.contains(event.target) && !streamYearSelection.contains(event.target)) {
-                dropdown.style.display = 'none';
+            try{
+                if (!dropdown.contains(event.target) && !streamYearSelection.contains(event.target)) {
+                    dropdown.style.display = 'none';
+                }
+            }
+            catch{
+                
             }
         });
     }, 300);
@@ -394,6 +441,7 @@ document.getElementById("next-button").addEventListener("click", function () {
         mainText.style.transform = "translateX(70px)";
         mainText.style.opacity = "0";
         progressBar.style.width = "65%"
+        height = document.getElementById("height-value").innerText
     
         setTimeout(() => {
             nextButtonContainer.style.display = "none"
@@ -642,7 +690,7 @@ document.getElementById("next-button").addEventListener("click", function () {
                 }, 300);
                 imageIcon.style.opacity = "1";
                 religionIcon.style.opacity = "0";
-                console.log("Name: ", userName, " Gender: ", selectedGender, " Drinking: ", drinkingStatus, " Smoking: ", smokingStatus," Looking For: ", dateStatus, " Religion: ", religionStatus)
+                updateDatatoDatabase()
             }
             }
         
@@ -662,7 +710,25 @@ textArea.addEventListener('keydown', function(event) {
     }
 })
 
-
+function updateDatatoDatabase(){
+    data_to_update = 
+    {
+        "name": userName,
+        "age": age,
+        "stream": selectedStream,
+        "year": selectedYear,
+        "height": height,
+        "drinkingStatus": drinkingStatus,
+        "smokingStatus": smokingStatus,
+        "lookingFor": dateStatus,
+        "religion": religionStatus,
+        "gender": selectedGender
+    }
+    console.log(data_to_update)
+    var update_path = "/" + '/UsersMetaData/' + uid
+    
+    update(ref(database, update_path), data_to_update)
+}
 
 flatpickr('#dobInput', {
     dateFormat: 'dd/mm/YYYY', // Set your desired date format

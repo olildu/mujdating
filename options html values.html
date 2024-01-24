@@ -1,0 +1,222 @@
+options html values
+
+height
+
+    <span class="straight-icon">straighten</span>
+    <h2>What is your height?</h2>
+    <div class="slidecontainer">
+      <input type="range" min="96" max="217" value="155" class="slider" id="myRange" oninput="updateSliderValue(this.value)">
+      <div class="height-container">
+        <h4 id="height-value">181 cm</h4>
+      </div>
+    </div>
+    <div class="confirm-container">
+      <div class="confirm">
+        <h3>Yup, that's how tall I am</h3>
+      </div>
+      <div class="skip">
+        <h3>Skip</h3>
+      </div>
+    </div>
+
+drinking
+
+<span class="wine-icon">wine_bar</span>
+<h2>Do you drink?</h2>
+<div class="options">
+  <div class="options-children">Skip</div>
+  <div class="options-children">Frequently</div>
+  <div class="options-children">Socially</div>
+  <div class="options-children">Rarely</div>
+  <div class="options-children">Never</div>
+  <div class="options-children">Sober</div>
+</div>
+
+smoking
+
+<span class="wine-icon">smoking_rooms</span>
+<h2>Do you smoke?</h2>
+<div class="options">
+  <div class="options-children">Skip</div>
+  <div class="options-children">Socially</div>
+  <div class="options-children">Regularly</div>
+  <div class="options-children">Never</div>
+</div>
+
+searching for
+
+<span class="wine-icon">search</span>
+<h2>What do you want from your dates?</h2>
+<div class="options">
+  <div class="options-children">Skip</div>
+  <div class="options-children">Relationship</div>
+  <div class="options-children">Something Casual</div>
+  <div class="options-children">Don't know yet</div>
+</div>
+
+star sign
+
+<span class="wine-icon">kid_star</span>
+    <h2>What is your star sign?</h2>
+    <div class="options" id="options">
+      <div class="scroll-bar-container">
+        <div class="scroll-bar-border">
+          <div class="scroll-bar" id="scroll-bar"></div>
+        </div>
+      </div>
+      <div class="content">
+        <div class="options-children">Skip</div>
+        <div class="options-children">Aries</div>
+        <div class="options-children">Taurus</div>
+        <div class="options-children">Gemini</div>
+        <div class="options-children">Cancer</div>
+        <div class="options-children">Leo</div>
+        <div class="options-children">Virgo</div>
+        <div class="options-children">Libra</div>
+        <div class="options-children">Scorpio</div>
+        <div class="options-children">Sagittarius</div>
+        <div class="options-children">Capricorn</div>
+        <div class="options-children">Aquarius</div>
+        <div class="options-children">Pisces</div>
+      </div>
+    </div>
+
+religion
+
+<span class="wine-icon">folded_hands</span>
+<h2>Do you identify with a religion?</h2>
+<div class="options" id="options">
+  <div class="scroll-bar-container">
+    <div class="scroll-bar-border">
+      <div class="scroll-bar" id="scroll-bar"></div>
+    </div>
+  </div>
+  <div class="content">
+    <div class="options-children">Skip</div>
+    <div class="options-children">Agnostic</div>
+    <div class="options-children">Atheist</div>
+    <div class="options-children">Buddhist</div>
+    <div class="options-children">Catholic</div>
+    <div class="options-children">Christian</div>
+    <div class="options-children">Hindu</div>
+    <div class="options-children">Jain</div>
+    <div class="options-children">Muslim</div>
+    <div class="options-children">Sikh</div>
+    <div class="options-children">Other</div>
+  </div>
+</div>
+
+
+
+
+
+not working code 
+
+
+parentContainer.addEventListener('click', function(event) {
+  if (event.target.classList.contains('options-children')) {
+      console.log(didIncrement)
+      event.stopPropagation()
+      if (didIncrement == false){
+          didIncrement = true
+          counter += 1
+      }
+      console.log(counter)
+
+      if (counter == 6){
+          drinkingStatus = event.target.textContent
+
+          wineIcon.style.transform = "translateX(-180px)";
+          smokingIcon.style.transform = "translateX(0px)";
+          moveableItems.style.transform = "translateX(70px)";
+          moveableItems.style.opacity = "0";
+          mainText.style.transform = "translateX(70px)";
+          mainText.style.opacity = "0";
+      
+          progess1.style.backgroundColor = "#d9d9d984"
+      
+          setTimeout(() => {
+              nextButtonContainer.style.display = "none"
+              nextButtonContainer.style.marginTop = "22px"
+              dataEntryContainer.style.bottom = "15px"
+              dataEntryContainer.innerHTML = ""
+              moveableItems.style.overflowY = "scroll"
+              dataEntryContainer.innerHTML = smokingHTML;
+              mainText.textContent = "Do you smoke?";
+              moveableItems.style.transform = "translateX(0px)";
+              mainText.style.transform = "translateX(0px)";
+              moveableItems.style.opacity = "1";
+              mainText.style.opacity = "1";
+              progess2.style.backgroundColor = "#F8C537"
+      
+          }, 300);
+          smokingIcon.style.opacity = "1";
+          wineIcon.style.opacity = "0";
+          didIncrement = false
+      }
+      if (counter == 8){
+          smokingStatus = event.target.textContent
+          drinkingStatus = event.target.textContent
+
+          smokingIcon.style.transform = "translateX(-180px)";
+          searchingForIcon.style.transform = "translateX(0px)";
+          moveableItems.style.transform = "translateX(70px)";
+          moveableItems.style.opacity = "0";
+          mainText.style.transform = "translateX(70px)";
+          mainText.style.opacity = "0";
+      
+          progess1.style.backgroundColor = "#d9d9d984"
+      
+          setTimeout(() => {
+              nextButtonContainer.style.display = "none"
+              nextButtonContainer.style.marginTop = "22px"
+              dataEntryContainer.style.bottom = "15px"
+              dataEntryContainer.innerHTML = ""
+              moveableItems.style.overflowY = "scroll"
+              dataEntryContainer.innerHTML = smokingHTML;
+              mainText.textContent = "Do you smoke?";
+              moveableItems.style.transform = "translateX(0px)";
+              mainText.style.transform = "translateX(0px)";
+              moveableItems.style.opacity = "1";
+              mainText.style.opacity = "1";
+              progess2.style.backgroundColor = "#F8C537"
+      
+          }, 300);
+          searchingForIcon.style.opacity = "1";
+          smokingIcon.style.opacity = "0";
+          didIncrement = false
+      }
+      if (counter == 9){
+          smokingStatus = event.target.textContent
+          drinkingStatus = event.target.textContent
+
+          smokingIcon.style.transform = "translateX(-180px)";
+          searchingForIcon.style.transform = "translateX(0px)";
+          moveableItems.style.transform = "translateX(70px)";
+          moveableItems.style.opacity = "0";
+          mainText.style.transform = "translateX(70px)";
+          mainText.style.opacity = "0";
+      
+          progess1.style.backgroundColor = "#d9d9d984"
+      
+          setTimeout(() => {
+              nextButtonContainer.style.display = "none"
+              nextButtonContainer.style.marginTop = "22px"
+              dataEntryContainer.style.bottom = "15px"
+              dataEntryContainer.innerHTML = ""
+              moveableItems.style.overflowY = "scroll"
+              dataEntryContainer.innerHTML = smokingHTML;
+              mainText.textContent = "Do you smoke?";
+              moveableItems.style.transform = "translateX(0px)";
+              mainText.style.transform = "translateX(0px)";
+              moveableItems.style.opacity = "1";
+              mainText.style.opacity = "1";
+              progess2.style.backgroundColor = "#F8C537"
+      
+          }, 300);
+          searchingForIcon.style.opacity = "1";
+          smokingIcon.style.opacity = "0";
+          didIncrement = false
+      }
+  }
+});

@@ -1,255 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <style>
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #0c192c;
-    }
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+  import { getDatabase, ref as sRef, onValue } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 
-    .options-menu-container {
-      width: 440px;
-      height: 460px;
-      background-color: white;
-      border-radius: 10px;
-      padding: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: flex-start;
-      flex-direction: column;
-    }
+  const firebaseConfig = {
+    apiKey: "AIzaSyC-9Qn2vcSYGZbLngJXB2ZFAapVQsj0LW0",
+    authDomain: "mujdating.firebaseapp.com",
+    projectId: "mujdating",
+    storageBucket: "mujdating.appspot.com",
+    messagingSenderId: "889381416201",
+    appId: "1:889381416201:web:f78fef222a119ac01cb7d8",
+    measurementId: "G-DNPCWREVLW",
+    databaseURL: "https://mujdating-default-rtdb.asia-southeast1.firebasedatabase.app"
+  };
 
-    .straight-icon {
-      font-family: 'Material Symbols Rounded';
-      font-weight: normal;
-      font-style: normal;
-      font-size: 40px;
-      color: #F8C537;
-      line-height: 1;
-      transform: rotate(310deg);
-      letter-spacing: normal;
-      text-transform: none;
-      display: inline-block;
-      white-space: nowrap;
-      word-wrap: normal;
-      direction: ltr;
-    }
-    .wine-icon {
-      font-family: 'Material Symbols Rounded';
-      font-weight: normal;
-      font-style: normal;
-      font-size: 40px;
-      color: #F8C537;
-      line-height: 1;
-      letter-spacing: normal;
-      text-transform: none;
-      display: inline-block;
-      white-space: nowrap;
-      word-wrap: normal;
-      direction: ltr;
-    }
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth();
+  const database = getDatabase(app);
+  var uid;
 
-    .options-menu-container h2 {
-      font-family: 'Poppins', sans-serif; 
-      font-weight: 400;
-    }
-    .height-container{
-      width: 80%;
-      display: flex;
-      justify-content: flex-start;
-    }
-    .slidecontainer {
-      width: 100%;
-      height: 114px;
-      border-radius: 10px;
-      display: flex;
-      justify-content: space-around;
-      align-content: center;
-      flex-wrap: nowrap;
-      border: solid 1px #DCDCDC;
-      flex-direction: column-reverse;
-      align-items: center;
-      margin-top: 20px;
-    }
-    .slidecontainer h4{
-      margin: 0;
-      font-family: 'Poppins', sans-serif; 
-      font-weight: 400;
-    }
-    .slider {
-      -webkit-appearance: none;
-      width: 80%;
-      height: 2px;
-      background: linear-gradient(to right, #F8C537 0%, #F8C537 50%, #d3d3d3 50%, #d3d3d3 100%);
-      border-radius: 20px;
-      outline: none;
-      opacity: 0.7;
-      -webkit-transition: .2s;
-      transition: opacity .2s;
-      margin-bottom: 15px;
-    }
-    .slider:hover {
-      opacity: 1;
-    }
-    .slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 32px;
-      height: 32px;
-      background: #F8C537;
-      cursor: pointer;
-      border-radius: 50%;
-      z-index: 1;
-    }
-    .slider::-moz-range-thumb {
-      width: 25px;
-      height: 25px;
-      background: #F8C537;
-      cursor: pointer;
-    }
-    .confirm-container{
-      margin-top: 20px;
-      display: flex;
-      flex-direction: column;
-      align-content: center;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      font-family: 'Poppins', sans-serif; 
-      width: 100%;
-    }
-    .confirm{
-      width: 100%;
-      border: solid 1px #DCDCDC;
-      display: flex ;
-      height: 40px;
-      border-radius: 30px;
-      flex-direction: column;
-      align-content: center;
-      align-items: center;
-      cursor: pointer;
-      justify-content: center;
+  onAuthStateChanged(auth, (user) => {
+    if (user == null) {
+      window.location = '/index.html';
+    } else {
+      uid = auth.currentUser.uid;
+      const usersRef = sRef(database, '/UsersMetaData/' + uid);
 
+      onValue(usersRef, (snapshot) => {
+        const data = snapshot.val();
+        
+        if (data) {
+          // User data is present
+          console.log("User data:", data);
+        } else {
+          // User data is not present
+          console.log("User data not found");
+        }
+      });
     }
-    .skip{
-      border: solid 1px #DCDCDC;
-      border-radius: 30px;
-      height: 40px;
-      width: 100%;
-      display: flex ;
-      flex-direction: column;
-      align-content: center;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-    .confirm-container h3{
-      font-weight: 400;
-      font-size: 16px;
-    }
-    .options {
-      display: flex;
-      flex-direction: row-reverse;
-      gap: 15px;
-      width: 100%;
-      overflow-y: auto;
-      position: relative;
-      left: 14px;
-      overflow-x: hidden;
-      justify-content: flex-start;
-      align-items: center;
-    }
-    .options::-webkit-scrollbar {
-      width: 5px;  /* Adjust the width as needed */
-    }
-
-    .options::-webkit-scrollbar-thumb {
-      background-color: transparent; 
-    }
-  .options-children {
-    width: 100%;
-    border: solid 1px #DCDCDC;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    justify-content: center;
-    border-radius: 30px;
-    height: 40px;
-    font-family: 'Poppins', sans-serif;
-    cursor: pointer;
-    transition: background-color 0.1s ease-in, border 0.3s ease-in;
-    min-height: 40px; /* Set a minimum height to prevent reduction */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-  }
-
-    .options-children:hover{
-      background-color: #f0f0f0;
-      border: solid 1px #C6C6C6;
-    }
-    .scroll-bar{
-      height: 100px;
-      width: 5px;
-      position: relative;
-      background-color: rgba(26,36,57,.15);;
-      border-radius: 20px;
-    }
-    .scroll-bar-container{
-      height: 100%;
-    }
-    .scroll-bar-border {
-      position: fixed;
-      height: 265px;
-    }
-    .content {
-      height: 100%;
-      width: 100%;
-      gap: 10px;
-      display: flex;
-      flex-direction: column;
-    }
-
-  </style>
-</head>
-<body>
-  <div class="options-menu-container">
-
-  </div>
+  });
 
 
-
-  <script>
-    function updateSliderValue(value) {
-      const heightValueElement = document.getElementById('height-value');
-      heightValueElement.textContent = `${value} cm`;
-      
-      const slider = document.getElementById('myRange');
-      const percent = (value - slider.min) / (slider.max - slider.min) * 100;
-      const color = `linear-gradient(to right, #F8C537 0%, #F8C537 ${percent}%, #d3d3d3 ${percent}%, #d3d3d3 100%)`;
-      slider.style.background = color;
-    }
-    var container = document.getElementById('options');
-    var scrollHeight = container.scrollHeight;
-    console.log(scrollHeight);
-
-    function handleScroll() {
-        var scrollPosition = container.scrollTop;
-
-        var scrollPositionPercentage = (scrollPosition / (scrollHeight - container.clientHeight)) * 100;
-        document.getElementById('scroll-bar').style.top = scrollPositionPercentage + "%";
-        console.log(scrollPositionPercentage);
-    }
-
-    container.addEventListener('scroll', handleScroll);
-
-  </script>
-</body>
-</html>
+</script>

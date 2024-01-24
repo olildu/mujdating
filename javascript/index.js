@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
 import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, createUserWithEmailAndPassword, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { getDatabase, ref, get, child, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC-9Qn2vcSYGZbLngJXB2ZFAapVQsj0LW0",
@@ -14,8 +15,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
-
-
+const database = getDatabase(app);
 
 var login = document.getElementById("login");
 
@@ -40,27 +40,46 @@ document.getElementById("blur_shade").addEventListener("click", function() {
 
 })
 
+function emailverify(email) {
+    const regex = /^[\w\.-]+@muj\.manipal\.edu$/;
+    if (regex.test(email)) {
+        return true;
+    } else {
+        console.log(email)
+        document.getElementById("wrongmail").textContent = "Make sure you are using MUJ IDs";
+        document.getElementById("wrongmail").style.color = "#FC6868";
+        return false;
+    }
+}
+
+function passwordverify(password) {
+    if (password.length < 6 ){
+        document.getElementById("wrongpassword_register").style.display = "block";
+        return false
+    }
+    else{
+        return true
+    }
+}
+
+function verifyUserMetaData(uid){
+    const usersRef = ref(database, '/UsersMetaData/' + uid);
+
+    onValue(usersRef, (snapshot) => {
+      const data = snapshot.val();
+      
+      if (data) {
+        window.location = '/select.html';
+      } else {
+        window.location = '/set-details-new.html';
+      }
+    });
+}
 
 document.getElementById("login-button").addEventListener("click", function() {
     var email = document.getElementById('email').value
     var password = document.getElementById('password').value
     document.getElementById("wrongmail").style.color = "#000000";
-
-    function emailverify(email) {
-        const regex = /^[\w\.-]+@muj\.manipal\.edu$/;
-    
-        if (regex.test(email)) {
-            return true;
-        } else {
-            document.getElementById("wrongmail").textContent = "Make sure you are using MUJ IDs";
-            document.getElementById("wrongmail").style.color = "#FC6868";
-            return false;
-        }
-    }
-
-    // document.getElementById('wrongpassword').innerHTML = 'This password is invalid.'
-    // document.getElementById("wrongmail").style.visibility = "hidden";
-    // document.getElementById("wrongpassword").style.visibility = "hidden";
 
     if (emailverify(email)){
         signInWithEmailAndPassword(auth, email, password)
@@ -73,9 +92,9 @@ document.getElementById("login-button").addEventListener("click", function() {
             return (false)
           }
           else{
-            console.log("Logged In")
+            verifyUserMetaData(auth.currentUser.uid)
           }
-    
+// ebin.23fe10ite00050@muj.manipal.edu
         })
         .catch((error) => {
             console.log(error.code)
@@ -89,57 +108,26 @@ document.getElementById("login-button").addEventListener("click", function() {
             }
         });
     }
-    else{
-        
-    }
-
-
-
-
 })
 
-//    ebin.23fe10ite00050@muj.manipal.edu
 document.getElementById("register_button").addEventListener("click", function() {
     var email = document.getElementById('email_register').value
     var password = document.getElementById('password_register').value
     document.getElementById("wrongmail_register").style.color = "#000000";
 
-    function emailverify(email) {
-        const regex = /^[\w\.-]+@muj\.manipal\.edu$/;
-    
-        if (regex.test(email)) {
-            return true;
-        } else {
-            document.getElementById("wrongmail_register").textContent = "Make sure you are using MUJ IDs";
-            document.getElementById("wrongmail_register").style.color = "#FC6868";
-            return false;
-        }
+    if (!emailverify(email) || !passwordverify(password)){
+        console.log("Failed")
+        return false
     }
-
-    function passwordverify(password) {
-        if (password.length < 6 ){
-        document.getElementById("wrongpassword_register").style.display = "block";
-        return(false)
-        }
-        else{
-            return true
-        }
-    }
-    console.log(emailverify(email), passwordverify(password))
-//ebin.23fe10ite00050@muj.manipal.edu
-    if ( passwordverify(password)){
-        console.log("Passed")
+    else{
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             const user = userCredential.user;
-            console.log(auth.currentUser)
-            
             sendEmailVerification(auth.currentUser)
         })
         .catch((error) => {
             console.log(error.code)
             if (error.code === "auth/email-already-in-use") {
-                console.log("Balls")
                 document.getElementById("wrongmail_register").textContent = "This email is already in use";
                 document.getElementById("wrongmail_register").style.color = "#FC6868";
             }
