@@ -1,7 +1,6 @@
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-    import { getDatabase, ref as sRef, onValue } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
   
     const firebaseConfig = {
       apiKey: "AIzaSyC-9Qn2vcSYGZbLngJXB2ZFAapVQsj0LW0",
@@ -16,13 +15,9 @@
   
     const app = initializeApp(firebaseConfig);
     const auth = getAuth();
-    const database = getDatabase(app);
 
     const provider = new OAuthProvider('microsoft.com');
 
-    provider.setCustomParameters({
-        tenant: 'common'
-    });
     signInWithPopup(auth, provider)
         .then((result) => {
             // User is signed in.
