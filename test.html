@@ -24,16 +24,14 @@
       window.location = '/index.html';
     } else {
       uid = auth.currentUser.uid;
-      const usersRef = sRef(database, '/UsersMetaData/' + uid);
+      const usersRef = sRef(database, '/UsersCookies/' + uid);
 
       onValue(usersRef, (snapshot) => {
         const data = snapshot.val();
         
         if (data) {
-          // User data is present
           console.log("User data:", data);
         } else {
-          // User data is not present
           console.log("User data not found");
         }
       });

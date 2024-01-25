@@ -19,7 +19,15 @@ const auth = getAuth();
 const database = getDatabase(app);
 const storage = getStorage();
 
+const client = new window.Appwrite.Client();
+client
+    .setEndpoint('https://cloud.appwrite.io/v1')
+    .setProject('65b008483418c13c2e82');
+
+const functions = new window.Appwrite.Functions(client);
+
 var uid;
+var cookieValue;
 var userName;
 var selectedDate;
 var age;
@@ -46,12 +54,28 @@ function verifyUserMetaData(uid){
     });
 }
 
+
+
+
+
 onAuthStateChanged(auth, (user) => {
     if (user == null) {
         window.location = '/index.html';
     }
     else{
         uid = auth.currentUser.uid
+        const CookiePath = ref(database, '/UsersCookies/' + uid +'/userCookie');
+
+        onValue(CookiePath, (snapshot) => {
+          const CookieSnapshot = snapshot.val();
+          
+          if (CookieSnapshot) {
+            cookieValue =  CookieSnapshot
+          }
+          else{
+            console.log("Failed Code Error")
+          }
+        });
         verifyUserMetaData(uid)
     }
   });
@@ -690,7 +714,7 @@ document.getElementById("next-button").addEventListener("click", function () {
                 }, 300);
                 imageIcon.style.opacity = "1";
                 religionIcon.style.opacity = "0";
-                updateDatatoDatabase()
+                executeFunction();
             }
             }
         
@@ -710,9 +734,11 @@ textArea.addEventListener('keydown', function(event) {
     }
 })
 
-function updateDatatoDatabase(){
-    data_to_update = 
-    {
+async function executeFunction() {
+    const data = {
+        'uid': uid,
+        'key': cookieValue,
+        'type': 'CreateUserMetaDetails',
         "name": userName,
         "age": age,
         "stream": selectedStream,
@@ -723,11 +749,21 @@ function updateDatatoDatabase(){
         "lookingFor": dateStatus,
         "religion": religionStatus,
         "gender": selectedGender
+    };
+
+    try {
+        const execution = await functions.createExecution(
+            '65b14d8eef7777411400',
+            JSON.stringify(data)
+        );
+
+        const responseBody = JSON.parse(execution.responseBody);
+
+        console.log(responseBody);
+    } catch (err) {
+        console.log("An error occurred:");
+        console.error(err.message);
     }
-    console.log(data_to_update)
-    var update_path = "/" + '/UsersMetaData/' + uid
-    
-    update(ref(database, update_path), data_to_update)
 }
 
 flatpickr('#dobInput', {

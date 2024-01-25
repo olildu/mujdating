@@ -13,10 +13,18 @@ const firebaseConfig = {
     measurementId: "G-DNPCWREVLW"
 };
 
+const client = new window.Appwrite.Client();
+client
+    .setEndpoint('https://cloud.appwrite.io/v1')
+    .setProject('65b008483418c13c2e82');
+
+const functions = new window.Appwrite.Functions(client);
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const database = getDatabase(app);
 
+var uid;
 var login = document.getElementById("login");
 
 login.addEventListener("click", function() {
@@ -76,6 +84,26 @@ function verifyUserMetaData(uid){
     });
 }
 
+async function executeFunction(uid) {
+    const data = {
+        'uid': uid,
+        'type': "CookieCreation"
+    };
+
+    try {
+        const execution = await functions.createExecution(
+            '65b14d8eef7777411400', 
+            JSON.stringify(data)
+        );
+        console.log(execution.responseBody);
+    } catch (err) {
+        console.log("An error occurred:");
+        console.error(err.message);
+    }
+}
+
+
+
 document.getElementById("login-button").addEventListener("click", function() {
     var email = document.getElementById('email').value
     var password = document.getElementById('password').value
@@ -92,7 +120,12 @@ document.getElementById("login-button").addEventListener("click", function() {
             return (false)
           }
           else{
-            verifyUserMetaData(auth.currentUser.uid)
+            uid = auth.currentUser.uid
+            const usersRef = ref(database, '/UsersCookies/' + uid);
+
+            executeFunction(uid)
+              
+            verifyUserMetaData(uid)
           }
 // ebin.23fe10ite00050@muj.manipal.edu
         })

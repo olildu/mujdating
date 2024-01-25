@@ -1,21 +1,33 @@
-<script>
-  const url = "https://65b14d8f6e5d33340fe7.appwrite.global/";
-  const headers = {
-    "Content-Type": "application/json"
-  };
+<script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
+<script type="module">
+  const client = new window.Appwrite.Client();
+  client
+      .setEndpoint('https://cloud.appwrite.io/v1')
+      .setProject('65b008483418c13c2e82'); // Replace this with your project ID
 
-  const data = {
-    "key": "sample_cookie",
-    "uid": "TJSjIoRMaUOPcp8InKVPhgz4nlG2"
-  };
+  const functions = new window.Appwrite.Functions(client);
 
-  fetch(url, {
-    method: 'POST',
-    headers: headers,
-    body: JSON.stringify(data)
-  })
-    .then(response => response.text())
-    .then(data => console.log(data))
-    .catch(error => console.error('Error:', error));
+  async function executeFunction() {
+      const data = {
+        'uid': 'TJSjIoRMaUOPcp8InKVPhgz4nlG2',
+        'type': "CookieCreation"
+      };
 
+      try {
+          const execution = await functions.createExecution(
+              '65b14d8eef7777411400', // Replace this with your function ID
+              JSON.stringify(data)
+          );
+
+          // Log the result if you want
+          console.log(execution);
+      } catch (err) {
+          // Handle any errors here
+          console.log("An error occurred:");
+          console.error(err.message);
+      }
+  }
+
+  // Call the executeFunction function
+  executeFunction();
 </script>
