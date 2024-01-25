@@ -108,7 +108,7 @@ document.getElementById('basics-container').addEventListener('click', function(e
 
     if (about_me_container_clicked == false){
         about_me_container_clicked = true;
-        document.getElementById('basics-container').style.height = "402px"
+        document.getElementById('basics-container').style.height = "350px"
         document.getElementById('basics-container').style.backgroundColor = "#FAFAFA"
         document.getElementById("basics-2").style.display = 'flex'
     }

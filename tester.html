@@ -1,95 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
-    body{
-      background-color: #bf275a;
-      margin: 0;
-    }
-    .wrapper {
-      height: 100vh;
-      width: max-content;
-      display: flex;
-      place-items: center;
-      align-content: center;
-      margin: auto;
-      justify-content: center;
-      flex-direction: column;
-    }
-
-    .typing-demo {
-      white-space: nowrap;
-      overflow: hidden;
-      font-family: 'Poppins', sans-serif;
-      font-size: 10em;
-      display: inline-block;
-      animation: typing 3s;
-      color: white;
-      width: 10ch;
-    }
-
-    .branding {
-      font-size: 4em;
-      position: relative;
-      color: white;
-      top: 40px;
-      width: 100%;
-      display: flex; /* Set to inline-block for taking the width of typing-demo */
-      font-family: 'Poppins', sans-serif;
-      justify-content: flex-end;
-      animation: slideUp ease .5s forwards .8s;
-      opacity: 0;
-    }
-
-    @keyframes typing {
-      0% {
-        width: 0;
-        border-right: 3px solid;
-      }
-      80% {
-        border-right: 0px;
-      }
-      30% {
-        width: 10ch;
-      }
-    }
-
-    @keyframes slideUp {
-      0% {
-        transform: translateY(0);
-      }
-      100% {
-        transform: translateY(-40px);
-        opacity: 1;
-      }
-    }
-    @keyframes fade-out {
-      0% {
-      }
-      100% {
-        opacity: 0;
-        display: none;
-      }
-    }
-
-  </style>
-</head>
-<body>
-  <div class="wrapper" id="wrapper">
-    <div class="typing-demo">
-      Welcome to
-    </div>
-    <div class="branding">
-      MUJDating
-    </div>
-  </div>
-</body>
 <script>
-  document.body.addEventListener("click", function () {
-    document.getElementById("wrapper").style.animation = "fade-out ease 0.8s forwards 2s"
+  const url = "https://65b14d8f6e5d33340fe7.appwrite.global/";
+  const headers = {
+    "Content-Type": "application/json"
+  };
+
+  const data = {
+    "key": "sample_cookie",
+    "uid": "TJSjIoRMaUOPcp8InKVPhgz4nlG2"
+  };
+
+  fetch(url, {
+    method: 'POST',
+    headers: headers,
+    body: JSON.stringify(data)
   })
+    .then(response => response.text())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+
 </script>
-</html>
