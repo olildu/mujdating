@@ -23,12 +23,7 @@
     provider.setCustomParameters({
         tenant: 'common'
     });
-
-
-
-    document.body.addEventListener('click', function(event) {
-        // This function will be called whenever a click occurs on the body
-        signInWithPopup(auth, provider)
+    signInWithPopup(auth, provider)
         .then((result) => {
             // User is signed in.
             // IdP data available in result.additionalUserInfo.profile.
@@ -37,12 +32,8 @@
             const credential = OAuthProvider.credentialFromResult(result);
             const accessToken = credential.accessToken;
             const idToken = credential.idToken;
-            console.log(credential)
-            console.log(accessToken)
-            console.log(idToken)
         })
         .catch((error) => {
             // Handle error.
         });
-    });
   </script>
