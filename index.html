@@ -1,73 +1,60 @@
 <html>
     <head>
-        <link rel="stylesheet" href="css/index.css">
+        <link rel="stylesheet" href="css/login.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>MUJ Dating | Dating, make friends & meet new people</title>
+        <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
+        <script src="javascript/login.js" type="module"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" />
     </head>
     <body>
         <div id="blur_shade"></div>
         <div class="upper">
-            <div class="title">
+            <!-- <div class="title">
                 <h1>MUJ Dating</h1>
             </div>
             <div class="sub_title">
                 <h2 class="sub_products">Safety</h2>
                 <h2 class="sub_products">Support</h2>
-            </div>
-            <div class="button_div">
-                <button class="login" id="login">Log in</button>
-            </div>
+            </div> -->
             
-        </div>
-        <div class="middle">
-            <h1 class="main_text">Create new sparks.</h1>
-            <button class="create" id="create">Create account</button>
-        </div>
-        <div class="loginbox" id="loginbox">
-            <h1>
-                Get Started
-            </h1>
-                 <div class="stuff">
-                    <div class="emailstuff">
-                        <p id="asd">Email ID</p>
-                        <input autocomplete="off" id="email" type="text" placeholder="Enter your MUJ Email ID">
-                        <p id="wrongmail">This email is invalid.</p>
-                    </div>
-                    <div class="passwordstuff">
-                        <p class="password_label">Password</p>
-                        <input id="password" type="password" placeholder="Enter your password">
-                        <p id="wrongpassword">This password is invalid.</p>
-                    </div>
-                    <button id="login-button" type="button" class="loginbutton">Log In</button>
-                    <div class="links">
-                        <a class="linker" href="register.html">Not Registered?</a>
-                        <a class="linker" href="reset-password.html">Forgot password?</a>
-                    </div>
-                 </div>
-        </div>
-        <div class="register_box" id="register_box">
-            <h1>
-                Get Started
-            </h1>
-                 <div class="stuff">
-                    <div class="emailstuff">
-                        <p id="asd">Email ID</p>
-                        <input autocomplete="off" id="email_register" type="text" placeholder="Enter your MUJ Email ID">
-                        <p id="wrongmail_register">`</p>
-                    </div>
-                    <div class="passwordstuff">
-                        <p class="password_label">Password</p>
-                        <input id="password_register" type="password" placeholder="Enter your password">
-                        <p id="wrongpassword_register">This password is invalid</p>
-                    </div>
-                    <button id="register_button" type="button" class="register_button">Register</button>
-                    <div class="links">
-                        <a class="linker" href="register.html">Already Registered?</a>
-                    </div>
-                 </div>
-        </div>
 
-
+        
+        </div>
+        <div class="main-body">
+            <div class="half1">
+                <h2>DATING FOR EVERY MUJ STUDENTS</h2>
+                <h3>MUJDating is exclusively designed for MUJ students. Please ensure to log in using your university-issued email ID.</h3>
+                <button class="join-button" id="sign-up">JOIN MUJDating</button>
+                </div>
+            <div class="half2">
+                <div class="half2-container">
+                    <h3>Already a member? Sign in now to access your account.</h6>
+                    <button class="sign-in-button" id="login">Sign in</button>
+                </div>
+                </div>
+        </div>
+        <div class="register-container" id="register-container">
+            <div class="register-main-text">
+                <span class="back-icon" id="back-icon">arrow_back_ios</span>
+                <h2>Welcome Aboard!</h2>
+            </div>
+            <div class="button-container">
+                <button class="microsoft-login" id="microsoft-login">
+                    <object type="image/svg+xml" data="https://s3-eu-west-1.amazonaws.com/cdn-testing.web.bas.ac.uk/scratch/bas-style-kit/ms-pictogram/ms-pictogram.svg" class="x-icon"></object> 
+                    Continue with Microsoft Account
+                </button>
+            </div>
+            <div class="line-container">
+                <div class="line"></div>
+                <h4>or</h4>
+                <div class="line"></div>
+            </div>
+            <div class="action-buttons">
+                <h3>Already Registered?</h3>
+            </div>
+        </div>
+        </div>
     </body>
-<script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
-<script src="javascript/index.js" type="module"></script></body></html>
+</html>
+<!-- <script src="javascript/index.js" type="module"></script></body></html> -->

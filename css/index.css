@@ -5,25 +5,16 @@ body{
     margin: 0;
     padding: 0;
     /* display: flex; */
+    background-color: #0c192c;;
     align-items: center;
     justify-content: center;
-    background-image: url(/images/3.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     user-select: none;
     /* flex-direction: column; */
 }
-body::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.445)0%, rgba(0, 0, 0, 0) 20%,rgb(0 0 0 / 0%) 80% ,rgb(0 0 0 / 0%) 100%);
-    z-index: 1;
-}
+
 ::-webkit-scrollbar {
     width: 10px;
 }
@@ -49,19 +40,31 @@ body::after {
     position: relative;
     top: 150px;
 }
-.create{
-    cursor: pointer;
-    width: 226px;
-    height: 46;
-    border-radius: 30px;
+.middle-container{
+    padding: 20px;
+}
+.action-buttons{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+.button-family{
+    width: 140px;
+    height: 44px;
     border: none;
     outline: none;
     font-family: 'Inria Sans', sans-serif;
-    color: rgb(255, 255, 255);
-    background-color: #FC6868;
+    font-size: 20px;
     font-weight: bold;
-    font-size: 24px;
-    z-index: 2;
+    cursor: pointer;
+    border-radius: 2px;
+}
+.create{
+
+}
+.login{
+
 }
 .upper {
     display: flex;
@@ -91,17 +94,7 @@ body::after {
     position: absolute;
     right: 10px;
 }
-.login{
-    width: 120px;
-    height: 36px;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    font-family: 'Inria Sans', sans-serif;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-}
+
 .sub_products{
     cursor: pointer;
 }

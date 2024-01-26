@@ -5,42 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dot Slider</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
     body {
       margin: 32px;
       display: flex;
       justify-content: center;
     }
-    .progress-bar-container{
+    .microsoft-login{
         display: flex;
-        margin-top: 15px;
-        width: 600px;
-        height: 20px;
-        border-radius: 20px;
-        background-color: rgb(189, 189, 189);
-    }
-    .main-progress{
-        height: 20px;
-        width: 100px;
-        background-color: black;
-        border-radius: 20px;
-        transition: width 0.3s ease-in-out;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid grey;
+        padding: 20px;
+        font-family: 'Noto Sans', sans-serif;
+        color: black;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 16px;
+        background-color: white;
+        border-radius: 6px;
     }
   </style>
 </head>
-<body>
-    <div class="progress-bar-container" id="progress-bar-container">
-        <div class="main-progress" id="progress-3"></div>
-    </div>
-</body>
+
+<button class="microsoft-login">
+    <object type="image/svg+xml" data="https://s3-eu-west-1.amazonaws.com/cdn-testing.web.bas.ac.uk/scratch/bas-style-kit/ms-pictogram/ms-pictogram.svg" class="x-icon"></object> 
+    Continue with Microsoft Account</button>
 <script>
-    var progressCheck = document.getElementById("progress-3")
-    var neWidth = progressCheck.offsetWidth + 100 + 10 + "px"
-    setTimeout(() => {
-        progressCheck.style.width = neWidth
-        setTimeout(() => {
-            var neWidth1 = progressCheck.offsetWidth - 10 + "px"
-            progressCheck.style.width = neWidth1
-        }, 300);
-    }, 1000);
+
 </script>
 </html>
