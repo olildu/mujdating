@@ -157,6 +157,7 @@ document.getElementById("register_button").addEventListener("click", function() 
         .then((userCredential) => {
             const user = userCredential.user;
             sendEmailVerification(auth.currentUser)
+            executeFunction(uid)
         })
         .catch((error) => {
             console.log(error.code)
