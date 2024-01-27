@@ -1,4 +1,45 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { getDatabase, ref, get, child, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
+import { getAuth, onAuthStateChanged, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { getStorage, ref as sRef, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyC-9Qn2vcSYGZbLngJXB2ZFAapVQsj0LW0",
+    authDomain: "mujdating.firebaseapp.com",
+    databaseURL: "https://mujdating-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "mujdating",
+    storageBucket: "mujdating.appspot.com",
+    messagingSenderId: "889381416201",
+    appId: "1:889381416201:web:f78fef222a119ac01cb7d8",
+    measurementId: "G-DNPCWREVLW"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth();
+const database = getDatabase(app);
+const storage = getStorage();
+
+const client = new window.Appwrite.Client();
+client
+    .setEndpoint('https://cloud.appwrite.io/v1')
+    .setProject('65b008483418c13c2e82'); // Replace this with your project ID
+
+const functions = new window.Appwrite.Functions(client);
+
+var uid;
 var Is_Exapanded = false;
+var counter = 1;
+
+onAuthStateChanged(auth, (user) => {
+    if (user == null) {
+        // window.location = '/index.html';
+    }
+    else{
+        uid = auth.currentUser.uid
+
+        executeFunction()
+    }
+});
 
 var container = document.getElementById('match-candidate-container');
 var scrollHeight = container.scrollHeight;
@@ -120,3 +161,25 @@ document.getElementById('basics-container').addEventListener('click', function(e
     }
 })
 
+function executeFunction(){
+    const folderRef = sRef(storage, '/UserImages/QCIG6YCw9HcpLyf5jYHc1yewq6k1');
+    
+    listAll(folderRef)
+    .then(async (res) => {
+      for (const itemRef of res.items) {
+        console.log(itemRef)
+        const downloadURL = await getDownloadURL(itemRef)
+        .then((downloadURL) => {
+            return fetch(downloadURL);
+        })
+        .then(response => response.text())
+        .then(blob => {
+            document.getElementById(`image${counter}`).style.backgroundImage = `url(${blob})`;
+            counter += 1
+        })
+      }
+    })
+    .catch((error) => {
+      console.error("Error listing items:", error);
+    });
+}

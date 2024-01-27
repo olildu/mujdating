@@ -36,8 +36,6 @@ onAuthStateChanged(auth, (user) => {
   }
   else{
       uid = auth.currentUser.uid
-      update(ref(database, "/" + '/users/'+"Male"+"/" + uid ), {date_of_birth: "test"})
-
   }
 });
 

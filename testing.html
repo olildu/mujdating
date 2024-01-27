@@ -1,26 +1,53 @@
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
-  
-    const firebaseConfig = {
-      apiKey: "AIzaSyC-9Qn2vcSYGZbLngJXB2ZFAapVQsj0LW0",
-      authDomain: "mujdating.firebaseapp.com",
-      projectId: "mujdating",
-      storageBucket: "mujdating.appspot.com",
-      messagingSenderId: "889381416201",
-      appId: "1:889381416201:web:f78fef222a119ac01cb7d8",
-      measurementId: "G-DNPCWREVLW",
-      databaseURL: "https://mujdating-default-rtdb.asia-southeast1.firebasedatabase.app"
-    };
-  
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth();
 
-    const provider = new OAuthProvider('microsoft.com');
 
-    document.body.addEventListener('click', function(event) {
-        signInWithPopup(auth, provider)
-    })
+const originalUrl = "https://storage.googleapis.com/mujdating.appspot.com/UserImages/QCIG6YCw9HcpLyf5jYHc1yewq6k1/image1?Expires=2021651895&GoogleAccessId=firebase-adminsdk-suysc%40mujdating.iam.gserviceaccount.com&Signature=jtNLPHt1UI5uUN%2B04aUoROICxBtr71qa28YmhjAa5xbKjdf8%2BIsCKPGIanrV3B8VGdTubmRqKe61RN7Dk8q32R6nOVeGfQ7Jvzwb1yYkf149eFeIiDumeYFaVFNjt7BlRnIIuX7eq0QLZD42Co1BEb9icIBGTPLDxZ9ErOk741MgaFb8JmJrH4enWwhBlezU0fSPXuyq07ATM3h0G%2FVVdBlV47BDfUSe8A%2BVwujAXIOrve7XGei14ro8Vu8jdceG4B7pfulMrL9j%2B0sXLu1OSLMBBZ%2FNX%2Fj1wpwtizq4caOZL1%2B43uo9Ln2UouNd5AYdjnbVRZ9KqfcI2K0FdRszXw%3D%3D";
+
+// Generate a unique callback function name
+const callbackName = 'jsonpCallback_' + Math.round(100000 * Math.random());
+
+// Define the callback function
+window[callbackName] = function(data) {
+  console.log(data);
+  // Now 'data' contains the content of the raw text file
+
+  // Optionally, remove the callback function after it's used
+  delete window[callbackName];
+};
+
+// Create a script element
+const script = document.createElement('script');
+
+// Construct the JSONP URL with the dynamic callback parameter
+// script.src = `${originalUrl}&callback=${callbackName}`;
+
+// Set up an event listener to handle errors
+script.onerror = function() {
+  console.error('Error loading JSONP script.');
+};
+
+// Append the script element to the document body
+document.body.appendChild(script);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   </script>

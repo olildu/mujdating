@@ -39,8 +39,9 @@ var drinkingStatus;
 var smokingStatus;
 var dateStatus;
 var religionStatus;
-
-var data_to_update;
+var imageList = [];
+var canImageUpload = false;
+var imageUploadCounter;
 
 function verifyUserMetaData(uid){
     const usersRef = ref(database, '/UsersMetaData/' + uid);
@@ -80,7 +81,7 @@ onAuthStateChanged(auth, (user) => {
     }
   });
 
-var counter = 0
+var counter = 0;
 var parentContainer = document.getElementById('data-entry-container');
 
 const dobEntryHTML = `
@@ -268,6 +269,15 @@ document.getElementById("next-button").addEventListener("click", function () {
             selectedYear = year.innerText
         }
     }
+    if (canImageUpload == true){
+        var imageLength = imageList.length
+        if (imageLength < 1){
+            return false
+        }
+        else{
+            executeFunction(imageLength)
+        }
+    }
 
     counter += 1
 
@@ -308,7 +318,6 @@ document.getElementById("next-button").addEventListener("click", function () {
             dateFormat: 'd/m/Y',
             disable: [
                 function(date) {
-                  // Disable dates before January 1, 1990
                   return date < new Date("1990-01-01");
                 },
             ],
@@ -385,6 +394,7 @@ document.getElementById("next-button").addEventListener("click", function () {
         cakeIcon.style.opacity = "0";
         
     }
+
     if (counter == 3){
     genderIcon.style.transform = "translateX(-180px)";
     StreamYearIcon.style.transform = "translateX(0px)";
@@ -636,7 +646,6 @@ document.getElementById("next-button").addEventListener("click", function () {
                     const fileInput3 = document.getElementById("imageInput3");
                     const fileInput4 = document.getElementById("imageInput4");
 
-                    var imageUploadCounter;
 
                     const addImageIcon1 = document.getElementById("add-image-icon1");
                     const addImageIcon2 = document.getElementById("add-image-icon2");
@@ -681,43 +690,52 @@ document.getElementById("next-button").addEventListener("click", function () {
                         if (files.length > 0) {
                             const reader = new FileReader();
                     
-                            reader.onload = function(e) {
-                                const selectedImage = `url('${e.target.result}')`;
+                            reader.onload = async function (e) {
+                                const selectedImage = e.target.result;
                                 
+                                const optimizedImage = await optimizeImage(selectedImage);
                                 if (imageUploadCounter == 1) {
-                                    dropZone.style.display = "none"
-                                    addImageIcon1.style.display = "none"
-                                    mainContainer.style.width = "520px"
-                                    nextButtonContainer.style.display = "flex"
-                                    imagesHolder.style.display = "flex"
-                                    image1Holder.style.backgroundImage = selectedImage;
+                                    dropZone.style.display = "none";
+                                    addImageIcon1.style.display = "none";
+                                    mainContainer.style.width = "520px";
+                                    nextButtonContainer.style.display = "flex";
+                                    imagesHolder.style.display = "flex";
+                                    image1Holder.style.backgroundImage = `url('${optimizedImage}')`;
+                                    imageList.push(optimizedImage);
                                 }
                                 if (imageUploadCounter == 2) {
-                                    addImageIcon2.style.display = "none"
-                                    image2Holder.style.backgroundImage = selectedImage;
+                                    addImageIcon2.style.display = "none";
+                                    image2Holder.style.backgroundImage = `url('${optimizedImage}')`;
+                                    imageList.push(optimizedImage);
                                 }
                                 if (imageUploadCounter == 3) {
-                                    addImageIcon3.style.display = "none"
-                                    image3Holder.style.backgroundImage = selectedImage;
+                                    addImageIcon3.style.display = "none";
+                                    image3Holder.style.backgroundImage = `url('${optimizedImage}')`;
+                                    imageList.push(optimizedImage);
                                 }
                                 if (imageUploadCounter == 4) {
-                                    addImageIcon4.style.display = "none"
-                                    image4Holder.style.backgroundImage = selectedImage;
+                                    addImageIcon4.style.display = "none";
+                                    image4Holder.style.backgroundImage = `url('${optimizedImage}')`;
+                                    imageList.push(optimizedImage);
                                 }
+                                uploadImages();
                             };
                     
                             reader.readAsDataURL(files[0]);
                         }
                     }
-                    
-            
                 }, 300);
                 imageIcon.style.opacity = "1";
                 religionIcon.style.opacity = "0";
-                executeFunction();
             }
+        }
+        if (event.target.classList.contains('image-upload-container')) {   
+            if (mainText.textContent == "Upload your photos"){
+                if (canImageUpload == false){
+                    canImageUpload = true;
+                }
             }
-        
+        }
     });
     
 });
@@ -734,7 +752,7 @@ textArea.addEventListener('keydown', function(event) {
     }
 })
 
-async function executeFunction() {
+async function executeFunction(imageCount) {
     const data = {
         'uid': uid,
         'key': cookieValue,
@@ -748,30 +766,96 @@ async function executeFunction() {
         "smokingStatus": smokingStatus,
         "lookingFor": dateStatus,
         "religion": religionStatus,
-        "gender": selectedGender
+        "gender": selectedGender,
+        "imageCount": imageCount
     };
 
+    for (let i = 0; i < imageList.length; i++) {
+        uploadImages(imageList[i],i+1)
+    }
+    
+    console.log(data)
     try {
         const execution = await functions.createExecution(
             '65b14d8eef7777411400',
             JSON.stringify(data)
         );
+        
+        console.log(execution.responseBody)
 
-        const responseBody = JSON.parse(execution.responseBody);
-
-        console.log(responseBody);
     } catch (err) {
         console.log("An error occurred:");
-        console.error(err.message);
+        console.error(err);
     }
 }
 
 flatpickr('#dobInput', {
-    dateFormat: 'dd/mm/YYYY', // Set your desired date format
+    dateFormat: 'dd/mm/YYYY', 
     altInput: true,
     altFormat: 'F j, Y',
-    // onClose: function(selectedDates, dateStr, instance) {
-    //     // Perform any additional logic on date selection
-    // }
 });
 
+async function optimizeImage(base64Data, quality = 0.85) {
+    return new Promise((resolve) => {
+        const img = new Image();
+
+        img.onload = function () {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+            let optimizedBase64 = canvas.toDataURL('image/jpeg', quality);
+
+            while (getImageSizeInMB(optimizedBase64) > 1 && quality > 0.1) {
+                quality -= 0.05;
+                optimizedBase64 = canvas.toDataURL('image/jpeg', quality);
+            }
+
+            resolve(optimizedBase64);
+        };
+
+        img.src = base64Data;
+    });
+}
+
+function getImageSizeInMB(base64Data) {
+    const byteCharacters = atob(base64Data.replace(/^data:image\/(png|jpeg);base64,/, ''));
+    const byteNumbers = new Array(byteCharacters.length);
+
+    for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    const fileSizeInMB = byteArray.length / (1024 * 1024);
+
+    return fileSizeInMB;
+}
+
+
+async function uploadImages(image, number) {
+    const data = {
+        'uid': uid,
+        'key': cookieValue,
+        'type': 'UploadImages',
+        "image" : image,
+        "number": number
+    };
+    
+    try {
+        const execution = await functions.createExecution(
+            '65b14d8eef7777411400',
+            JSON.stringify(data)
+        );
+        
+        console.log(execution.responseBody)
+
+    } catch (err) {
+        console.log("An error occurred:");
+        console.error(err);
+    }
+}

@@ -41,14 +41,58 @@ document.getElementById("sign-up").addEventListener("click", function() {
 })
 
 document.getElementById("microsoft-login").addEventListener("click", function() {
-    signInWithPopup(auth, provider)
+    signInWithPopup(auth, provider).then((result) =>{
+        uid = auth.currentUser.uid
+        console.log(uid)
+        executeFunction(uid)
+        verifyUserMetaData(uid)
+    })
 })
 
 document.getElementById("login").addEventListener("click", function() {
-    signInWithPopup(auth, provider)
+    signInWithPopup(auth, provider).then((result) =>{
+        uid = auth.currentUser.uid
+        console.log(uid)
+        executeFunction(uid)
+        verifyUserMetaData(uid)
+    })
 })
 
 document.getElementById("back-icon").addEventListener("click", function() {
     blueShade.style.display = "none"
     registerContainer.style.display = "none"
 })
+
+
+
+async function executeFunction(uid) {
+    const data = {
+        'uid': uid,
+        'type': "CookieCreation"
+    };
+
+    try {
+        const execution = await functions.createExecution(
+            '65b14d8eef7777411400', 
+            JSON.stringify(data)
+        );
+        console.log(execution.responseBody);
+    } catch (err) {
+        console.log("An error occurred:");
+        console.error(err.message);
+    }
+}
+
+function verifyUserMetaData(uid){
+    const usersRef = ref(database, '/UsersMetaData/' + uid);
+
+    onValue(usersRef, (snapshot) => {
+      const data = snapshot.val();
+      
+      if (data) {
+        window.location = '/select.html';
+      } else {
+        window.location = '/set-details-new.html';
+      }
+    });
+}
