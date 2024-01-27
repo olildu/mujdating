@@ -37,7 +37,7 @@ onAuthStateChanged(auth, (user) => {
     else{
         uid = auth.currentUser.uid
 
-        executeFunction()
+        executeFunction(uid)
     }
 });
 
@@ -161,8 +161,8 @@ document.getElementById('basics-container').addEventListener('click', function(e
     }
 })
 
-function executeFunction(){
-    const folderRef = sRef(storage, '/UserImages/QCIG6YCw9HcpLyf5jYHc1yewq6k1');
+function executeFunction(uid){
+    const folderRef = sRef(storage, `/UserImages/${uid}`);
     
     listAll(folderRef)
     .then(async (res) => {
