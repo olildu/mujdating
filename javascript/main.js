@@ -2,6 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebas
 import { getDatabase, ref, get, child, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
 import { getAuth, onAuthStateChanged, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 import { getStorage, ref as sRef, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js";
+import * as faceapi from 'https://cdn.jsdelivr.net/npm/face-api.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyC-9Qn2vcSYGZbLngJXB2ZFAapVQsj0LW0",
@@ -37,7 +38,7 @@ onAuthStateChanged(auth, (user) => {
     else{
         uid = auth.currentUser.uid
 
-        executeFunction(uid)
+        getUserImages(uid)
     }
 });
 
@@ -160,26 +161,71 @@ document.getElementById('basics-container').addEventListener('click', function(e
         document.getElementById("basics-2").style.display = 'none'
     }
 })
-
-function executeFunction(uid){
+async function getUserImages(uid) {
     const folderRef = sRef(storage, `/UserImages/${uid}`);
-    
-    listAll(folderRef)
-    .then(async (res) => {
-      for (const itemRef of res.items) {
-        console.log(itemRef)
-        const downloadURL = await getDownloadURL(itemRef)
-        .then((downloadURL) => {
-            return fetch(downloadURL);
-        })
-        .then(response => response.text())
-        .then(blob => {
-            document.getElementById(`image${counter}`).style.backgroundImage = `url(${blob})`;
-            counter += 1
-        })
-      }
-    })
-    .catch((error) => {
-      console.error("Error listing items:", error);
+    const CookiePath = ref(database, '/UsersMetaData/' + uid);
+
+    onValue(CookiePath, async (snapshot) => {
+        const CookieSnapshot = snapshot.val();
+        console.log(CookieSnapshot);
+
+        var heightValue = document.getElementById("height-value");
+        var drinkingStatus = document.getElementById("drinking-status");
+        var smokingStatus = document.getElementById("smoking-status");
+        var datingStatus = document.getElementById("dating-status");
+        var religionStatus = document.getElementById("religion-status");
+        var userName = document.getElementById("name1");
+
+        heightValue.textContent = CookieSnapshot.height;
+        drinkingStatus.textContent = CookieSnapshot.drinkingStatus;
+        smokingStatus.textContent = CookieSnapshot.smokingStatus;
+        datingStatus.textContent = CookieSnapshot.lookingFor;
+        religionStatus.textContent = CookieSnapshot.religionStatus;
+        userName.textContent = CookieSnapshot.name;
+
+        var elements = document.getElementsByClassName("basics-children-text-details");
+
+        for (var i = 0; i < elements.length; i++) {
+            elements[i].style.color = "#7E7E7E";
+        }
     });
+
+    try {
+        const res = await listAll(folderRef);
+        for (const itemRef of res.items) {
+            const downloadURL = await getDownloadURL(itemRef);
+            const response = await fetch(downloadURL);
+            const blob = await response.blob();
+
+            // Display the original image
+            document.getElementById(`image${counter}`).style.backgroundImage = `url(${URL.createObjectURL(blob)})`;
+            document.getElementById(`image${counter}-profile`).style.backgroundImage = `url(${URL.createObjectURL(blob)})`;
+
+            // Perform face detection
+            const image = document.getElementById(`image${counter}`);
+            const face = await faceapi.detectSingleFace(image);
+            
+            if (face) {
+                // Crop the image to include only the face region
+                const canvas = faceapi.createCanvasFromMedia(image);
+                const faceCanvas = faceapi.createCanvasFromMedia(image);
+                const displaySize = { width: image.width, height: image.height };
+                faceapi.matchDimensions(canvas, displaySize);
+                faceapi.matchDimensions(faceCanvas, displaySize);
+
+                // Draw the face on the faceCanvas
+                faceapi.draw.drawDetections(faceCanvas, face);
+
+                // Crop the image to the face region
+                const faceRegion = faceapi.resizeResults(face, displaySize);
+                const croppedImage = faceapi.extractFaces(image, [faceRegion]);
+
+                // Display the cropped image
+                document.getElementById(`image${counter}`).style.backgroundImage = `url(${URL.createObjectURL(croppedImage[0])})`;
+                document.getElementById(`image${counter}-profile`).style.backgroundImage = `url(${URL.createObjectURL(croppedImage[0])})`;
+            }
+        }
+    } catch (error) {
+        console.error("Error listing items:", error);
+    }
 }

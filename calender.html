@@ -3,35 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dot Slider</title>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script defer src="javascript/face-api.min.js"></script>
+  <script defer src="javascript/calender.js"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
     body {
-      margin: 32px;
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
       display: flex;
       justify-content: center;
+      align-items: center;
     }
-    .microsoft-login{
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        border: 1px solid grey;
-        padding: 20px;
-        font-family: 'Noto Sans', sans-serif;
-        color: black;
-        cursor: pointer;
-        font-weight: 500;
-        font-size: 16px;
-        background-color: white;
-        border-radius: 6px;
+
+    canvas {
+      position: absolute;
+    }
+
+    #faceImage {
+      display: none;
     }
   </style>
 </head>
-
-<button class="microsoft-login">
-    <object type="image/svg+xml" data="https://s3-eu-west-1.amazonaws.com/cdn-testing.web.bas.ac.uk/scratch/bas-style-kit/ms-pictogram/ms-pictogram.svg" class="x-icon"></object> 
-    Continue with Microsoft Account</button>
-<script>
-
-</script>
+<body>
+  <img src="images/me3.jpg" id="test" width="675" height="1200">
+  <img id="faceImage" alt="Detected Face">
+</body>
 </html>

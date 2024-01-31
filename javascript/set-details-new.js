@@ -40,6 +40,8 @@ var smokingStatus;
 var dateStatus;
 var religionStatus;
 var imageList = [];
+var imageListNumbering = [];
+var deleteIconClicked = false;
 var canImageUpload = false;
 var imageUploadCounter;
 
@@ -54,10 +56,6 @@ function verifyUserMetaData(uid){
       }
     });
 }
-
-
-
-
 
 onAuthStateChanged(auth, (user) => {
     if (user == null) {
@@ -77,7 +75,7 @@ onAuthStateChanged(auth, (user) => {
             console.log("Failed Code Error")
           }
         });
-        verifyUserMetaData(uid)
+        // verifyUserMetaData(uid)
     }
   });
 
@@ -195,11 +193,9 @@ const imageUploadHTML = `
         </div>
         <div class="image2 imageupload" id="image2">
             <span id="add-image-icon2" class="add-image-icon">add</span>
-
         </div>
         <div class="image3 imageupload" id="image3">
-            <span id="add-image-icon3" class="add-image-icon">add</span>
-
+        <span id="add-image-icon3" class="add-image-icon">add</span>
         </div>
         <div class="image4 imageupload" id="image4">
             <span id="add-image-icon4" class="add-image-icon">add</span>
@@ -210,8 +206,11 @@ const imageUploadHTML = `
     <input type="file" class="imageUploadListener" id="imageInput3" name="imageInput" accept="image/*">
     <input type="file" class="imageUploadListener" id="imageInput4" name="imageInput" accept="image/*">
 `;
-
-
+const deleteContainerHTML =`
+    <div class="delete-icon-container">
+        <span class="delete-icon">close</span>
+    </div>
+`;
 
 document.getElementById("next-button").addEventListener("click", function () {
     const userNameIcon = document.getElementById("user-name-icon");
@@ -642,47 +641,47 @@ document.getElementById("next-button").addEventListener("click", function () {
                     const image3Holder = document.getElementById("image3");
                     const image4Holder = document.getElementById("image4");
                     const fileInput = document.getElementById("imageInput");
-                    const fileInput2 = document.getElementById("imageInput2");
-                    const fileInput3 = document.getElementById("imageInput3");
-                    const fileInput4 = document.getElementById("imageInput4");
 
-
-                    const addImageIcon1 = document.getElementById("add-image-icon1");
-                    const addImageIcon2 = document.getElementById("add-image-icon2");
-                    const addImageIcon3 = document.getElementById("add-image-icon3");
-                    const addImageIcon4 = document.getElementById("add-image-icon4");
-                    
                     dropZone.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        imageUploadCounter = 1;
+                        imageUploadCounter = 0;
                         fileInput.click();
                     });
-                    image2Holder.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        imageUploadCounter = 2;
-                        fileInput.click();
+                    image1Holder.addEventListener('click', function (e) {
+                        setTimeout(() => {
+                            if (!deleteIconClicked) {
+                                imageUploadCounter = 1;
+                                fileInput.click();
+                            }
+                        }, 50); 
                     });
-                    image3Holder.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        imageUploadCounter = 3;
-                        fileInput.click();
+                    image2Holder.addEventListener('click', function (e) {
+                        setTimeout(() => {
+                            if (!deleteIconClicked) {
+                                imageUploadCounter = 2;
+                                fileInput.click();
+                            }
+                        }, 50); 
                     });
-                    image4Holder.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        imageUploadCounter = 4;
-                        fileInput.click();
+                    
+                    image3Holder.addEventListener('click', function (e) {
+                        setTimeout(() => {
+                            if (!deleteIconClicked) {
+                                imageUploadCounter = 3;
+                                fileInput.click();
+                            }
+                        }, 50); 
+                    });
+                    
+                    image4Holder.addEventListener('click', function (e) {
+                        setTimeout(() => {
+                            if (!deleteIconClicked) {
+                                imageUploadCounter = 4;
+                                fileInput.click();
+                            }
+                        }, 50); 
                     });
                     
                     fileInput.addEventListener('change', function() {
-                        handleDroppedFiles1(this.files);
-                    });
-                    fileInput2.addEventListener('change', function() {
-                        handleDroppedFiles1(this.files);
-                    });
-                    fileInput3.addEventListener('change', function() {
-                        handleDroppedFiles1(this.files);
-                    });
-                    fileInput4.addEventListener('change', function() {
                         handleDroppedFiles1(this.files);
                     });
                     
@@ -692,33 +691,82 @@ document.getElementById("next-button").addEventListener("click", function () {
                     
                             reader.onload = async function (e) {
                                 const selectedImage = e.target.result;
-                                
+
+                                const addImageIcon1 = document.getElementById("add-image-icon1");
+                                const addImageIcon2 = document.getElementById("add-image-icon2");
+                                const addImageIcon3 = document.getElementById("add-image-icon3");
+                                const addImageIcon4 = document.getElementById("add-image-icon4");
+
                                 const optimizedImage = await optimizeImage(selectedImage);
-                                if (imageUploadCounter == 1) {
+                                if (imageUploadCounter == 0) {
                                     dropZone.style.display = "none";
                                     addImageIcon1.style.display = "none";
                                     mainContainer.style.width = "520px";
                                     nextButtonContainer.style.display = "flex";
                                     imagesHolder.style.display = "flex";
                                     image1Holder.style.backgroundImage = `url('${optimizedImage}')`;
-                                    imageList.push(optimizedImage);
+                                    image1Holder.innerHTML += deleteContainerHTML
+                                    if (imageListNumbering.includes(1)) {
+                                        imageList[imageListNumbering.indexOf(1)] = optimizedImage
+                                        console.log(imageList)
+                                    } else {
+                                        imageListNumbering.push(1);
+                                        imageList.push(optimizedImage);
+                                    }
+                                    document.addEventListener('click', findDeleteElementClicked)
+                                }
+                                if (imageUploadCounter == 1) {
+                                    addImageIcon1.style.display = "none";
+                                    image1Holder.style.backgroundImage = `url('${optimizedImage}')`;
+
+                                    if (imageListNumbering.includes(1)) {
+                                        imageList[imageListNumbering.indexOf(1)] = optimizedImage
+                                        console.log(imageList)
+                                    } else {
+                                        imageListNumbering.push(1);
+                                        imageList.push(optimizedImage);
+                                    }
+                                    image1Holder.innerHTML += deleteContainerHTML
                                 }
                                 if (imageUploadCounter == 2) {
                                     addImageIcon2.style.display = "none";
                                     image2Holder.style.backgroundImage = `url('${optimizedImage}')`;
-                                    imageList.push(optimizedImage);
+
+                                    if (imageListNumbering.includes(2)) {
+                                        imageList[imageListNumbering.indexOf(2)] = optimizedImage
+                                        console.log(imageList)
+                                    } else {
+                                        imageListNumbering.push(2);
+                                        imageList.push(optimizedImage);
+                                    }
+                                    image2Holder.innerHTML += deleteContainerHTML
                                 }
                                 if (imageUploadCounter == 3) {
                                     addImageIcon3.style.display = "none";
                                     image3Holder.style.backgroundImage = `url('${optimizedImage}')`;
-                                    imageList.push(optimizedImage);
+
+                                    if (imageListNumbering.includes(3)) {
+                                        imageList[imageListNumbering.indexOf(3)] = optimizedImage
+                                        console.log(imageList)
+                                    } else {
+                                        imageListNumbering.push(3);
+                                        imageList.push(optimizedImage);
+                                    }
+                                    image3Holder.innerHTML += deleteContainerHTML
                                 }
                                 if (imageUploadCounter == 4) {
                                     addImageIcon4.style.display = "none";
                                     image4Holder.style.backgroundImage = `url('${optimizedImage}')`;
-                                    imageList.push(optimizedImage);
+                                    
+                                    if (imageListNumbering.includes(4)) {
+                                        imageList[imageListNumbering.indexOf(4)] = optimizedImage
+                                        console.log(imageList)
+                                    } else {
+                                        imageListNumbering.push(4);
+                                        imageList.push(optimizedImage);
+                                    }
+                                    image4Holder.innerHTML += deleteContainerHTML
                                 }
-                                uploadImages();
                             };
                     
                             reader.readAsDataURL(files[0]);
@@ -774,7 +822,6 @@ async function executeFunction(imageCount) {
         uploadImages(imageList[i],i+1)
     }
     
-    console.log(data)
     try {
         const execution = await functions.createExecution(
             '65b14d8eef7777411400',
@@ -845,17 +892,44 @@ async function uploadImages(image, number) {
         "image" : image,
         "number": number
     };
-    
     try {
         const execution = await functions.createExecution(
             '65b14d8eef7777411400',
             JSON.stringify(data)
         );
         
-        console.log(execution.responseBody)
+        console.log(execution)
 
     } catch (err) {
         console.log("An error occurred:");
         console.error(err);
+    }
+}
+
+function findDeleteElementClicked(e) {
+    const target = e.target;
+    if (target.classList.contains('delete-icon')) {
+        deleteIconClicked = true;
+        const parentHolder = target.closest('.imageupload');
+        if (parentHolder) {
+            const index = Array.from(parentHolder.parentElement.children).indexOf(parentHolder) + 1;
+            imageList.splice(index - 1, 1);
+            imageListNumbering.splice(index - 1, 1);
+
+            let imageId = "image" + index;
+            let iconID = "add-image-icon" + index;
+
+            let imageElement = document.getElementById(imageId);
+            const childElementToRemove = imageElement.querySelector('.delete-icon-container');
+
+            if (childElementToRemove) {
+                imageElement.removeChild(childElementToRemove);
+            }
+
+            document.getElementById(iconID).style.display = "block";
+            imageElement.style.backgroundImage = "";
+        }
+    } else {
+        deleteIconClicked = false;
     }
 }
