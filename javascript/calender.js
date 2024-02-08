@@ -1,12 +1,11 @@
 const img = document.getElementById('test');
-img.style.display = 'none';
 
 const faceImage = document.getElementById('faceImage');
 
 
 Promise.all([
     faceapi.nets.tinyFaceDetector.loadFromUri('javascript/models'),
-    faceapi.nets.faceLandmark68Net.loadFromUri('javascript/models'),
+    
 ]).then(() => {
     setInterval(async () => {
         const detections = await faceapi.detectAllFaces(img, new faceapi.TinyFaceDetectorOptions());
@@ -28,6 +27,7 @@ Promise.all([
             faceCanvas.height = enlargedFace.height;
             faceCanvasCtx.drawImage(img, enlargedFace.x, enlargedFace.y, enlargedFace.width, enlargedFace.height, 0, 0, enlargedFace.width, enlargedFace.height);
             faceImage.src = faceCanvas.toDataURL();
+            console.log(faceCanvas.toDataURL())
             faceImage.style.display = 'block';
         } else {
             faceImage.style.display = 'none';

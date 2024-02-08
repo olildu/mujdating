@@ -5,61 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Firebase Storage Example</title>
 </head>
-<body>
-
-<!-- Add your HTML content here -->
-<img id="myImage" alt="Downloaded Image">
+<body style="background-color: black;">
 
 <script type="module">
-    // Import Firebase Storage SDK
-    import { getStorage, ref, getDownloadURL, listAll } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js";
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-
-    const firebaseConfig = {
-        apiKey: "AIzaSyC-9Qn2vcSYGZbLngJXB2ZFAapVQsj0LW0",
-        authDomain: "mujdating.firebaseapp.com",
-        databaseURL: "https://mujdating-default-rtdb.asia-southeast1.firebasedatabase.app",
-        projectId: "mujdating",
-        storageBucket: "mujdating.appspot.com",
-        messagingSenderId: "889381416201",
-        appId: "1:889381416201:web:f78fef222a119ac01cb7d8",
-        measurementId: "G-DNPCWREVLW"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const storage = getStorage();
-    const fileRef = ref(storage, '/UserImages/QCIG6YCw9HcpLyf5jYHc1yewq6k1/image3');
-
-    // getDownloadURL(fileRef)
-    //   .then((downloadURL) => {
-
-    //       // Fetch the content of the URL
-    //       return fetch(downloadURL);
-    //   })
-    //   .then(response => response.text()) // Get the content as a blob
-    //   .then(blob => {
-    //       document.getElementById("myImage").style.backgroundImage = `url(${blob})`;
-    //   })
+  import confetti from "https://cdn.skypack.dev/canvas-confetti";
 
 
+function randomInRange(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
-const folderRef = ref(storage, 'UserImages/QCIG6YCw9HcpLyf5jYHc1yewq6k1');
+var data = {
+  angle: 66,
+  spread: randomInRange(50, 70),
+  particleCount: randomInRange(50, 100),
+  origin: { y: 1, x: 0.1 }
+}
 
-listAll(folderRef)
-  .then(async (res) => {
-    for (const itemRef of res.items) {
-      // Get the download URL for each file
-      console.log(itemRef)
-      const downloadURL = await getDownloadURL(itemRef);
-      
-      // Log or perform operations with the downloadURL
-      console.log("Download URL for", itemRef.fullPath, ":", downloadURL);
-    }
-  })
-  .catch((error) => {
-    // Handle errors
-    console.error("Error listing items:", error);
-  });
+console.log(data.angle)
+
+setTimeout(() => {
+  confetti(data);
+  
+}, 500);
 
 </script>
 

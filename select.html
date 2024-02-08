@@ -2,9 +2,7 @@
     <head>
         <link rel="stylesheet" href="css/main.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         <title>MUJ Dating | Dating, make friends & meet new people</title>
     </head>
@@ -46,15 +44,15 @@
                     <div class="image-main-container">
                       <div class="image-container-1" id="image-container">
                           <div class="image1-profile-container">
-                            <div class="image1-profile" id="image1-profile">
-                              <div class="delete-rectangle">
+                            <div class="image-profile" id="image1-profile">
+                              <div class="delete-rectangle" id="delete-1">
                                 <span class="close-icon">close</span>
                               </div>
                             </div>
                           </div>
                           <div class="image2-profile-container">
-                            <div class="image2-profile" id="image2-profile">
-                              <div class="delete-rectangle">
+                            <div class="image-profile" id="image2-profile">
+                              <div class="delete-rectangle" id="delete-2">
                                 <span class="close-icon">close</span>
                               </div>
                             </div>
@@ -62,24 +60,30 @@
                       </div>
                       <div class="image-container-2" id="image-container">
                         <div class="image3-profile-container">
-                          <div class="image3-profile" id="image3-profile">
-                            <div class="delete-rectangle">
+                          <div class="image-profile" id="image3-profile">
+                            <div class="delete-rectangle" id="delete-3">
                               <span class="close-icon">close</span>
                             </div>
                           </div>
                         </div>
                         <div class="image4-profile-container">
-                          <div class="image4-profile" id="image4-profile">
-                            <div class="delete-rectangle">
+                          <div class="image-profile" id="image4-profile">
+                            <div class="delete-rectangle" id="delete-4">
                               <span class="close-icon">close</span>
                             </div>
                           </div>
                         </div>
                       </div>
+                      <div class="delete-confirmation-box-container" id="delete-confirmation-box-container">
+                        <h3>Sure you want to delete your photo?</h3>
+                        <div class="delete-confirmation-button">
+                          Delete
+                        </div>
+                      </div>
                     </div>  
 
                     <div class="preview-container">
-                      <div class="preview">
+                      <div class="preview" id="preview">
                         <h2>Preview Profile</h2>
                         <span class="right-icon">chevron_right</span>
                       </div>
@@ -144,9 +148,45 @@
                       </div>
                     </div>
                   </div>
+                  <div class="user-preview-container" id="user-preview-container">
+                    <div class="e" id="e">
+                        <div class="candidate_image image1" id="image1-preview"></div>
+                        <div class="candidate-details">
+                            <div class="scroll-container-preview" id="scroll-container-preview" style="position: fixed;">
+                              <div class="scroll-border">
+                                <div class="scroll-preview" id="scroll-preview"></div>
+                              </div>
+                            </div>
+      
+                            <div class="candidate-details-container">
+      
+                                <h1 class="name-age candidate-text" id="name-age-preview"></h1>
+                                <h2 class="university candidate-text" id="stream-year-preview"></h1>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="e">
+                      <div class="candidate-details">
+                        <div class="candidate-bio-container">
+                            <h1 class="text3 candidate-text" id="about-me-name-preview"></h1>
+                            <h1 class="about candidate-text">bio.append("Something random")</h1>
+                        </div>
+                    </div>
+                    </div>
+                    <div class="e" id="third-row">
+                      <div class="candidate_image image2" id="image2-preview"></div>
+                      <div class="candidate_image image3" id="image3-preview">
+                      </div>
+                    </div>
+                    <div class="e">
+                      <div class="candidate_image image4" id="image4-preview"></div>
+                      <div class="candidate-question-container">
+                        <h1 class="text3 candidate-text" id="from-name-preview"></h1>
+                        <h1 class="about candidate-text">Kerala</h1>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
-
                 <div class="match-candidate-container" id="match-candidate-container">
                     <div class="e" id="e">
                         <div class="candidate_image image1" id="image1"></div>
@@ -159,20 +199,43 @@
 
                             <div class="candidate-details-container">
 
-                                <h1 class="name-age candidate-text">Ebi, 18</h1>
-                                <h2 class="university candidate-text">Manipal University Jaipur 2027</h1>
+                                <h1 class="name-age candidate-text" id="name-age"></h1>
+                                <h2 class="university candidate-text" id="stream-year"></h1>
                             </div>
                         </div>
                     </div>
                     <div class="e">
                       <div class="candidate-details">
                         <div class="candidate-bio-container">
-                            <h1 class="text3 candidate-text">💬 About Ebi</h1>
+                            <h1 class="text3 candidate-text" id="about-me-name"></h1>
                             <h1 class="about candidate-text">bio.append("Something random")</h1>
                         </div>
                     </div>
                     </div>
-                    <div class="e">
+                    <div class="like-reaction" id="like-reaction">
+                      <div class="icon-container" id="icon-container1">
+                        <span class="like-icon">favorite</span>
+                      </div>
+                    </div>
+                    <div class="dislike-reaction" id="dislike-reaction">
+                      <div class="icon-container2" id="icon-container2">
+                        <span class="like-icon">close</span>
+                      </div>
+                    </div>
+                    <div class="matched-animation-container" id="matched-animation-container">
+                      <!-- <div class="icon-container2" id="icon-container2">
+                        <span class="like-icon">close</span>
+                      </div> -->
+                      <h2>IT'S A MATCH!</h2>
+                      <div class="match-users-image-container">
+                        <div class="subject1 subjects"></div>
+                        <div class="subject2 subjects"></div>
+                      </div>
+                      <div class="keep-swiping-button">
+                        Keep Swiping
+                      </div>
+                    </div>
+                    <div class="e" id="third-row">
                       <div class="candidate_image image2" id="image2"></div>
                       <div class="candidate_image image3" id="image3">
                       </div>
@@ -180,16 +243,25 @@
                     <div class="e">
                       <div class="candidate_image image4" id="image4"></div>
                       <div class="candidate-question-container">
-                        <h1 class="text3 candidate-text">📍 Ebi's from   </h1>
+                        <h1 class="text3 candidate-text" id="from-name"></h1>
                         <h1 class="about candidate-text">Kerala</h1>
                       </div>
                     </div>
+                    <div class="action-buttons">
+                      <div class="dislike" id="dislike">
+                        <span class="dislike-icon">close</span>
+                      </div>
+                      <div class="like" id="like">
+                        <span class="like-icon">favorite</span>
+                      </div>
+                    </div>
                 </div>
-
             </div>
+            <div class="outer-blur" id="outer-blur"></div>
+            <div class="view-image-container" id="view-image-container"></div>
+
         </div>
     </body>
-<script src="https://cdn.jsdelivr.net/npm/face-api.js" type="module"></script>
 <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
 <script src="javascript/main.js" type="module"></script>
 </html>

@@ -44,6 +44,9 @@ var imageListNumbering = [];
 var deleteIconClicked = false;
 var canImageUpload = false;
 var imageUploadCounter;
+var profilePictureFinal;
+
+const profileImg = document.getElementById('test');
 
 function verifyUserMetaData(uid){
     const usersRef = ref(database, '/UsersMetaData/' + uid);
@@ -75,7 +78,7 @@ onAuthStateChanged(auth, (user) => {
             console.log("Failed Code Error")
           }
         });
-        // verifyUserMetaData(uid)
+        verifyUserMetaData(uid)
     }
   });
 
@@ -231,7 +234,6 @@ document.getElementById("next-button").addEventListener("click", function () {
     const mainContainer = document.getElementById("name-container");
     const progressBar = document.getElementById("progress-3");
     const warningName = document.getElementById("warning-text-name");
-    
 
     userName = textArea.value
     
@@ -264,8 +266,9 @@ document.getElementById("next-button").addEventListener("click", function () {
             return false
         }
         else{
+            var yearString = year.innerText.replace(/\D/g, '')
             selectedStream = stream.innerText
-            selectedYear = year.innerText
+            selectedYear = parseInt(yearString, '', 10);
         }
     }
     if (canImageUpload == true){
@@ -335,7 +338,7 @@ document.getElementById("next-button").addEventListener("click", function () {
                     document.getElementById('year').textContent = year;
 
                     const currentDate = new Date();
-                    age = currentDate.getFullYear() - selectedDate.getFullYear();
+                    age = currentDate.getFullYear() - selectedDate.getFullYear() - 1;
         
                 }
                 
@@ -356,6 +359,7 @@ document.getElementById("next-button").addEventListener("click", function () {
     }
 
     if (counter == 2){
+        console.log(age)
         cakeIcon.style.transform = "translateX(-180px)";
         genderIcon.style.transform = "translateX(0px)";
         moveableItems.style.transform = "translateX(70px)";
@@ -781,6 +785,7 @@ document.getElementById("next-button").addEventListener("click", function () {
             if (mainText.textContent == "Upload your photos"){
                 if (canImageUpload == false){
                     canImageUpload = true;
+                    
                 }
             }
         }
@@ -818,23 +823,57 @@ async function executeFunction(imageCount) {
         "imageCount": imageCount
     };
 
-    for (let i = 0; i < imageList.length; i++) {
-        uploadImages(imageList[i],i+1)
-    }
-    
-    try {
-        const execution = await functions.createExecution(
-            '65b14d8eef7777411400',
-            JSON.stringify(data)
-        );
-        
-        console.log(execution.responseBody)
+    console.log(data)
 
-    } catch (err) {
-        console.log("An error occurred:");
-        console.error(err);
+    for (let i = 0; i < imageList.length; i++) {
+        uploadImages(imageList[i], i + 1)
     }
+
+    const execution = await functions.createExecution(
+        '65b14d8eef7777411400',
+        JSON.stringify(data)
+    );
+
+    console.log(execution)
+
+    var profilePicture = imageList[0]
+    profileImg.src = profilePicture
+
+    let faceDetectionDone = false; 
+
+    Promise.all([
+        faceapi.nets.tinyFaceDetector.loadFromUri('javascript/models'),
+    ]).then(() => {
+        setInterval(async () => {
+            if (!faceDetectionDone) {
+                const detections = await faceapi.detectAllFaces(profileImg, new faceapi.TinyFaceDetectorOptions());
+
+                if (detections.length > 0) {
+                    const face = detections[0].box;
+
+                    const enlargementFactor = 0.6;
+                    const enlargedFace = {
+                        x: Math.max(face.x - face.width * enlargementFactor, 0),
+                        y: Math.max(face.y - face.height * enlargementFactor, 0),
+                        width: face.width * (1 + 2 * enlargementFactor),
+                        height: face.height * (1 + 2 * enlargementFactor),
+                    };
+
+                    const faceCanvas = document.createElement('canvas');
+                    const faceCanvasCtx = faceCanvas.getContext('2d');
+                    faceCanvas.width = enlargedFace.width;
+                    faceCanvas.height = enlargedFace.height;
+                    faceCanvasCtx.drawImage(profileImg, enlargedFace.x, enlargedFace.y, enlargedFace.width, enlargedFace.height, 0, 0, enlargedFace.width, enlargedFace.height);
+                    profilePictureFinal = await optimizeImage(faceCanvas.toDataURL())
+                    await uploadProfilePicture(profilePictureFinal)
+                    faceDetectionDone = true;
+                }
+            }
+        }, 100);
+    });
+
 }
+
 
 flatpickr('#dobInput', {
     dateFormat: 'dd/mm/YYYY', 
@@ -891,6 +930,27 @@ async function uploadImages(image, number) {
         'type': 'UploadImages',
         "image" : image,
         "number": number
+    };
+    try {
+        const execution = await functions.createExecution(
+            '65b14d8eef7777411400',
+            JSON.stringify(data)
+        );
+        
+        console.log(execution)
+
+    } catch (err) {
+        console.log("An error occurred:");
+        console.error(err);
+    }
+}
+
+async function uploadProfilePicture(image) {
+    const data = {
+        'uid': uid,
+        'key': cookieValue,
+        'type': 'uploadProfilePicture',
+        "image" : image,
     };
     try {
         const execution = await functions.createExecution(
