@@ -9,19 +9,19 @@
 
 
   async function executeFunction() {
-    const data = {
-    "key": "ZZqmcqU1VjUvlcib",
-    "uid": "QCIG6YCw9HcpLyf5jYHc1yewq6k1",
-    "type": "LikedUser",
-    "matchUID": "9HQaUcYp3GLczs2gglC7zm4b6Xs2"
-}
+    var data = {
+      "uid": "QCIG6YCw9HcpLyf5jYHc1yewq6k1",
+      "type": "GetUserChats",
+      "key": "ZZqmcqU1VjUvlcib",
+      "chatDirectory": "9HQaUcYp3GLczs2gglC7zm4b6Xs2QCIG6YCw9HcpLyf5jYHc1yewq6k1"
+    }
 
-      const execution = await functions.createExecution(
-          '65b00908e06de2a69aa9', // Replace this with your function ID
-          JSON.stringify(data)
-      );
+    const execution = await functions.createExecution(
+        '65ca1944268018f357b2', // Replace this with your function ID
+        JSON.stringify(data)
+    );
 
-      console.log(execution)
+    console.log(execution)
 
 }
 

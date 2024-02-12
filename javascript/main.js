@@ -31,26 +31,30 @@ var uid;
 var currentUserCookie;
 var currentUserAge;
 var Is_Exapannumber = false;
-var userImageCounter = 1;
 var matchCounter = 0;
 var matchUserImageCounter = 1;
 var dataFetched = false;
 var data;
 var matchUID;
+var matchUIDImage1;
+var allMatchUsersDetails
+var userGender;
+var currentUserData;
+var uniquePath;
 
-onAuthStateChanged(auth, (user) => {
+onAuthStateChanged(auth, async (user) => {
     if (user == null) {
         // window.location = '/index.html';
-    }
-    else{
-        uid = auth.currentUser.uid
+    } else {
+        uid = auth.currentUser.uid;
 
-        getCurrentUserDetails(uid);
-        ManageUserData() 
+        await getCurrentUserDetails(uid);
+        ManageUserData();
     }
 });
 
 var container = document.getElementById('match-candidate-container');
+var chatParentElement = document.getElementById("user-messages")
 
 var scrollHeight = container.scrollHeight;
 var ScrollHeightScroller = scrollHeight/560;
@@ -63,13 +67,18 @@ const clickableDiv = document.getElementById('profile')
 
 var about_me_container_clicked = false;
 
-clickableDiv.addEventListener('click', function() {
+clickableDiv.addEventListener('click', function() { 
     if (Is_Exapannumber == false){
         document.getElementById('name1').style.opacity = 0;
         document.getElementById('empty-matches').style.opacity = 0;
+        document.getElementById('matches').style.opacity = 0;
         document.getElementById('match-candidate-container').style.opacity = 0;
+        document.getElementById('user-message-container').style.opacity = 0;
+        
         setTimeout(() => {
             document.getElementById('settings').style.display = "flex";
+            document.getElementById('matches').style.display = "none";
+            document.getElementById('user-message-container').style.display = "none";
             document.getElementById('match-candidate-container').style.display = "none";
             document.getElementById('header').style.display = "flex";
             document.getElementById('half').style.justifyContent = "flex-start";
@@ -111,18 +120,17 @@ clickableDiv.addEventListener('click', function() {
             document.getElementById('half').style.justifyContent = "center";
             document.getElementById('match-candidate-container').style.display = "flex";
 
-
             setTimeout(() => {
+                document.getElementById('matches').style.display = "block";
                 document.getElementById("main-details-container").style.display = "none"
                 document.getElementById('settings').style.display = "none";
                 document.getElementById('match-candidate-container').style.opacity = "1";
                 document.getElementById('empty-matches').style.opacity = 1;
-                
             }, 400);
 
             setTimeout(() => {
                 document.getElementById('back-icon').style.display = "none";
-
+                document.getElementById('matches').style.opacity = 1;
                 document.getElementById('name1').style.opacity = 1;
                 document.getElementById('profile-picture-div').style.left = "0";
             }, 300);
@@ -193,7 +201,9 @@ document.getElementById('like').addEventListener('click', function(event) {
         }, 100);
 
         document.getElementById("icon-container1").style.transform = "translateY(40px)"  
-        userActionUpdate("LikedUser");
+        const matchName = allMatchUsersDetails.find(user => user.uid === matchUID).name;
+
+        userActionUpdate("LikedUser", matchName);
         ManageUserData()
     }, 500);
 })
@@ -230,13 +240,13 @@ async function getCurrentUserImages(uid, imageCount) {
                 fetch(downloadURL)
                     .then(response => response.text())
                     .then(blob => {
-                        console.log(fileName)
                         if (fileName == "profilepicture") {
                             document.getElementById("profile-picture").style.backgroundImage = `url(${blob})`;
                         }
                         if (fileName.includes("image1")) {
                             document.getElementById(`image1-profile`).style.backgroundImage = `url(${blob})`;
                             document.getElementById(`image1-preview`).style.backgroundImage = `url(${blob})`;
+                            document.getElementById("subject1-image").style.backgroundImage = `url(${blob})`;
                         }
                         if (fileName.includes("image2")) {
                             document.getElementById(`image2-profile`).style.backgroundImage = `url(${blob})`;
@@ -263,28 +273,30 @@ async function getCurrentUserImages(uid, imageCount) {
 async function getCurrentUserDetails(uid){
     onValue(ref(database, 'UsersCookies/' + uid), (snapshot) => {
         currentUserCookie = snapshot.val().userCookie
+        getUserMatchedList();
     })
 
     onValue(ref(database, 'UsersMetaData/' + uid), (snapshot) => {
-    const data = snapshot.val();
+    currentUserData = snapshot.val();
     
-    currentUserAge = data.age
-    var yearWithSuffix = addSuffix(data.year);
+    currentUserAge = currentUserData.age
+    userGender = currentUserData.gender
+    var yearWithSuffix = addSuffix(currentUserData.year);
 
-    document.getElementById('name1').innerText = data.name
-    document.getElementById('height-value').innerText = data.height
-    document.getElementById('drinking-status').innerText = data.drinkingStatus
-    document.getElementById('smoking-status').innerText = data.smokingStatus
-    document.getElementById('dating-status').innerText = data.lookingFor
-    document.getElementById('religion-status').innerText = data.religionStatus
+    document.getElementById('name1').innerText = currentUserData.name
+    document.getElementById('height-value').innerText = currentUserData.height
+    document.getElementById('drinking-status').innerText = currentUserData.drinkingStatus
+    document.getElementById('smoking-status').innerText = currentUserData.smokingStatus
+    document.getElementById('dating-status').innerText = currentUserData.lookingFor
+    document.getElementById('religion-status').innerText = currentUserData.religionStatus
 
-    document.getElementById("about-me-name-preview").innerText = "💬 About "+ data.name 
-    document.getElementById("from-name-preview").innerText = "📍 " + data.name  + "'s from" 
-    document.getElementById("name-age-preview").innerText = data.name + ", " + data.age
+    document.getElementById("about-me-name-preview").innerText = "💬 About "+ currentUserData.name 
+    document.getElementById("from-name-preview").innerText = "📍 " + currentUserData.name  + "'s from" 
+    document.getElementById("name-age-preview").innerText = currentUserData.name + ", " + currentUserData.age
 
-    document.getElementById("stream-year-preview").innerText = data.stream + ", " + yearWithSuffix + " year"
+    document.getElementById("stream-year-preview").innerText = currentUserData.stream + ", " + yearWithSuffix + " year"
 
-    getCurrentUserImages(uid, data.imageCount)
+    getCurrentUserImages(uid, currentUserData.imageCount)
 
     var elements = document.getElementsByClassName("basics-children-text-details");
 
@@ -334,35 +346,56 @@ async function GetMatchUsersData() {
             JSON.stringify(data)
         );
 
-        const parsedData = JSON.parse(JSON.parse(execution.responseBody));
-
+        allMatchUsersDetails = JSON.parse(JSON.parse(execution.responseBody));
         dataFetched = true
-        return parsedData
+        return allMatchUsersDetails
     } catch (err) {
         console.log("An error occurred:");
         console.error(err.message);
     }
 }
 
-async function userActionUpdate(status) {
-    const data = {
-        uid: uid,
-        type: status,
-        matchUID: matchUID,
-        key: currentUserCookie
-    };
+async function userActionUpdate(status, name) {
+    if (status == "LikedUser"){
+        const data = {
+            uid: uid,
+            type: status,
+            matchUID: matchUID,
+            key: currentUserCookie,
+            matchName: name,
+            userName: currentUserData.name
+        };
+        const execution = await functions.createExecution(
+            '65b00908e06de2a69aa9', // Replace this with your function ID
+            JSON.stringify(data)
+        );
 
-    const execution = await functions.createExecution(
-        '65b00908e06de2a69aa9', // Replace this with your function ID
-        JSON.stringify(data)
-    );
+        const parsedData = execution
 
-    const parsedData = execution
-
-    if (parsedData.responseBody == "\"Match Found\""){
-        matchBannershow()
+        if (parsedData.responseBody == "\"Match Found\""){
+            matchBannershow(matchUIDImage1)
+        }
     }
-    // console.log(parsedData)
+    else{
+        const data = {
+            uid: uid,
+            type: status,
+            matchUID: matchUID,
+            key: currentUserCookie
+        };
+        const execution = await functions.createExecution(
+            '65b00908e06de2a69aa9', // Replace this with your function ID
+            JSON.stringify(data)
+        );
+
+        const parsedData = execution
+
+        if (parsedData.responseBody == "\"Match Found\""){
+            matchBannershow(matchUIDImage1)
+        }
+    }
+
+
 }
 
 async function getUserImages(uid, imageCount){
@@ -389,6 +422,7 @@ async function getUserImages(uid, imageCount){
                     .then(blob => {
                         if (fileName.includes("image1")) {
                             document.getElementById(`image1`).style.backgroundImage = `url(${blob})`;
+                            matchUIDImage1 = `url(${blob})`;
                         }
                         if (fileName.includes("image2")) {
                             document.getElementById(`image2`).style.backgroundImage = `url(${blob})`;
@@ -407,6 +441,73 @@ async function getUserImages(uid, imageCount){
         await Promise.all(promises);
     } catch (error) {
         console.error("Error listing items:", error);
+    }
+}
+
+async function getUserMatchedList() {
+    const data = {
+        uid: uid,
+        type: "GetMatchedUID",
+        key: currentUserCookie
+    };
+
+    const execution = await functions.createExecution(
+        '65b00908e06de2a69aa9',
+        JSON.stringify(data)
+    );
+
+    const parsedData = JSON.parse(JSON.parse(execution.responseBody));
+    var userUIDKeys = [];
+
+    for (const key in parsedData) {
+        if (parsedData.hasOwnProperty(key)) {
+            const user = parsedData[key]; 
+
+            
+            const folderRef = sRef(storage, `/UserImages/${key}/`);
+            let promises = [];
+            const res = await listAll(folderRef);
+
+            if (res) {
+                res.items.forEach(async (itemRef) => {
+                    const fileName = itemRef.name;
+                    const downloadURL = await getDownloadURL(itemRef);
+
+                    promises.push(
+                        fetch(downloadURL)
+                            .then(response => response.text())
+                            .then(blob => {
+                                if (fileName.includes("image1")) {
+                                    const matchesContainer = document.getElementById("available-matches");
+                                    const newMatchElement = document.createElement("div");
+                                    newMatchElement.className = "current-matches-children";
+                                    newMatchElement.style.backgroundImage = `url(${blob})`;
+                                    userUIDKeys.push(key);
+                                    matchesContainer.appendChild(newMatchElement);
+
+                                    newMatchElement.addEventListener("click", function() {
+                                        const index = Array.from(this.parentNode.children).indexOf(this);
+                                        chatParentElement.innerHTML = ""
+                                        getUserChats(key)
+                                        document.getElementById('match-candidate-container').style.opacity = 0;
+                                        document.getElementById('user-name-chat').innerText = parsedData[key].name;
+                                        document.getElementById('user-image-chat').style.backgroundImage = this.style.backgroundImage
+                                        setTimeout(() => {
+                                            document.getElementById('match-candidate-container').style.display = "none";
+                                            document.getElementById('user-message-container').style.display = "flex";
+                                            setTimeout(() => {
+                                                document.getElementById('user-message-container').style.opacity = "1";
+                                            }, 100);
+                                            
+                                        }, 500);
+                                    });
+                                }
+                            })
+                    );
+                });
+                await Promise.all(promises);
+            }
+        }
     }
 }
 
@@ -472,9 +573,7 @@ document.getElementById("preview").addEventListener("click", function(){
     document.getElementById("user-preview-container").style.display = "flex"
 })
 
-
-function matchBannershow(){
-    console.log("balls")
+function matchBannershow(matchUIDImage){
     function matchAnimation(){
         function randomInRange(min, max) {
             return Math.random() * (max - min) + min;
@@ -502,5 +601,72 @@ function matchBannershow(){
         }, 500)
     }
     document.getElementById("matched-animation-container").style.display = "flex";
+    document.getElementById("subject2-image").style.backgroundImage = 7
     matchAnimation()
+}
+
+document.getElementById("keep-swiping-button").addEventListener("click", function(){
+    document.getElementById("matched-animation-container").style.display = "none";
+})
+
+async function getUserChats(chatMatchUID) {
+    return new Promise((resolve, reject) => {
+        onValue(ref(database, 'UserMatchingDetails/' + uid + '/MatchUID/' + chatMatchUID), async (snapshot) => {
+            uniquePath = snapshot.val().uniqueID;
+            console.log(uniquePath);
+
+            onValue(ref(database, 'UserChats/' + uniquePath), async (snapshot) => {
+                const chatData = snapshot.val();
+                chatParentElement.innerHTML = '';
+                ManageChats(chatData, chatMatchUID);
+            });
+
+            resolve();
+        });
+    });
+}
+
+function ManageChats(chatData, chatMatchUID) {
+    const UserMessages = chatData["Messages"];
+    const MessageCounter = chatData["ChatDetails"].messageCounter;
+
+    console.log(UserMessages)
+
+    for (let i = 1; i < MessageCounter + 1; i++) {
+        var userChatContent = UserMessages[i].content;
+        var chatWalaUser = UserMessages[i].uid;
+        var chatTimeStamp = UserMessages[i].timeStamp;
+
+        if (chatWalaUser !== uid) {
+            chatParentElement.innerHTML += `<div class="message-container"><div class="they message">${userChatContent}</div></div>`;
+        } else {
+            chatParentElement.innerHTML += `<div class="message-container"><div class="me message">${userChatContent}</div></div>`;
+        }
+    }
+}
+
+document.getElementById('send-message-box').addEventListener('keydown', function (event) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault(); 
+
+        const messageContent = event.target.value;
+        writeUserChat(messageContent)
+        event.target.value = ""
+    }
+});
+
+
+async function writeUserChat(content){
+    const data = {
+        uid: uid,
+        type: "WriteChats",
+        key: currentUserCookie,
+        uniquePath: uniquePath,
+        content: content,
+    };
+
+    const execution = await functions.createExecution(
+        '65ca1944268018f357b2',
+        JSON.stringify(data)
+    );
 }

@@ -16,7 +16,28 @@
                 </div>
                 <h1 class="name1" id="name1"></h1>
               </div>
-              <div class="matches">
+              <div class="matches-settings">
+                <div class="matches" id="matches">
+                  <div class="current-matches">
+                    <h3>Match Que</h3>
+                    <div class="available-matches" id="available-matches">
+                    </div>
+                  </div>
+                  <div class="match-children">
+                    <div class="match-image"></div>
+                    <div class="match-details">
+                      <div class="match-name">Ebin Santhosh</div>
+                      <div class="match-previous-message">Last Message</div>
+                    </div>
+                  </div>
+                  <div class="match-children">
+                    <div class="match-image"></div>
+                    <div class="match-details">
+                      <div class="match-name">Ebin Santhosh</div>
+                      <div class="match-previous-message">Last Message</div>
+                    </div>
+                  </div>
+                </div>  
                 <div class="settings" id="settings">
                   <div class="edit-profile settings-children"><h2>Edit Profile</h1></div>
                   <div class="more-settings settings-children"><h2>Settings</h1></div>
@@ -33,14 +54,15 @@
                     <h1 class="text">Start discovering people to get matches.</h1>
                   </div>
                 </div>
-
     
               </div>
             </div>
             <div class="half" id="half">
-                <div class="header" id="header"><h2>Date Profile</h2></div>
                 <div class="main-details-container" id="main-details-container">
+                <div class="view-image-container" id="view-image-container"></div>
                   <div class="details-container">
+                    <div class="header" id="header"><h2>Date Profile</h2></div>
+
                     <div class="image-main-container">
                       <div class="image-container-1" id="image-container">
                           <div class="image1-profile-container">
@@ -228,10 +250,10 @@
                       </div> -->
                       <h2>IT'S A MATCH!</h2>
                       <div class="match-users-image-container">
-                        <div class="subject1 subjects"></div>
-                        <div class="subject2 subjects"></div>
+                        <div class="subject1 subjects" id="subject1-image"></div>
+                        <div class="subject2 subjects" id="subject2-image"></div>
                       </div>
-                      <div class="keep-swiping-button">
+                      <div class="keep-swiping-button" id="keep-swiping-button">
                         Keep Swiping
                       </div>
                     </div>
@@ -256,9 +278,30 @@
                       </div>
                     </div>
                 </div>
+                <div class="user-message-container" id="user-message-container">
+                  <div class="header-message" id="header-message">
+                    <div class="user-image-chat" id="user-image-chat"></div>
+                    <h2 id="user-name-chat">Date Profile</h2>
+                  </div>
+                  <div class="user-message">
+                    <div class="user-messages" id="user-messages">
+                      <!-- <div class="message-container">
+                        <div class="they message">Test Message</div>
+                      </div>
+                      <div class="message-container">
+                        <h2 class="me message">Message</hy2>
+                      </div> -->
+                    </div>
+                    <div class="send-message-box-container">
+                      <textarea class="send-message-box" id="send-message-box" placeholder="Start chatting..."></textarea>
+                      <div class="send-icon-container">
+                        <span class="send-icon">send</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
             </div>
             <div class="outer-blur" id="outer-blur"></div>
-            <div class="view-image-container" id="view-image-container"></div>
 
         </div>
     </body>
