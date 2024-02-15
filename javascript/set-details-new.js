@@ -78,7 +78,7 @@ onAuthStateChanged(auth, (user) => {
             console.log("Failed Code Error")
           }
         });
-        verifyUserMetaData(uid)
+        // verifyUserMetaData(uid)
     }
   });
 
@@ -359,7 +359,6 @@ document.getElementById("next-button").addEventListener("click", function () {
     }
 
     if (counter == 2){
-        console.log(age)
         cakeIcon.style.transform = "translateX(-180px)";
         genderIcon.style.transform = "translateX(0px)";
         moveableItems.style.transform = "translateX(70px)";

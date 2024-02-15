@@ -4,6 +4,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,1,0" />
         <title>MUJ Dating | Dating, make friends & meet new people</title>
     </head>
     <body>
@@ -23,20 +24,9 @@
                     <div class="available-matches" id="available-matches">
                     </div>
                   </div>
-                  <div class="match-children">
-                    <div class="match-image"></div>
-                    <div class="match-details">
-                      <div class="match-name">Ebin Santhosh</div>
-                      <div class="match-previous-message">Last Message</div>
-                    </div>
+                  <div class="match-messages-counter" id="match-messages-counter">
                   </div>
-                  <div class="match-children">
-                    <div class="match-image"></div>
-                    <div class="match-details">
-                      <div class="match-name">Ebin Santhosh</div>
-                      <div class="match-previous-message">Last Message</div>
-                    </div>
-                  </div>
+
                 </div>  
                 <div class="settings" id="settings">
                   <div class="edit-profile settings-children"><h2>Edit Profile</h1></div>
@@ -59,9 +49,39 @@
             </div>
             <div class="half" id="half">
                 <div class="main-details-container" id="main-details-container">
-                <div class="view-image-container" id="view-image-container"></div>
-                  <div class="details-container">
+                  <div class="details-container" id="details-container">
                     <div class="header" id="header"><h2>Date Profile</h2></div>
+                    <div class="edit-user-tags" id="edit-user-tags">
+                      <div class="progress-bar-container" id="progress-bar-container">
+                          <div class="main-progress" id="progress-3"></div>
+                      </div>
+                      <div class="main-subject-container">
+                          <div class="icon-container-tag">
+                              <span class="height-icon" id="height-icon">straighten</span>
+                              <span class="height-icon" id="wine-icon">wine_bar</span>
+                              <span class="height-icon" id="smoking-icon">smoking_rooms</span>
+                              <span class="height-icon" id="searching-icon">search</span>
+                              <span class="height-icon" id="religion-icon">folded_hands</span>
+                          </div>
+                          <h2 id="main-text">Enter your height</h2>
+                      </div>
+                      <div class="moveable-items" id="moveable-items">
+                          <div class="data-entry-container" id="data-entry-container">
+                            <div class="slidecontainer">
+                              <input type="range" min="96" max="217" value="155" class="slider" id="myRange" oninput="updateSliderValue(this.value)">
+                              <div class="height-container">
+                                  <h4 id="height-value">157 cm</h4>
+                              </div>
+                          </div>
+                          </div>
+                          <div class="next-button-container" id="next-button-container">
+                            <div class="next-button" id="next-button">
+                                Next
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+
 
                     <div class="image-main-container">
                       <div class="image-container-1" id="image-container">
@@ -119,7 +139,10 @@
                         <div class="about-me-2">
                           <textarea class="about-me-text" id="about-me-text"></textarea>
                         </div>
-
+                        <div class="action-buttons-about-me" id="action-buttons-about-me">
+                          <h2 id="cancel-button" class="cancel-button">Cancel</h2>
+                          <div class="save-button" id="save-button">Save</div>
+                        </div>
                       </div>
                     </div>
                     <div class="basics-container" id="basics-container">
@@ -134,7 +157,7 @@
                               <span class="straight-icon">straighten</span>
                               <h2 class="basics-children-text">Height</h2>
                             </div>
-                            <h2 class="basics-children-text-details" id="height-value">Sample_Text</h2>
+                            <h2 class="basics-children-text-details" id="height-value-user">Sample_Text</h2>
 
                           </div>
                           <div class="drinking-container basics-children">
@@ -211,7 +234,11 @@
                 </div>
                 <div class="match-candidate-container" id="match-candidate-container">
                     <div class="e" id="e">
-                        <div class="candidate_image image1" id="image1"></div>
+                        <div class="candidate_image image1" id="image1">
+                          <div class="expand-image-container">
+                            <span class="expand-image">expand_all</span>
+                          </div>
+                        </div>
                         <div class="candidate-details">
                             <div class="scroll-container">
                               <div class="scroll-border">
@@ -230,7 +257,8 @@
                       <div class="candidate-details">
                         <div class="candidate-bio-container">
                             <h1 class="text3 candidate-text" id="about-me-name"></h1>
-                            <h1 class="about candidate-text">bio.append("Something random")</h1>
+                            <h1 class="about candidate-text" id="about-me-candidate-text">bio.append("Something random")</h1>
+                            <div class="user-details-icon-container" id="user-details-icon-container"></div>
                         </div>
                     </div>
                     </div>
@@ -258,12 +286,23 @@
                       </div>
                     </div>
                     <div class="e" id="third-row">
-                      <div class="candidate_image image2" id="image2"></div>
+                      <div class="candidate_image image2" id="image2">
+                        <div class="expand-image-container">
+                          <span class="expand-image">expand_all</span>
+                        </div>
+                      </div>
                       <div class="candidate_image image3" id="image3">
+                        <div class="expand-image-container">
+                          <span class="expand-image">expand_all</span>
+                        </div>
                       </div>
                     </div>
                     <div class="e">
-                      <div class="candidate_image image4" id="image4"></div>
+                      <div class="candidate_image image4" id="image4">
+                        <div class="expand-image-container">
+                          <span class="expand-image">expand_all</span>
+                        </div>
+                      </div>
                       <div class="candidate-question-container">
                         <h1 class="text3 candidate-text" id="from-name"></h1>
                         <h1 class="about candidate-text">Kerala</h1>
@@ -280,17 +319,16 @@
                 </div>
                 <div class="user-message-container" id="user-message-container">
                   <div class="header-message" id="header-message">
-                    <div class="user-image-chat" id="user-image-chat"></div>
-                    <h2 id="user-name-chat">Date Profile</h2>
+                    <div class="user-details">
+                      <div class="user-image-chat" id="user-image-chat"></div>
+                      <h2 id="user-name-chat">Date Profile</h2>
+                    </div>
+                    <div class="close-icon-header" id="close-icon-header">
+                      <span class="material-symbols-rounded">close</span>
+                    </div>
                   </div>
                   <div class="user-message">
                     <div class="user-messages" id="user-messages">
-                      <!-- <div class="message-container">
-                        <div class="they message">Test Message</div>
-                      </div>
-                      <div class="message-container">
-                        <h2 class="me message">Message</hy2>
-                      </div> -->
                     </div>
                     <div class="send-message-box-container">
                       <textarea class="send-message-box" id="send-message-box" placeholder="Start chatting..."></textarea>
@@ -302,9 +340,20 @@
                 </div>
             </div>
             <div class="outer-blur" id="outer-blur"></div>
+            <div class="view-image-container" id="view-image-container"></div>
 
         </div>
     </body>
 <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
 <script src="javascript/main.js" type="module"></script>
+<script>
+  function updateSliderValue(value) {
+    const heightValueElement = document.getElementById('height-value');
+    heightValueElement.textContent = `${value} cm`;
+    const slider = document.getElementById('myRange');
+    const percent = (value - slider.min) / (slider.max - slider.min) * 100;
+    const color = `linear-gradient(to right, #F8C537 0%, #F8C537 ${percent}%, #d3d3d3 ${percent}%, #d3d3d3 100%)`;
+    slider.style.background = color;
+  }
+</script>
 </html>
