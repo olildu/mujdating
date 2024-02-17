@@ -213,6 +213,7 @@ document.getElementById('about-me-container').addEventListener('click', function
     if (event.target.className === 'about-me-text') {
         event.stopPropagation()
         document.getElementById('about-me-container').style.height = "225px"
+        document.getElementById('about-me-text').style.borderColor = "#FFC629"
         document.getElementById("action-buttons-about-me").style.display = "flex"
     }
     else{
@@ -227,6 +228,7 @@ document.getElementById('about-me-container').addEventListener('click', function
             document.getElementById('about-me-container').style.height = "72px"
             document.getElementById('about-me-container').style.backgroundColor = "white"
             document.getElementById("about-me-text").style.display = 'none'
+            document.getElementById('about-me-text').style.borderColor = "#CACACA"
             document.getElementById("action-buttons-about-me").style.display = "none"
         }
     }
@@ -243,6 +245,8 @@ export function myFunction() {
 document.getElementById('from-container').addEventListener('click', function(event) {
     if (event.target.className == 'from-text') {
         document.getElementById("from-text").value = ""
+        document.getElementById("from-text").style.borderColor = "#FFC629"
+         
         document.getElementById("from-text").addEventListener("input", function () {
             document.getElementById('display-state-city-container').style.display = 'flex';
         });
@@ -257,6 +261,7 @@ document.getElementById('from-container').addEventListener('click', function(eve
         }
         else{
             from_container_clicked = false;
+            document.getElementById("from-text").style.borderColor = "#CACACA"
             document.getElementById('from-container').style.height = "72px"
             document.getElementById('from-container').style.backgroundColor = "white"
             document.getElementById("from-text").style.display = 'none'
@@ -377,7 +382,12 @@ async function getCurrentUserDetails(uid){
     document.getElementById('smoking-status').innerText = currentUserData.smokingStatus
     document.getElementById('dating-status').innerText = currentUserData.datingStatus
     document.getElementById('religion-status').innerText = currentUserData.religionStatus
-    document.getElementById("from-text").value = currentUserData.fromPlace
+    if (currentUserData.fromPlace != undefined){
+        document.getElementById("from-text").value = currentUserData.fromPlace
+    }
+    else{
+        document.getElementById("from-text").value = ""
+    }
 
     document.getElementById("about-me-name-preview").innerText = "💬 About "+ currentUserData.name 
     document.getElementById("from-name-preview").innerText = "📍 " + currentUserData.name  + "'s from" 
@@ -1413,6 +1423,10 @@ document.querySelectorAll('.basics-children').forEach(function(element, index) {
     });
 });
 
-document.getElementById("log-out").addEventListener("click", function(){
-    signOut(auth)
-})
+document.getElementById("log-out").addEventListener("click", async function(){
+    await signOut(auth).then(() => {
+        setTimeout(() => {
+            window.location = '/index.html';
+        }, 1000);
+    });
+});

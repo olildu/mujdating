@@ -1063,6 +1063,7 @@ body{
     text-decoration: none;
     resize: none;
     padding: 18px;
+    transition: border 0.2s ease-in;
 }
 .about-me h2{
     font-family: 'Poppins', sans-serif;
@@ -1153,6 +1154,7 @@ body{
     text-decoration: none;
     resize: none;
     padding: 20px;
+    transition: border 0.2s ease-in;
 }
 .basics-1-text{
     font-family: 'Poppins', sans-serif;
