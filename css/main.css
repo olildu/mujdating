@@ -222,6 +222,14 @@ body{
     max-width: 382px;
     overflow-x: auto;
     padding: 0px 0px 10px 0px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 20px;
+}
+.available-matches h6{
+    margin: 0;
+    margin-left: 5px;
+    margin-top: 5px;
+    font-weight: 100;
 }
 .current-matches-children{
     width: 50px;
@@ -696,8 +704,6 @@ body{
     display: none;
     transition: opacity 0.1s ease-in;
 }
-.edit-profile{
-}
 .settings-children h2{
     font-weight: 400;
 }
@@ -714,6 +720,11 @@ body{
 }
 .settings-children:hover{
     background-color: #FCFCFC;
+}
+.log-out h2{
+    color: #ed5252;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
 }
 .header{
     display: flex;
@@ -976,6 +987,14 @@ body{
     transition: height 0.2s ease-in, background-color 0.2s;
     border-radius: 20px;
 }
+.from-container{
+    display: flex;
+    width: 495px;
+    margin: 0px 57px 0px 58px;
+    justify-content: center;
+    transition: height 0.2s ease-in, background-color 0.2s;
+    border-radius: 20px;
+}
 .action-buttons-about-me{
     display: none;
     flex-direction: row;
@@ -1001,9 +1020,11 @@ body{
 }
 .about-me-2{
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-content: center;
     align-items: center;
+    gap: 10px;
 }
 .about-me-1{
     display: flex;
@@ -1029,6 +1050,19 @@ body{
     text-decoration: none;
     resize: none;
     padding: 20px;
+}
+.from-text{
+    font-family: 'Poppins', sans-serif;
+    border: solid #CACACA 1px;
+    width: 460px;
+    border-radius: 50px;
+    outline: none;
+    display: none;
+    min-height: 10px;   
+    height: 10px;
+    text-decoration: none;
+    resize: none;
+    padding: 18px;
 }
 .about-me h2{
     font-family: 'Poppins', sans-serif;
@@ -1057,10 +1091,37 @@ body{
     justify-content: center;
     align-items: center;
     display: none;
+    margin-bottom: 10px;
 }
 .basics-1{
     display: flex;
     justify-content: space-between;
+}
+.basics-3{
+    display: flex;
+    justify-content: space-between;
+}
+.basics-3 h2{
+    margin-bottom: 0px;
+}
+.basics-4{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    /* display: none; */
+    padding: 20px;
+}
+#citySearch{
+    outline: none;
+    border: none;
+    width: 97%;
+    height: 40px;
+    border-radius: 50px;
+    padding: 20px;
 }
 .basics-children{
     border: solid 1px #c6c6c6;
@@ -1403,6 +1464,10 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
 }
+.action-buttons-chat-header{
+    display: flex;
+    flex-direction: row-reverse;
+}
 .send-icon-container{
     background-color: #0c192c;
     border-radius: 50%;
@@ -1444,13 +1509,13 @@ body{
     transition: opacity 0.8s ease-in-out;
     padding: 0px 10px 0px 20px;
 }
-.close-icon-header{
+.icon-header{
     border-radius: 50%;
     padding: 10px;
     transition: background-color 0.2s ease-in;
     cursor: pointer;
 }
-.close-icon-header:hover{
+.icon-header:hover{
     background-color: #CACACA;
 }
 .header-message h2{
@@ -1613,6 +1678,75 @@ body{
 .moveable-items::-webkit-scrollbar-track {
     background-color: transparent;
 }
+.display-state-city-container {
+    width: 452px;
+    background-color: white;
+    display: none;
+    flex-direction: column;
+    max-height: 200px;
+    border-radius: 9px;
+    border: 1px solid #dedede;
+    padding: 10px 0px 10px 0px;
+    gap: 10px;
+    z-index: 1;
+}
+
+.display-state-city-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.display-state-city-container::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.display-state-city-container::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+.state-city-inner {
+    width: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    max-height: 200px;
+    overflow-y: auto;
+    gap: 3px;
+    align-items: center;
+    z-index: 1;
+}
+
+.state-city-inner::-webkit-scrollbar {
+    width: 8px;
+}
+
+.state-city-inner::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 4px;
+}
+
+.state-city-inner::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.display-state-city-children {
+    width: 99%;
+    height: 30px;
+    min-height: 30px;
+    padding-left: 4px;
+    color: black;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in;
+    font-family: 'Poppins', sans-serif;
+}
+.display-state-city-children:hover {
+    background-color: #f4f4f4;
+}
+
 
 @keyframes center {
     from { left: 0; }

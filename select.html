@@ -22,6 +22,7 @@
                   <div class="current-matches">
                     <h3>Match Que</h3>
                     <div class="available-matches" id="available-matches">
+                      <h6>Start Swiping and find your matches</h6>
                     </div>
                   </div>
                   <div class="match-messages-counter" id="match-messages-counter">
@@ -31,7 +32,7 @@
                 <div class="settings" id="settings">
                   <div class="edit-profile settings-children"><h2>Edit Profile</h1></div>
                   <div class="more-settings settings-children"><h2>Settings</h1></div>
-                  <div class="log-out settings-children"><h2>Log Out</h1></div>
+                  <div class="log-out settings-children"><h2 id="log-out">Log Out</h1></div>
                 </div>
                 <div class="empty-matches" id="empty-matches">     
                   <div class="text1-container">
@@ -145,6 +146,21 @@
                         </div>
                       </div>
                     </div>
+                    <div class="from-container" id="from-container">
+                      <div class="about-me">
+                        <div class="about-me-1">
+                          <h2>Add where I’m from</h2>
+                          <span class="down-icon">expand_more</span>
+                        </div>
+                        <div class="about-me-2">
+                          <textarea class="about-me-text" id="about-me-text"></textarea>
+                          <input type="text" class="from-text" id="from-text" placeholder="Search for City" autocomplete="off" oninput="searchCities()"> 
+                          <div class="display-state-city-container" id="display-state-city-container">
+                            <div class="state-city-inner" id="state-city-inner"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <div class="basics-container" id="basics-container">
                       <div class="basics">
                         <div class="basics-1">
@@ -189,7 +205,6 @@
                             <h2 class="basics-children-text-details" id="religion-status">Sample_Text</h2>
                           </div>
                         </div>
-
                       </div>
                     </div>
                   </div>
@@ -257,7 +272,7 @@
                       <div class="candidate-details">
                         <div class="candidate-bio-container">
                             <h1 class="text3 candidate-text" id="about-me-name"></h1>
-                            <h1 class="about candidate-text" id="about-me-candidate-text">bio.append("Something random")</h1>
+                            <h1 class="about candidate-text" id="about-me-candidate-text"></h1>
                             <div class="user-details-icon-container" id="user-details-icon-container"></div>
                         </div>
                     </div>
@@ -305,7 +320,7 @@
                       </div>
                       <div class="candidate-question-container">
                         <h1 class="text3 candidate-text" id="from-name"></h1>
-                        <h1 class="about candidate-text">Kerala</h1>
+                        <h1 class="about candidate-text" id="user-from-place"></h1>
                       </div>
                     </div>
                     <div class="action-buttons">
@@ -323,8 +338,13 @@
                       <div class="user-image-chat" id="user-image-chat"></div>
                       <h2 id="user-name-chat">Date Profile</h2>
                     </div>
-                    <div class="close-icon-header" id="close-icon-header">
-                      <span class="material-symbols-rounded">close</span>
+                    <div class="action-buttons-chat-header">
+                      <div class="icon-header" id="close-icon-header">
+                        <span class="material-symbols-rounded">close</span>
+                      </div>
+                      <div class="icon-header" id="options-icon-header">
+                        <span class="material-symbols-rounded">more_vert</span>
+                      </div>
                     </div>
                   </div>
                   <div class="user-message">
@@ -346,6 +366,8 @@
     </body>
 <script src="https://cdn.jsdelivr.net/npm/appwrite@13.0.1"></script>
 <script src="javascript/main.js" type="module"></script>
+<script src="javascript/server-endpoint.js" type="module"></script>
+<script src="/javascript/cities.js"></script>
 <script>
   function updateSliderValue(value) {
     const heightValueElement = document.getElementById('height-value');

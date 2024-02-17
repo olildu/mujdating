@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
 import { getDatabase, ref, get, child, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js";
-import { getAuth, onAuthStateChanged, OAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
 import { getStorage, ref as sRef, listAll, getDownloadURL, deleteObject  } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-storage.js";
 import confetti from "https://cdn.skypack.dev/canvas-confetti";
 
@@ -27,8 +27,8 @@ client
 
 const functions = new window.Appwrite.Functions(client);
 
-var uid;
-var currentUserCookie;
+export var uid;
+export var currentUserCookie;
 var currentUserAge;
 var Is_Exapannumber = false;
 var userWroteMessage = false;
@@ -47,16 +47,30 @@ var ChatUsersList = [];
 var currentChatUser;
 var currentUserAboutMe;
 
-onAuthStateChanged(auth, async (user) => {
-    if (user == null) {
-        // window.location = '/index.html';
-    } else {
-        uid = auth.currentUser.uid;
+export async function initializeUid() {
+    return new Promise((resolve) => {
+        const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
+            if (user == null) {
+                window.location = '/index.html';
+            } else {
+                uid = auth.currentUser.uid;
 
-        await getCurrentUserDetails(uid);
-        ManageUserData();
-    }
-});
+                const userCookieSnapshot = await get(ref(database, 'UsersCookies/' + uid));
+                currentUserCookie = userCookieSnapshot.val().userCookie;
+
+                unsubscribeAuth();
+
+                await getCurrentUserDetails(uid);
+                ManageUserData();
+                
+                resolve(); 
+            }
+        });
+    });
+}
+
+initializeUid();
+
 
 var container = document.getElementById('match-candidate-container');
 var chatParentElement = document.getElementById("user-messages")
@@ -72,6 +86,7 @@ document.getElementById('user-preview-container').addEventListener('scroll', han
 const clickableDiv = document.getElementById('profile')
 
 var about_me_container_clicked = false;
+var from_container_clicked = false;
 
 clickableDiv.addEventListener('click', function() { 
     if (Is_Exapannumber == false){
@@ -164,7 +179,9 @@ async function aboutMeLogicHandler(event){
         document.getElementById("action-buttons-about-me").style.display = "none"
         document.getElementById('about-me-container').style.height = "176px"
         console.log(currentUserAboutMe)
-        document.getElementById("about-me-text").value = currentUserAboutMe;
+        if (currentUserAboutMe != undefined){
+            document.getElementById("about-me-text").value = currentUserAboutMe;
+        }
     }
     if (event.target.className === 'save-button'){
         event.stopPropagation()
@@ -178,7 +195,6 @@ async function aboutMeLogicHandler(event){
             aboutMe: document.getElementById("about-me-text").value
         };
     
-        console.log(data)
 
         const execution = await functions.createExecution(
             '65b14d8eef7777411400', // Replace this with your function ID
@@ -212,6 +228,39 @@ document.getElementById('about-me-container').addEventListener('click', function
             document.getElementById('about-me-container').style.backgroundColor = "white"
             document.getElementById("about-me-text").style.display = 'none'
             document.getElementById("action-buttons-about-me").style.display = "none"
+        }
+    }
+})
+
+document.getElementById('display-state-city-container').addEventListener('click', function (event) {
+    event.stopPropagation();
+});
+
+export function myFunction() {
+    console.log('Hello from myFunction in main.js');
+}
+
+document.getElementById('from-container').addEventListener('click', function(event) {
+    if (event.target.className == 'from-text') {
+        document.getElementById("from-text").value = ""
+        document.getElementById("from-text").addEventListener("input", function () {
+            document.getElementById('display-state-city-container').style.display = 'flex';
+        });
+        event.stopPropagation()
+    }
+    else{
+        if (from_container_clicked == false){
+            from_container_clicked = true;
+            document.getElementById('from-container').style.height = "140px"
+            document.getElementById('from-container').style.backgroundColor = "#FAFAFA"
+            document.getElementById("from-text").style.display = 'block'
+        }
+        else{
+            from_container_clicked = false;
+            document.getElementById('from-container').style.height = "72px"
+            document.getElementById('from-container').style.backgroundColor = "white"
+            document.getElementById("from-text").style.display = 'none'
+            document.getElementById("display-state-city-container").style.display = 'none'
         }
     }
 })
@@ -315,31 +364,29 @@ async function getCurrentUserImages(uid, imageCount) {
 }
 
 async function getCurrentUserDetails(uid){
-    onValue(ref(database, 'UsersCookies/' + uid), (snapshot) => {
-        currentUserCookie = snapshot.val().userCookie
-        getUserMatchedList();
-    })
-
     onValue(ref(database, 'UsersMetaData/' + uid), (snapshot) => {
     currentUserData = snapshot.val();
-
     currentUserAboutMe = currentUserData.aboutMe;
     currentUserAge = currentUserData.age
     userGender = currentUserData.gender
     var yearWithSuffix = addSuffix(currentUserData.year);
+
     document.getElementById('name1').innerText = currentUserData.name
     document.getElementById('height-value-user').innerText = currentUserData.height
     document.getElementById('drinking-status').innerText = currentUserData.drinkingStatus
     document.getElementById('smoking-status').innerText = currentUserData.smokingStatus
-    document.getElementById('dating-status').innerText = currentUserData.lookingFor
+    document.getElementById('dating-status').innerText = currentUserData.datingStatus
     document.getElementById('religion-status').innerText = currentUserData.religionStatus
+    document.getElementById("from-text").value = currentUserData.fromPlace
 
     document.getElementById("about-me-name-preview").innerText = "💬 About "+ currentUserData.name 
     document.getElementById("from-name-preview").innerText = "📍 " + currentUserData.name  + "'s from" 
     document.getElementById("name-age-preview").innerText = currentUserData.name + ", " + currentUserData.age
 
     document.getElementById("stream-year-preview").innerText = currentUserData.stream + ", " + yearWithSuffix + " year"
-    document.getElementById("about-me-text").innerText = currentUserAboutMe
+    if (currentUserAboutMe != undefined){
+        document.getElementById("about-me-text").value = currentUserAboutMe;
+    }
 
     getCurrentUserImages(uid, currentUserData.imageCount)
 
@@ -359,7 +406,6 @@ async function ManageUserData() {
     if (matchCounter >= 10){
         return false
     }
-
     var year = data[matchCounter].year
     var imageCount = data[matchCounter].imageCount
     matchUID = data[matchCounter].uid
@@ -386,7 +432,6 @@ async function ManageUserData() {
     
     iconsContainer.append(heightIconContainer);
     var aboutMe = data[matchCounter].aboutMe
-    console.log(aboutMe)
 
     if (data[matchCounter].drinkingStatus != "Skip"){
         var drinkingIconContainer = document.createElement('div');
@@ -454,14 +499,24 @@ async function ManageUserData() {
     }
 
     document.getElementById("about-me-name").innerText = "💬 About "+ data[matchCounter].name 
-    document.getElementById("from-name").innerText = "📍 " + data[matchCounter].name  + "'s from" 
+    if (data[matchCounter].fromPlace != undefined){
+        document.getElementById("from-name").innerText = "📍 " + data[matchCounter].name  + "'s from" 
+        document.getElementById("user-from-place").innerText = data[matchCounter].fromPlace 
+    }
+    else{
+        document.getElementById("from-name").innerText = data[matchCounter].name  + "'s doing" 
+        document.getElementById("user-from-place").innerText = data[matchCounter].stream + ", " + yearWithSuffix + " year"
+    }
+
     document.getElementById("name-age").innerText = data[matchCounter].name + ", " + data[matchCounter].age
 
     document.getElementById("stream-year").innerText = data[matchCounter].stream + ", " + yearWithSuffix + " year"
     matchCounter += 1
     matchUserImageCounter = 1;
     document.getElementById("match-candidate-container").scrollTop = 0
-    document.getElementById('about-me-candidate-text').innerText = aboutMe;
+    if (aboutMe != undefined){
+        document.getElementById('about-me-candidate-text').innerText = aboutMe;
+    }
 }
 
 async function GetMatchUsersData() {
@@ -581,7 +636,7 @@ async function getUserImages(uid, imageCount){
     }
 }
 
-async function getUserMatchedList() {
+export async function getUserMatchedList() {
     var userUIDKeys = [];
 
     // Attach a new listener, which will replace the existing one
@@ -599,7 +654,6 @@ async function getUserMatchedList() {
             }
             else{
                 userUIDKeys.push(key);
-                console.log(userUIDKeys)
                 if (res) {
                     res.items.forEach(async (itemRef) => {
                         const fileName = itemRef.name;
@@ -888,7 +942,6 @@ async function writeUserChat(content){
         uniquePath: uniquePath,
         content: content,
     };
-    console.log(data)
     chatParentElement.innerHTML += `<div class="message-container"><div class="me message">${content}</div></div>`;
     if (messageCounterTracker.length == 0){
         messageCounterTracker.push(1);
@@ -928,6 +981,37 @@ document.getElementById("close-icon-header").addEventListener("click", function(
         }, 100);
     }, 500);
 })
+
+async function uploadTagData(mainOption, value){
+
+    data = {
+        type: "uploadTagData",
+        keyToUpdate: mainOption,
+        value: value,
+        uid: uid,
+        key: currentUserCookie,
+    }
+
+    const execution = await functions.createExecution(
+        '65b14d8eef7777411400',
+        JSON.stringify(data)
+    );
+
+    console.log(execution)
+}
+
+function clickHandler(mainOption) {
+    if (mainOption == "height"){
+        uploadTagData(mainOption, document.getElementById("height-value").innerText)
+    }
+    return function(event) {
+        const clickedOptionText = event.target.textContent.trim();
+
+        uploadTagData(mainOption, clickedOptionText)
+
+        Array.from(document.querySelectorAll('.options-children')).forEach(element => element.removeEventListener('click', clickHandler));
+    };
+}
 
 function editTags(counter){
     const HeightIcon = document.getElementById("height-icon");
@@ -997,23 +1081,6 @@ function editTags(counter){
 
     var smth = {}
 
-    function clickHandler(mainOption) {
-        if (mainOption == "height"){
-            data = {}
-            data[mainOption] = document.getElementById("height-value").innerText
-            console.log(data)
-        }
-        return function(event) {
-            const clickedOptionText = event.target.textContent.trim();
-        
-            data = {}
-
-            data[mainOption] = clickedOptionText
-            console.log(data)
-            Array.from(document.querySelectorAll('.options-children')).forEach(element => element.removeEventListener('click', clickHandler));
-        };
-    }
-
     if (counter === 0) {
         elementsToSetOpacityToOne.forEach(element => {
             element.style.opacity = 0;
@@ -1040,6 +1107,7 @@ function editTags(counter){
                 <div class="next-button" id="next-button">Next</div>
             </div>
         `;
+        document.getElementById("height-value").value = currentUserData.height
     
         document.getElementById("next-button").addEventListener("click", function() {
             clickHandler("height")
@@ -1316,7 +1384,6 @@ function editTags(counter){
             }
         }
     })
-
 }
 
 document.querySelectorAll('.basics-children').forEach(function(element, index) {
@@ -1345,3 +1412,7 @@ document.querySelectorAll('.basics-children').forEach(function(element, index) {
         }, 100);
     });
 });
+
+document.getElementById("log-out").addEventListener("click", function(){
+    signOut(auth)
+})

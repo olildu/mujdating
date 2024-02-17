@@ -4,6 +4,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:wght@300&family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inria+Sans:wght@900&family=Poppins&family=Roboto&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');
+
 body{
     margin: 0;
     padding: 0;
@@ -16,13 +18,10 @@ body{
     background-size: cover;
     user-select: none;
     flex-direction: column;
+    overflow-y: auto;
 }
-
-::-webkit-scrollbar {
-    width: 10px;
-}
-::-webkit-scrollbar-thumb {
-    background: #888;   
+body::-webkit-scrollbar{
+    display: none;
 }
 .upper {
     display: flex;
@@ -30,34 +29,99 @@ body{
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
-    position: relative;
-    height: 80px;
+    position: fixed;
+    top: 0px;
+    height: 10vh;
+    width: 100%;
+    background-color: #0c192c;
+    font-family: 'Inria Sans', sans-serif;
+    z-index: 1;
+    justify-content: space-between;
 }
+
 .title{
     color: white;
     padding-left: 30px;
     font-size: 17px;
+}
+.title h1{
+    padding-left: 55px;
+    font-family: "Major Mono Display", monospace;
+    text-shadow: -1px 1px #000, -2px 2px #000, -3px 3px #000, -4px 4px #000, -5px 5px #000, -6px 6px #000, -7px 7px #000, -8px 8px #000;
 }
 .sub_title{
     display: flex;
     color: white;
     font-family: 'Inria Sans', sans-serif;
     font-size: 14px;
-    padding-left: 20px;
+    padding-right: 77px;
     padding-top: 10px;
     gap: 20px;
 }
 .main-body{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    /* margin-top: 119px; */
+    height: 100%;
     width: 100%;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+}
+.main-body-content{
+    position: absolute;
+    height: 100%;
+    width: 100%     ;
+    background: url("/images/backgroundimg1.png");
+    background-size: cover;
+    background-position:center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.half-container{
+    display: flex;
+    position: absolute;
+    width: 90%;
+    flex-direction: row;
+    margin-top: 50px;
+}
+.footer-container{
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    height: 10%;
+    display: flex;
+    flex-direction: row;
+    background-color: #1a1a1a;
+    height: 100%;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    height: 20vh;
+    color: white;
+}
+.footer-container h5{
+    font-family: 'Inria Sans', sans-serif;
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
 }
 .half1{
     display: flex;
     flex: 1;
-    margin-left: 100px;
     flex-direction: column;
-
+}
+.microsoft-icon{
+    width: 24px;
+    height: 24px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url(/images/microsoft.png);
 }
 .half2{
     display: flex;
@@ -66,7 +130,6 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
     background-image: url(/images/3.jpg);
-    margin-right: 100px;
     flex-direction: column;
     align-content: center;
     justify-content: center;
@@ -246,4 +309,9 @@ body{
     display: none;
     position: absolute;
     transition: opacity 0.3s ease-in;
+}
+.bottom-support-links{
+    flex: 1;
+    width: 100%;
+    height: 200px;
 }
