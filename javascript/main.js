@@ -46,9 +46,15 @@ var messageCounterTracker = [];
 var ChatUsersList = [];
 var currentChatUser;
 var currentUserAboutMe;
+let isUidInitialized = false;
 
 export async function initializeUid() {
     return new Promise((resolve) => {
+        if (isUidInitialized) {
+            resolve();
+            return;
+        }
+
         const unsubscribeAuth = onAuthStateChanged(auth, async (user) => {
             if (user == null) {
                 window.location = '/index.html';
@@ -61,16 +67,18 @@ export async function initializeUid() {
                 unsubscribeAuth();
 
                 await getCurrentUserDetails(uid);
+                getUserMatchedList(); 
                 ManageUserData();
-                
+                isUidInitialized = true;
                 resolve(); 
             }
         });
     });
 }
 
-initializeUid();
 
+
+await initializeUid();
 
 var container = document.getElementById('match-candidate-container');
 var chatParentElement = document.getElementById("user-messages")

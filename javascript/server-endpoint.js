@@ -8,7 +8,7 @@ client
 const functions = new window.Appwrite.Functions(client);
 
 await initializeUid(); 
-getUserMatchedList(); 
+
 
 export async function saveUserFromPlace(placeData) {
     const data = {
